@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.ClassMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.Class">
+    <!--@mbg.generated-->
+    <!--@Table `class`-->
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="major" property="major" />
+    <result column="department_id" property="departmentId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, major, department_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from `class`
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from `class`
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Class" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into `class` (`name`, major, department_id)
+    values (#{name}, #{major}, #{departmentId})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Class" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into `class`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="major != null">
+        #{major},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.studentattendancesystem.model.Class">
+    <!--@mbg.generated-->
+    update `class`
+    <set>
+      <if test="name != null">
+        `name` = #{name},
+      </if>
+      <if test="major != null">
+        major = #{major},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.studentattendancesystem.model.Class">
+    <!--@mbg.generated-->
+    update `class`
+    set `name` = #{name},
+      major = #{major},
+      department_id = #{departmentId}
+    where id = #{id}
+  </update>
+</mapper>

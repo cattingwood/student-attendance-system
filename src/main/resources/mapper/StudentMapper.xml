@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.Student">
+    <!--@mbg.generated-->
+    <!--@Table student-->
+    <id column="id" property="id" />
+    <result column="account" property="account" />
+    <result column="name" property="name" />
+    <result column="password" property="password" />
+    <result column="department_id" property="departmentId" />
+    <result column="class_id" property="classId" />
+    <result column="period" property="period" />
+    <result column="major" property="major" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, account, `name`, `password`, department_id, class_id, period, major
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from student
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Student" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into student (account, `name`, `password`, department_id, class_id, period, 
+      major)
+    values (#{account}, #{name}, #{password}, #{departmentId}, #{classId}, #{period}, 
+      #{major})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Student" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        account,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        #{account},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId},
+      </if>
+      <if test="classId != null">
+        #{classId},
+      </if>
+      <if test="period != null">
+        #{period},
+      </if>
+      <if test="major != null">
+        #{major},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.studentattendancesystem.model.Student">
+    <!--@mbg.generated-->
+    update student
+    <set>
+      <if test="account != null">
+        account = #{account},
+      </if>
+      <if test="name != null">
+        `name` = #{name},
+      </if>
+      <if test="password != null">
+        `password` = #{password},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId},
+      </if>
+      <if test="period != null">
+        period = #{period},
+      </if>
+      <if test="major != null">
+        major = #{major},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.studentattendancesystem.model.Student">
+    <!--@mbg.generated-->
+    update student
+    set account = #{account},
+      `name` = #{name},
+      `password` = #{password},
+      department_id = #{departmentId},
+      class_id = #{classId},
+      period = #{period},
+      major = #{major}
+    where id = #{id}
+  </update>
+
+  <select id="selectByAccount" parameterType="String" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from student
+  where account = #{account}
+</select>
+
+</mapper>

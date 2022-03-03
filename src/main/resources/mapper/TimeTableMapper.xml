@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.TimeTableMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.TimeTable">
+    <!--@mbg.generated-->
+    <!--@Table time_table-->
+    <result column="term_begin_day" property="termBeginDay" />
+    <result column="term" property="term" />
+    <result column="year" property="year" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    term_begin_day, term, `year`
+  </sql>
+  <insert id="insert" parameterType="com.example.studentattendancesystem.model.TimeTable">
+    <!--@mbg.generated-->
+    insert into time_table (term_begin_day, term, `year`)
+    values (#{termBeginDay}, #{term}, #{year})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.TimeTable">
+    <!--@mbg.generated-->
+    insert into time_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="termBeginDay != null">
+        term_begin_day,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+      <if test="year != null">
+        `year`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="termBeginDay != null">
+        #{termBeginDay},
+      </if>
+      <if test="term != null">
+        #{term},
+      </if>
+      <if test="year != null">
+        #{year},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectOne" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from time_table limit 1
+  </select>
+
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.StudentSignRecordMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.StudentSignRecord">
+    <!--@mbg.generated-->
+    <!--@Table student_sign_record-->
+    <id column="id" property="id" />
+    <result column="student_id" property="studentId" />
+    <result column="course_id" property="courseId" />
+    <result column="sign_time" property="signTime" />
+    <result column="type" property="type" />
+    <result column="sign_week" property="signWeek" />
+    <result column="sign_day" property="signDay" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, student_id, course_id, sign_time, `type`, sign_week, sign_day
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from student_sign_record
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from student_sign_record
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.StudentSignRecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into student_sign_record (student_id, course_id, sign_time, `type`, sign_week, sign_day)
+    values (#{studentId}, #{courseId}, #{signTime}, #{type}, #{signWeek}, #{signDay})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.StudentSignRecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into student_sign_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="signTime != null">
+        sign_time,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="signWeek != null">
+        sign_week,
+      </if>
+      <if test="signDay != null">
+        sign_day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        #{studentId},
+      </if>
+      <if test="courseId != null">
+        #{courseId},
+      </if>
+      <if test="signTime != null">
+        #{signTime},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="signWeek != null">
+        #{signWeek},
+      </if>
+      <if test="signDay != null">
+        #{signDay},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.studentattendancesystem.model.StudentSignRecord">
+    <!--@mbg.generated-->
+    update student_sign_record
+    <set>
+      <if test="studentId != null">
+        student_id = #{studentId},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId},
+      </if>
+      <if test="signTime != null">
+        sign_time = #{signTime},
+      </if>
+      <if test="type != null">
+        `type` = #{type},
+      </if>
+      <if test="signWeek != null">
+        sign_week = #{signWeek},
+      </if>
+      <if test="signDay != null">
+        sign_day = #{signDay},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.studentattendancesystem.model.StudentSignRecord">
+    <!--@mbg.generated-->
+    update student_sign_record
+    set student_id = #{studentId},
+      course_id = #{courseId},
+      sign_time = #{signTime},
+      `type` = #{type},
+      sign_week = #{signWeek},
+      sign_day = #{signDay}
+    where id = #{id}
+  </update>
+</mapper>

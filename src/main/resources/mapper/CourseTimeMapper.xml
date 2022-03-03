@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.CourseTimeMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.CourseTime">
+    <!--@mbg.generated-->
+    <!--@Table course_time-->
+    <result column="course_id" property="courseId" />
+    <result column="course_week" property="courseWeek" />
+    <result column="course_day" property="courseDay" />
+    <result column="course_sort" property="courseSort" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    course_id, course_week, course_day, course_sort
+  </sql>
+  <insert id="insert" parameterType="com.example.studentattendancesystem.model.CourseTime">
+    <!--@mbg.generated-->
+    insert into course_time (course_id, course_week, course_day, course_sort)
+    values (#{courseId}, #{courseWeek}, #{courseDay}, #{courseSort})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.CourseTime">
+    <!--@mbg.generated-->
+    insert into course_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="courseWeek != null">
+        course_week,
+      </if>
+      <if test="courseDay != null">
+        course_day,
+      </if>
+      <if test="courseSort != null">
+        course_sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId},
+      </if>
+      <if test="courseWeek != null">
+        #{courseWeek},
+      </if>
+      <if test="courseDay != null">
+        #{courseDay},
+      </if>
+      <if test="courseSort != null">
+        #{courseSort},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectByCourseId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from course_time
+    where course_id = #{courseId}
+  </select>
+
+</mapper>

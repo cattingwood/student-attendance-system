@@ -1,0 +1,22 @@
+.table{
+    text-align: center;
+}
+
+.grid{
+    background-color: #eeeeee;
+    /*border-width: 1px;
+    border-style: solid;
+    border-color: #e2e2e2;*/
+    text-align: center;
+    line-height: 1.5rem;
+    height: 1.5rem;
+}
+
+.grid2{
+      line-height: 3rem;
+      height: 3rem;
+}
+
+.layui-card-body{
+    background-color: white;
+}
