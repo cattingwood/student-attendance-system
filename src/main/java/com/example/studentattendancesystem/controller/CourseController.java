@@ -24,7 +24,7 @@ public class CourseController {
 
     @RequestMapping("/toTimeTable")
     public String toLogin(Model model, HttpServletRequest request){
-        model.addAttribute("menuFlag", "schedule");
+        model.addAttribute("menuFlag", "toSchedule");
         return "student-schedule";
     }
 

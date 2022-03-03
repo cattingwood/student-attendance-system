@@ -21,13 +21,16 @@ public class SignController {
     CourseController courseController;
 
     @RequestMapping("/toSign")
-    public String toLogin(Model model, HttpServletRequest request){
+    public String toLogin(Model model,HttpServletRequest request){
         HttpSession session = request.getSession();
         Student student = (Student) session.getAttribute("student");
+        if(student == null){
+            return "login";
+        }
         List<CourseDetail> courseDetailList =
                 courseController.selectTodayCourseByStudentId(student.getId());//获取学生当日课程
         model.addAttribute("courseDetailList", courseDetailList);
-        model.addAttribute("menuFlag", "sign");
+        model.addAttribute("menuFlag", "toSign");
         return "student-sign";
     }
 
