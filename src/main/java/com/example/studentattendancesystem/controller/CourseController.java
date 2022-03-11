@@ -2,7 +2,6 @@ package com.example.studentattendancesystem.controller;
 
 import com.example.studentattendancesystem.model.Course;
 import com.example.studentattendancesystem.model.CourseDetail;
-import com.example.studentattendancesystem.model.Student;
 import com.example.studentattendancesystem.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @RequestMapping("/course")
@@ -25,7 +23,13 @@ public class CourseController {
     @RequestMapping("/toTimeTable")
     public String toLogin(Model model, HttpServletRequest request){
         model.addAttribute("menuFlag", "toSchedule");
-        return "student-schedule";
+        return "student/student-schedule";
+    }
+
+    @RequestMapping("/toCourseManage")
+    public String toCourseManage(Model model, HttpServletRequest request){
+        model.addAttribute("menuFlag", "toCourseManage");
+        return "admin/admin-course-manage";
     }
 
     /*获取学生今日课表*/
@@ -46,7 +50,7 @@ public class CourseController {
     /*获取学生所选周课表*/
     @RequestMapping("/weekCourse")
     @ResponseBody
-    public Map<String, Object> selectTodayCourseByWeek(Long studentId,Integer week){
+    public Map<String, Object> selectCourseByWeek(Long studentId,Integer week){
         List<Course> courseList =  courseService.selectStudentCourseById(studentId);//获取学生所有课程
         List<CourseDetail> courseDetailList = new ArrayList<>();
         for(int i=0;i<courseList.size();i++){
@@ -60,5 +64,29 @@ public class CourseController {
                     , courseDetailList.get(i));
         }
         return courseDetailListTree;
+    }
+
+    /*获取班级课表*/
+    @RequestMapping("/ClassCourse")
+    @ResponseBody
+    public List<Course> selectCourseByClass(Long classId){
+        List<Course> courseList =  courseService.selectCourseByClass(classId);//获取学生所有课程
+        return courseList;
+    }
+
+    /*获取专业课表*/
+    @RequestMapping("/MajorCourse")
+    @ResponseBody
+    public List<Course> selectCourseByMajor(Long classId){
+        List<Course> courseList =  courseService.selectCourseByClass(classId);//获取专业所有课程
+        return courseList;
+    }
+
+    /*获取学院课表*/
+    @RequestMapping("/DepartmentCourse")
+    @ResponseBody
+    public List<Course> selectCourseByDepartment(Long classId){
+        List<Course> courseList =  courseService.selectCourseByClass(classId);//获取学院所有课程
+        return courseList;
     }
 }

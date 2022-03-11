@@ -40,4 +40,8 @@ public class TeacherService{
         return teacherMapper.updateByPrimaryKey(record);
     }
 
+    public Teacher selectByAccount(Long account) {
+        return teacherMapper.selectByAccount(account);
+    }
+
 }

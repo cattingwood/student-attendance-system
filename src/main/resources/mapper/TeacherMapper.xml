@@ -6,10 +6,12 @@
     <!--@Table teacher-->
     <id column="id" property="id" />
     <result column="name" property="name" />
+    <result column="account" property="account" />
+    <result column="password" property="password" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `name`
+    id, `name`, account, `password`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -58,4 +60,11 @@
     set `name` = #{name}
     where id = #{id}
   </update>
+
+  <select id="selectByAccount" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from teacher
+    where account = #{account}
+  </select>
 </mapper>

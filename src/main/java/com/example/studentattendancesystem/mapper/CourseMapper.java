@@ -14,4 +14,5 @@ public interface CourseMapper {
 
     List<Course> selectStudentCourseById(Long studentId);
 
+    List<Course> selectCourseByClass(Long classId);
 }

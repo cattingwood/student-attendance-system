@@ -45,7 +45,7 @@
                     form.on('submit(login)',function (data) {
                         $.post("/login/login", data.field, function (res) {
                             if (res) {
-                                window.location.href="/sign/toSign";
+                                window.location.href="/login/toMainPage";
                             } else {
                                 layer.alert("账号或密码错误！");
                             }

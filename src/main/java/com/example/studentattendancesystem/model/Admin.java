@@ -3,16 +3,11 @@ package com.example.studentattendancesystem.model;
 import lombok.Data;
 
 @Data
-public class Teacher {
+public class Admin {
     /**
-    * 教师id
-    */
-    private Long id;
-
-    /**
-     * 教师姓名
+     * 管理员id
      */
-    private String name;
+    private Integer id;
 
     /**
      * 账号
@@ -23,4 +18,9 @@ public class Teacher {
      * 密码
      */
     private String password;
+
+    /**
+     * 名称
+     */
+    private String name;
 }

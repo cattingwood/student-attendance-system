@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="../css/sign.css">
     </head>
     <body style="background-color: #F1F1F1;">
-        <#include "common/header.ftl"/>
+        <#include "../common/header-student.ftl"/>
 
         <div class="layui-card-body" id="sign">
             <form class="layui-form" action="">

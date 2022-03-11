@@ -1,12 +1,15 @@
 <link rel="stylesheet" href="../lib/layui/css/layui.css">
 <link rel="stylesheet" href="../css/common.css">
+<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+
 
 <div class="layui-header">
-    <ul class="layui-nav header" style="background-color: #1A1B20">
+    <ul class="layui-nav header" style="background-color: #1A1B20;pointer-events: none">
         <li class="layui-nav-item">
-            <a style="font-size: 23px">
+            <span style="font-size: 23px">
                 学生考勤系统
-            </a>
+            </span>
+            <span style="font-size: 13px">-学生版</span>
         </li>
     </ul>
 </div>
@@ -17,8 +20,6 @@
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
         <li class="layui-nav-item layui-this" name="toSign"><a href="/sign/toSign">考勤</a></li>
         <li class="layui-nav-item" name="toSchedule"><a href="/course/toTimeTable">课表</a></li>
-        <li class="layui-nav-item" name=""><a href="">导航</a></li>
-        <li class="layui-nav-item" name=""><a href="">个人中心</a></li>
     </ul>
     </div>
 </div>

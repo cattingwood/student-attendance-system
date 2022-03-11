@@ -17,5 +17,5 @@ public interface StudentMapper {
 
     int updateByPrimaryKey(Student record);
 
-    Student selectByAccount(String account);
+    Student selectByAccount(Long account);
 }

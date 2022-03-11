@@ -11,7 +11,7 @@ public class StudentService {
     @Resource
     private StudentMapper studentMapper;
 
-    public Student selectByAccount(String account) {
+    public Student selectByAccount(Long account) {
         return studentMapper.selectByAccount(account);
     }
 

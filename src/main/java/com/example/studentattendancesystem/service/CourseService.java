@@ -45,6 +45,11 @@ public class CourseService{
         return courseList;
     }
 
+    public List<Course> selectCourseByClass(Long classId){
+        List<Course> courseList = courseMapper.selectCourseByClass(classId);//选出学生所有课程
+        return courseList;
+    }
+
     public List<CourseDetail> selectStudentCourseByWeek(Course course,Integer week){
         List<CourseTime> courseTime = courseTimeMapper.selectByCourseId(course.getId());//获取该课程的所有上课时间
         List<CourseDetail> courseDetailList = new ArrayList<>();

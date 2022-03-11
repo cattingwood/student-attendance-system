@@ -10,14 +10,14 @@
         <link rel="stylesheet" href="../css/schedule.css">
     </head>
     <body style="background-color: #F1F1F1;">
-        <#include "common/header.ftl"/>
+        <#include "../common/header-student.ftl"/>
 
         <div class="layui-card-body" id="timeFilter">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
                     第
                     <input type="text" id="week" required  lay-verify="required"
-                           placeholder="1" autocomplete="off" class="layui-input">
+                           value="1" autocomplete="off" class="layui-input">
                     周
                     <a class="layui-btn layui-btn-primary"
                        lay-submit lay-filter="search" id="searchBtn">查询</a>
@@ -150,7 +150,6 @@
                                 "        </div>";
 
                         }
-                        console.log(timeTableHtml);
                         $("#timeTable").html(timeTableHtml);
                         $(".course").css("border-width", "1px");
                         $(".course").css("border-style", "solid");
