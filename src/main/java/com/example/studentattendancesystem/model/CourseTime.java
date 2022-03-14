@@ -5,22 +5,32 @@ import lombok.Data;
 @Data
 public class CourseTime {
     /**
-    * 课程id
-    */
+     * 课程id
+     */
     private Long courseId;
 
     /**
-    * 第几周
-    */
+     * 第几周
+     */
     private Integer courseWeek;
 
     /**
-    * 星期几
-    */
+     * 星期几
+     */
     private Integer courseDay;
 
     /**
-    * 第几节
-    */
+     * 第几节
+     */
     private Integer courseSort;
+
+    /**
+     * 教师id
+     */
+    private Long teacherId;
+
+    /**
+     * 班级id
+     */
+    private Long classId;
 }

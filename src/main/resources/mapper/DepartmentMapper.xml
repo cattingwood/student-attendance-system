@@ -58,4 +58,8 @@
     set `name` = #{name}
     where id = #{id}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from department;
+</select>
 </mapper>

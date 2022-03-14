@@ -9,42 +9,36 @@
         <link rel="stylesheet" href="../css/common.css">
         <link rel="stylesheet" href="../css/schedule.css">
     </head>
-    <body style="background-color: #F1F1F1;">
+    <div style="background-color: #F1F1F1;">
         <#include "../common/header-admin.ftl"/>
 
         <div class="layui-card-body" id="filter">
             <div class="layui-form layui-col-md12 x-so">
-                <div class="layui-input-inline">
-                    <select id="department" lay-filter="department">
-                        <option value="0">请选择学院</option>
-                        <#if companys??>
-                            <#list companys as com>
-                                <option value="${com.appId}">${com.nickName!''}</option>
-                            </#list>
-                        </#if>
-                    </select>
-                </div>
-
-                <div class="layui-input-inline">
-                    <label class="layui-form-label">学院</label>
-                    <div class="layui-input-block">
-                        <select id="department" name="department">
-                            <option value="2">计信学院</option>
-                            <option value="1">工程学院</option>
-                            <option value="0">医学院</option>
+                <div class="layui-inline">
+                    <label class="layui-form-label" style="width: auto;">学院</label>
+                    <div class="layui-input-inline">
+                        <select name="department">
+                            <#if departmentList??>
+                                <#list departmentList as dl>
+                                    <option value="${dl.id}">${dl.name}</option>
+                                </#list>
+                            </#if>
                         </select>
                     </div>
                 </div>
-                <div class="layui-input-inline" style="margin-left: 10px;">
-                    <label class="layui-form-label">号码</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="number" id="number" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline">
+                    <label class="layui-form-label">专业</label>
+                    <div class="layui-input-inline">
+                        <select name="major">
+                            <option value="1">请先选择学院</option>
+                        </select>
                     </div>
                 </div>
-                <div class="layui-input-inline" style="margin-left: 10px;">
-                    <label class="layui-form-label">openId</label>
+                <div class="layui-input-inline">
+                    <label class="layui-form-label">班级</label>
                     <div class="layui-input-block">
-                        <input type="text" name="openId" id="openId" autocomplete="off" class="layui-input">
+                        <select id="class" lay-filter="class">
+                        </select>
                     </div>
                 </div>
 
@@ -53,14 +47,26 @@
         </div>
 
 
-        <div class="layui-card-body schedule">
+        <#--<div class="layui-card-body schedule">
             <div class="table" id="classTable"></div>
-        </div>
+        </div>-->
+
+        <select id="major" hidden>
+            <#if majorList??>
+                <#list majorList as ml>
+                    <option value="${ml.id}" name="${ml.name}" departmentId="${ml.departmentId}"></option>
+                </#list>
+            </#if>
+        </select>
 
         <script>
+            var majorList;
+            var classList;
             window.onload = function () {
                 classCourse(1);
                 var table = layui.table;
+                majorList = '${majorList}';
+                classList = '${classList}';
 
                 table.render({
                     elem: '#demo'
@@ -73,7 +79,24 @@
                         ,{field: 'teacherName', title: '授课教师'}
                     ]]
                 });
+
+                layui.use(['form', 'laydate', 'element', 'upload'], function(){
+                    form = layui.form;
+                    var laydate = layui.laydate;
+                    var element = layui.element;
+                    var upload = layui.upload;
+                    // 监听机械select切换事件
+                    form.on('select(department)', function(data){
+                        loadClassSelectData('department',data.value);
+                    });
+                    form.on('select(major)', function(data){
+
+                    });
+                });
+
             }
+
+
 
             $(function () {
                 layui.use('form',function () {
@@ -85,8 +108,14 @@
                 })
             })
 
+            /*检测下拉框选择*/
 
-            /*根据周数查找课程并显示*/
+            function loadClassSelectData(type,id){
+                console.log(type);
+                console.log(id);
+            }
+
+            /*根据班级查找课程并显示*/
             function classCourse(classId) {
                 $.ajax({
                     type: "post",
@@ -97,12 +126,12 @@
                     },
                     success: function (data) {
                         var courseList = data;
-                        var timeTableHtml = "";
+                        var classTableHtml = "";
                         for (var i = 0; i < 5; i++) {
-                            timeTableHtml += "<div class=\"table layui-col-md2\">" +
+                            classTableHtml += "<div class=\"table layui-col-md2\">" +
                                 "            <div class=\"layui-row grid\">";
 
-                            timeTableHtml += "<div class=\"layui-col-md12\">\n" +
+                            classTableHtml += "<div class=\"layui-col-md12\">\n" +
                                 "                    <div class=\"grid2 layui-bg-green\">\n" +
                                 "                        星期" + i + "\n" +
                                 "                    </div>\n" +
@@ -110,24 +139,24 @@
                             for (var j = 1; j <= 8; j++) {
                                 var course = courseList[i /*+ "-" + j*/];
                                 if (course != null) {
-                                    timeTableHtml += "<div class=\"layui-col-md12 course\">" +
+                                    classTableHtml += "<div class=\"layui-col-md12 course\">" +
                                         "                    <div class=\"grid2\">" +
                                         course.name +
                                         "                    </div>" +
                                         "                </div>";
                                 } else {
-                                    timeTableHtml += "<div class=\"layui-col-md12 course\">" +
+                                    classTableHtml += "<div class=\"layui-col-md12 course\">" +
                                         "                    <div class=\"grid2\">" +
                                         "无" +
                                         "                    </div>" +
                                         "                </div>";
                                 }
                             }
-                            timeTableHtml += "</div>" +
+                            classTableHtml += "</div>" +
                                 "        </div>";
 
                         }
-                        $("#timeTable").html(timeTableHtml);
+                        $("#classTable").html(classTableHtml);
                         $(".course").css("border-width", "1px");
                         $(".course").css("border-style", "solid");
                         $(".course").css("border-color", "#e2e2e2");

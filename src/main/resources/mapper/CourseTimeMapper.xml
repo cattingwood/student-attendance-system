@@ -8,15 +8,19 @@
     <result column="course_week" property="courseWeek" />
     <result column="course_day" property="courseDay" />
     <result column="course_sort" property="courseSort" />
+    <result column="teacher_id" property="teacherId" />
+    <result column="class_id" property="classId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    course_id, course_week, course_day, course_sort
+    course_id, course_week, course_day, course_sort, teacher_id, class_id
   </sql>
   <insert id="insert" parameterType="com.example.studentattendancesystem.model.CourseTime">
     <!--@mbg.generated-->
-    insert into course_time (course_id, course_week, course_day, course_sort)
-    values (#{courseId}, #{courseWeek}, #{courseDay}, #{courseSort})
+    insert into course_time (course_id, course_week, course_day, course_sort, teacher_id, class_id
+      )
+    values (#{courseId}, #{courseWeek}, #{courseDay}, #{courseSort}, #{teacherId}, #{classId}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.CourseTime">
     <!--@mbg.generated-->
@@ -34,6 +38,12 @@
       <if test="courseSort != null">
         course_sort,
       </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="courseId != null">
@@ -48,6 +58,12 @@
       <if test="courseSort != null">
         #{courseSort},
       </if>
+      <if test="teacherId != null">
+        #{teacherId},
+      </if>
+      <if test="classId != null">
+        #{classId},
+      </if>
     </trim>
   </insert>
 
@@ -57,5 +73,7 @@
     from course_time
     where course_id = #{courseId}
   </select>
+
+
 
 </mapper>

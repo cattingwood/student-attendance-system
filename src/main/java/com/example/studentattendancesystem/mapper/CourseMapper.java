@@ -1,10 +1,7 @@
 package com.example.studentattendancesystem.mapper;
 
 import com.example.studentattendancesystem.model.Course;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;import java.util.List;
 
 @Mapper
 public interface CourseMapper {
@@ -15,4 +12,10 @@ public interface CourseMapper {
     List<Course> selectStudentCourseById(Long studentId);
 
     List<Course> selectCourseByClass(Long classId);
+
+    List<Course> selectCourseByMajor(Integer majorId);
+
+    List<Course> selectCourseByDepartment(Integer departmentId);
+
+    List<Course> selectAll();
 }

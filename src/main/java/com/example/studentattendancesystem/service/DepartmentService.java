@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.studentattendancesystem.mapper.DepartmentMapper;
 import com.example.studentattendancesystem.model.Department;
+
+import java.util.List;
+
 @Service
 public class DepartmentService{
 
@@ -40,4 +43,5 @@ public class DepartmentService{
         return departmentMapper.updateByPrimaryKey(record);
     }
 
+    public List<Department> selectAll() {return departmentMapper.selectAll();}
 }

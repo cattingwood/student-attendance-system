@@ -1,8 +1,14 @@
 package com.example.studentattendancesystem.controller;
 
+import com.example.studentattendancesystem.model.Class;
 import com.example.studentattendancesystem.model.Course;
 import com.example.studentattendancesystem.model.CourseDetail;
+import com.example.studentattendancesystem.model.Department;
+import com.example.studentattendancesystem.model.Major;
+import com.example.studentattendancesystem.service.ClassService;
 import com.example.studentattendancesystem.service.CourseService;
+import com.example.studentattendancesystem.service.DepartmentService;
+import com.example.studentattendancesystem.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +26,15 @@ public class CourseController {
     @Autowired
     CourseService courseService;
 
+    @Autowired
+    DepartmentService departmentService;
+
+    @Autowired
+    MajorService majorService;
+
+    @Autowired
+    ClassService classService;
+
     @RequestMapping("/toTimeTable")
     public String toLogin(Model model, HttpServletRequest request){
         model.addAttribute("menuFlag", "toSchedule");
@@ -28,6 +43,12 @@ public class CourseController {
 
     @RequestMapping("/toCourseManage")
     public String toCourseManage(Model model, HttpServletRequest request){
+        List<Department> departmentList = departmentService.selectAll();//获取所有学院资料
+        List<Major> majorList = majorService.selectAll();
+        List<Class> classList = classService.selectAll();
+        model.addAttribute("departmentList", departmentList);
+        model.addAttribute("majorList", majorList);
+        model.addAttribute("classList", classList);
         model.addAttribute("menuFlag", "toCourseManage");
         return "admin/admin-course-manage";
     }
@@ -77,16 +98,16 @@ public class CourseController {
     /*获取专业课表*/
     @RequestMapping("/MajorCourse")
     @ResponseBody
-    public List<Course> selectCourseByMajor(Long classId){
-        List<Course> courseList =  courseService.selectCourseByClass(classId);//获取专业所有课程
+    public List<Course> selectCourseByMajor(Integer majorId){
+        List<Course> courseList =  courseService.selectCourseByMajor(majorId);//获取专业所有课程
         return courseList;
     }
 
     /*获取学院课表*/
     @RequestMapping("/DepartmentCourse")
     @ResponseBody
-    public List<Course> selectCourseByDepartment(Long classId){
-        List<Course> courseList =  courseService.selectCourseByClass(classId);//获取学院所有课程
+    public List<Course> selectCourseByDepartment(Integer departmentId){
+        List<Course> courseList =  courseService.selectCourseByDepartment(departmentId);//获取学院所有课程
         return courseList;
     }
 }

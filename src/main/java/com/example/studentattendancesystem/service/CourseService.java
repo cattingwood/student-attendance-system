@@ -14,8 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CourseService{
-
+public class CourseService {
 
 
     @Resource
@@ -30,32 +29,45 @@ public class CourseService{
     @Resource
     private TeacherMapper teacherMapper;
 
-    
+
     public int insert(Course record) {
         return courseMapper.insert(record);
     }
 
-    
+
     public int insertSelective(Course record) {
         return courseMapper.insertSelective(record);
     }
 
-    public List<Course> selectStudentCourseById(Long studentId){
+    public List<Course> selectStudentCourseById(Long studentId) {
         List<Course> courseList = courseMapper.selectStudentCourseById(studentId);//选出学生所有课程
         return courseList;
     }
 
-    public List<Course> selectCourseByClass(Long classId){
+    public List<Course> selectCourseByClass(Long classId) {
         List<Course> courseList = courseMapper.selectCourseByClass(classId);//选出学生所有课程
         return courseList;
     }
 
-    public List<CourseDetail> selectStudentCourseByWeek(Course course,Integer week){
+    public List<Course> selectCourseByMajor(Integer majorId) {
+        List<Course> courseList = courseMapper.selectCourseByMajor(majorId);//选出学生所有课程
+        return courseList;
+    }
+
+    public List<Course> selectCourseByDepartment(Integer departmentId) {
+        List<Course> courseList = courseMapper.selectCourseByDepartment(departmentId);//选出学生所有课程
+        return courseList;
+    }
+    public List<Course> selectAll() {
+        return courseMapper.selectAll();//选出学生所有课程
+    }
+
+    public List<CourseDetail> selectStudentCourseByWeek(Course course, Integer week) {
         List<CourseTime> courseTime = courseTimeMapper.selectByCourseId(course.getId());//获取该课程的所有上课时间
         List<CourseDetail> courseDetailList = new ArrayList<>();
-        for (int i=0;i<courseTime.size();i++){
-            if(courseTime.get(i).getCourseWeek() == week){/*若为所选周 添加到这周课程*/
-                CourseDetail courseDetail = getCourseDetail(course,courseTime.get(i));
+        for (int i = 0; i < courseTime.size(); i++) {
+            if (courseTime.get(i).getCourseWeek() == week) {/*若为所选周 添加到这周课程*/
+                CourseDetail courseDetail = getCourseDetail(course, courseTime.get(i));
                 courseDetailList.add(courseDetail);
             }
         }
@@ -63,30 +75,27 @@ public class CourseService{
     }
 
     /*根据课程与课程时间获取课程细节*/
-    public CourseDetail getCourseDetail(Course course,CourseTime courseTime){
+    public CourseDetail getCourseDetail(Course course, CourseTime courseTime) {
         CourseDetail courseDetail = new CourseDetail();
         courseDetail.setId(course.getId());
         courseDetail.setName(course.getName());
-        courseDetail.setTeacherId(course.getTeacherId());
-        Teacher teacher =  teacherMapper.selectByPrimaryKey(course.getTeacherId());
-        courseDetail.setTeacherName(teacher.getName());
         courseDetail.setCourseWeek(courseTime.getCourseWeek());
         courseDetail.setCourseDay(courseTime.getCourseDay());
         courseDetail.setCourseSort(courseTime.getCourseSort());
         return courseDetail;
     }
 
-    public List<CourseDetail> getTodayCourseTime(Course course){
+    public List<CourseDetail> getTodayCourseTime(Course course) {
         TimeTable timeTable = timeTableMapper.selectOne();
-        Date beginDate =  timeTable.getTermBeginDay();//获取开学日
+        Date beginDate = timeTable.getTermBeginDay();//获取开学日
         List<CourseTime> courseTime = courseTimeMapper.selectByCourseId(course.getId());//获取该课程的所有上课时间
         List<CourseDetail> courseDetailList = new ArrayList<>();
-        for (int i=0;i<courseTime.size();i++){
-            int dayCount = (courseTime.get(i).getCourseWeek()-1)*7
-                    +courseTime.get(i).getCourseDay()-1;/*课程距离开学日多少天*/
-            Date courseDate = addAndSubtractDaysByGetTime(beginDate,dayCount);/*计算课程为哪一天*/
-            if(isSameDay(courseDate,new Date())){/*若为今天 添加到今日课程*/
-                CourseDetail courseDetail = getCourseDetail(course,courseTime.get(i));
+        for (int i = 0; i < courseTime.size(); i++) {
+            int dayCount = (courseTime.get(i).getCourseWeek() - 1) * 7
+                    + courseTime.get(i).getCourseDay() - 1;/*课程距离开学日多少天*/
+            Date courseDate = addAndSubtractDaysByGetTime(beginDate, dayCount);/*计算课程为哪一天*/
+            if (isSameDay(courseDate, new Date())) {/*若为今天 添加到今日课程*/
+                CourseDetail courseDetail = getCourseDetail(course, courseTime.get(i));
                 courseDetailList.add(courseDetail);
             }
         }
@@ -94,7 +103,7 @@ public class CourseService{
     }
 
     /*加减日期*/
-    public static Date addAndSubtractDaysByGetTime(Date dateTime/*待处理的日期*/,int n/*加减天数*/) {
+    public static Date addAndSubtractDaysByGetTime(Date dateTime/*待处理的日期*/, int n/*加减天数*/) {
 
         //日期格式
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -117,3 +126,4 @@ public class CourseService{
     }
 
 }
+

@@ -3,24 +3,19 @@ package com.example.studentattendancesystem.model;
 import lombok.Data;
 
 @Data
-public class Class {
+public class Major {
     /**
-     * 班级id
+     * 专业ID
      */
-    private Long id;
+    private Integer id;
 
     /**
-     * 班级名称
+     * 专业名
      */
     private String name;
 
     /**
-     * 班级专业id
-     */
-    private Integer majorId;
-
-    /**
-     * 学院id
+     * 所属学院ID
      */
     private Integer departmentId;
 }

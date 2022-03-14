@@ -3,6 +3,8 @@ package com.example.studentattendancesystem.mapper;
 import com.example.studentattendancesystem.model.Class;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ClassMapper {
     int deleteByPrimaryKey(Long id);
@@ -16,4 +18,6 @@ public interface ClassMapper {
     int updateByPrimaryKeySelective(Class record);
 
     int updateByPrimaryKey(Class record);
+
+    List<Class> selectAll();
 }
