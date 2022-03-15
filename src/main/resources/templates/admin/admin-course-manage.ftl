@@ -17,7 +17,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label" style="width: auto;">学院</label>
                     <div class="layui-input-inline">
-                        <select name="department">
+                        <select id="departmentSelect" lay-filter="departmentSelect">
                             <#if departmentList??>
                                 <#list departmentList as dl>
                                     <option value="${dl.id}">${dl.name}</option>
@@ -29,15 +29,16 @@
                 <div class="layui-input-inline">
                     <label class="layui-form-label">专业</label>
                     <div class="layui-input-inline">
-                        <select name="major">
-                            <option value="1">请先选择学院</option>
+                        <select id="majorSelect" lay-filter="majorSelect">
+                            <#--<option value="">请选择一个学院</option>-->
                         </select>
                     </div>
                 </div>
                 <div class="layui-input-inline">
                     <label class="layui-form-label">班级</label>
                     <div class="layui-input-block">
-                        <select id="class" lay-filter="class">
+                        <select id="classSelect" lay-filter="classSelect">
+                            <#--<option value="">请选择一个专业</option>-->
                         </select>
                     </div>
                 </div>
@@ -46,74 +47,57 @@
             </div>
         </div>
 
+        <select id="majorSelectHidden" hidden>
+            <#if majorList??>
+                <#list majorList as ml>
+                    <option value="${ml.id}" departmentIdHidden="${ml.departmentId}">"${ml.name}"</option>
+                </#list>
+            </#if>
+        </select>
+
+        <select id="classSelectHidden" hidden>
+            <#if classList??>
+                <#list classList as cl>
+                    <option value="${cl.id}" majorIdHidden="${cl.majorId}">"${cl.name}"</option>
+                </#list>
+            </#if>
+        </select>
 
         <#--<div class="layui-card-body schedule">
             <div class="table" id="classTable"></div>
         </div>-->
 
-        <select id="major" hidden>
-            <#if majorList??>
-                <#list majorList as ml>
-                    <option value="${ml.id}" name="${ml.name}" departmentId="${ml.departmentId}"></option>
-                </#list>
-            </#if>
-        </select>
-
         <script>
-            var majorList;
-            var classList;
             window.onload = function () {
                 classCourse(1);
                 var table = layui.table;
-                majorList = '${majorList}';
-                classList = '${classList}';
+                var form = layui.form;
 
-                table.render({
-                    elem: '#demo'
-                    ,height: 315
-                    ,url: '/class/ClassCourse'
-                    ,page: true //开启分页
-                    ,cols: [[ //表头
-                        {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                        ,{field: 'className', title: '课程名'}
-                        ,{field: 'teacherName', title: '授课教师'}
-                    ]]
-                });
-
-                layui.use(['form', 'laydate', 'element', 'upload'], function(){
+                layui.use(['form'], function(){
                     form = layui.form;
-                    var laydate = layui.laydate;
-                    var element = layui.element;
-                    var upload = layui.upload;
-                    // 监听机械select切换事件
-                    form.on('select(department)', function(data){
-                        loadClassSelectData('department',data.value);
+                    // 监听select切换事件
+                    form.on('select(departmentSelect)',function(data){//根据所选学院显示专业
+                        var majorList = "";
+                        var departmentId = data.value;
+                        $('option[departmentIdHidden="' + departmentId + '"]').each(function (i) {
+                            majorList += this.outerHTML;
+                        });
+                        $("#majorSelect").html(majorList);
+                        form.render('select');
                     });
-                    form.on('select(major)', function(data){
-
+                    form.on('select(majorSelect)', function(data){//根据所选专业显示班级
+                        var classList = "";
+                        var majorId = data.value;
+                        $('option[majorIdHidden="' + majorId + '"]').each(function (i) {
+                            classList += this.outerHTML;
+                        });
+                        $("#classSelect").html(classList);
+                        form.render('select');
                     });
                 });
 
             }
 
-
-
-            $(function () {
-                layui.use('form',function () {
-                    var form = layui.form;
-                    form.on('submit(search)',function (data) {
-                        var week = $('#week').val();
-                        weekCourse(week);
-                    })
-                })
-            })
-
-            /*检测下拉框选择*/
-
-            function loadClassSelectData(type,id){
-                console.log(type);
-                console.log(id);
-            }
 
             /*根据班级查找课程并显示*/
             function classCourse(classId) {
