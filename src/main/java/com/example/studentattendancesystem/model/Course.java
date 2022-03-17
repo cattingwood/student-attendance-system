@@ -18,4 +18,14 @@ public class Course {
      * 专业id
      */
     private Integer marjorId;
+
+    /**
+     * 是否为公共课
+     */
+    private Integer isPublic;
+
+    /**
+     * 是否为必修课
+     */
+    private Integer isRequired;
 }

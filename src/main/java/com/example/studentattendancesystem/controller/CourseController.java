@@ -92,6 +92,7 @@ public class CourseController {
     @ResponseBody
     public List<Course> selectCourseByClass(Long classId){
         List<Course> courseList =  courseService.selectCourseByClass(classId);//获取学生所有课程
+
         return courseList;
     }
 

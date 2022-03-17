@@ -58,6 +58,7 @@ public class CourseService {
         List<Course> courseList = courseMapper.selectCourseByDepartment(departmentId);//选出学生所有课程
         return courseList;
     }
+
     public List<Course> selectAll() {
         return courseMapper.selectAll();//选出学生所有课程
     }
@@ -126,4 +127,5 @@ public class CourseService {
     }
 
 }
+
 

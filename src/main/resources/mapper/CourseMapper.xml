@@ -1,63 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.studentattendancesystem.mapper.CourseMapper">
-    <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.Course">
-        <!--@mbg.generated-->
-        <!--@Table course-->
-        <result column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="marjor_id" property="marjorId"/>
-    </resultMap>
-    <sql id="Base_Column_List">
-        <!--@mbg.generated-->
-        id, `name`, marjor_id
-    </sql>
-    <insert id="insert" parameterType="com.example.studentattendancesystem.model.Course">
-        <!--@mbg.generated-->
-    insert into course (id, `name`, marjor_id)
-    values (#{id}, #{name}, #{marjorId})
-
-    </insert>
-    <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.Course">
-        <!--@mbg.generated-->
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.Course">
+    <!--@mbg.generated-->
+    <!--@Table course-->
+    <result column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="marjor_id" property="marjorId" />
+    <result column="is_public" property="isPublic" />
+    <result column="is_required" property="isRequired" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, marjor_id, is_public, is_required
+  </sql>
+  <insert id="insert" parameterType="com.example.studentattendancesystem.model.Course">
+    <!--@mbg.generated-->
+    insert into course (id, `name`, marjor_id, is_public, is_required)
+    values (#{id}, #{name}, #{marjorId}, #{isPublic}, #{isRequired})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.Course">
+    <!--@mbg.generated-->
     insert into course
-
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-
-            </if>
-            <if test="name != null">
-
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
         `name`,
-
-            </if>
-            <if test="marjorId != null">
-
+      </if>
+      <if test="marjorId != null">
         marjor_id,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id},
-
-            </if>
-            <if test="name != null">
-
+      </if>
+      <if test="isPublic != null">
+        is_public,
+      </if>
+      <if test="isRequired != null">
+        is_required,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
         #{name},
-
-            </if>
-            <if test="marjorId != null">
-
+      </if>
+      <if test="marjorId != null">
         #{marjorId},
-            </if>
-        </trim>
-    </insert>
+      </if>
+      <if test="isPublic != null">
+        #{isPublic},
+      </if>
+      <if test="isRequired != null">
+        #{isRequired},
+      </if>
+    </trim>
+  </insert>
     <select id="selectStudentCourseById" parameterType="java.lang.Long" resultMap="BaseResultMap">
 
     select
 
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
 
     from course WHERE id IN
     (SELECT course_id FROM teacher_class
@@ -70,7 +74,7 @@
 
     select
 
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
 
     from course WHERE id IN (SELECT course_id FROM teacher_class WHERE class_id = #{classId});
 
@@ -80,7 +84,7 @@
 
     select
 
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
 
     from course WHERE marjor_id = #{majorId};
 
@@ -90,17 +94,17 @@
 
     select
 
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
 
     from course WHERE marjor_id IN (select id from major where department_id = #{departmentId});
 
     </select>
 
-    <select id="selectAll"  resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="BaseResultMap">
 
     select
 
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
 
     from course;
 
