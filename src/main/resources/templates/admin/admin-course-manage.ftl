@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="../css/schedule.css">
         <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
     </head>
-    <div style="background-color: #F1F1F1;">
+    <body style="background-color: #F1F1F1;">
         <#include "../common/header-admin.ftl"/>
 
         <div class="layui-card-body" id="filter">
@@ -47,8 +47,8 @@
                     </div>
                 </div>
                 <button class="layui-btn js-search" onclick="searchCourse()"><i class="layui-icon">&#xe615;</i></button>
+                <button class="layui-btn" onclick="addCourseWindow()">新增课程</button>
             </div>
-                <button class="layui-btn" onclick="addCourse()">新增课程</button>
         </div>
 
         <select id="majorSelectHidden" hidden>
@@ -70,6 +70,37 @@
             <div class="table" id="courseTable"></div>
         </div>
 
+        <div hidden id="addCourse">
+            <div style="margin: 50px;width: 500px;">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item"> <label class="layui-form-label">课程名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="name" lay-verify="title" autocomplete="off" placeholder="请输入课程名" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否为公共课</label>
+                        <div class="layui-form layui-input-block">
+                            <select id="isPublic"lay-filter="majorSelect">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否为必修课</label>
+                        <div class="layui-form layui-input-block">
+                            <select id="isRequired"lay-filter="majorSelect">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-btn"  onclick="addCourse()">新增课程</div>
+                </form>
+            </div>
+        </div>
+
         <!-- L2Dwidget.js L2D网页动画人物 -->
         <script>
             L2Dwidget.init({
@@ -87,6 +118,11 @@
                 小可爱（男）：https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json
                 初音：https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json
         -->
+
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-primary layui-btn-xs" onclick="editCourse()">编辑</a>
+            <a class="layui-btn layui-btn-xs" onclick="deleteCourse()">删除</a>
+        </script>
 
         <script>
             var nowDepartment = -1;
@@ -130,6 +166,7 @@
 
             }
 
+
             /*根据下拉框值查找课程*/
             function searchCourse() {
                 if(nowClass != -1){
@@ -141,8 +178,71 @@
                 }
             }
 
-            function addCourse(){
+            function addCourseWindow(){
+                var layer = layui.layer;
+                layer.open({
+                    type: 1,
+                    title: '新增课程',
+                    area: ['40%', '50%'],//弹框大小  屏幕宽度的80%，高度的80%；
+                    content: $("#addCourse"),
+                    // 打开弹窗的回调函数，用于回显页面数据
+                    success: function () {
+                    },
+                    end: function () {
+                        $("#addCourse").hide();
+                    }
+                })
+            }
 
+            function addCourse(){
+                var name = parent.$('#name').val();
+                if (name == '') {
+                    layer.alert("请输入课程名称! ");
+                    return false;
+                }
+                var isPublic = parent.$('#isPublic').val();
+                if (isPublic == '') {
+                    layer.alert("请选择是否为公共课! ");
+                    return false;
+                }
+                var isRequired = parent.$('#isRequired').val();
+                if (isRequired == '') {
+                    layer.alert("请选择是否为必修课! ");
+                    return false;
+                }
+                $.post("/course/addCourse", {
+                    "name": name,
+                    "isPublic": isPublic,
+                    "isRequired": isRequired
+                }, function (res) {
+                    if(res == 1){
+                        layer.alert("添加成功! ");
+                    }
+                });
+
+            }
+
+            function editCourse(id){
+                alert(id);
+            }
+
+            function deleteCourse(id,name){
+                layer.open({
+                    title: '删除课程'
+                    ,content: '是否删除' + name + "该项课程？"
+                    ,btn: ['是', '否']
+                    ,yes: function(index){
+                        $.post("/backend/", {
+                                "courseId": id
+                        }, function (res){
+                            if(res == 1){
+                                layui.alert("删除成功！");
+                            }
+                        });
+                    }
+                    ,btn2: function(index){
+                    }
+                });
             }
 
             /*根据班级查找课程并显示*/
@@ -183,11 +283,44 @@
                                         return '否';
                                     }
                                 }
-                        }
+                            }
+                            , {field: '',width: 250, title: '操作',
+                                templet: function (res) {
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourse('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                        ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteCourse('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    return ops ;
+                                }
+                            }
                         ]]
                     });
                 });
             }
+
+            table.on('toolbar(test)', function(obj){
+                var checkStatus = table.checkStatus(obj.config.id)
+                    ,data = checkStatus.data; //获取选中的数据
+                switch(obj.event){
+                    case 'add':
+                        layer.msg('添加');
+                        break;
+                    case 'update':
+                        if(data.length === 0){
+                            layer.msg('请选择一行');
+                        } else if(data.length > 1){
+                            layer.msg('只能同时编辑一个');
+                        } else {
+                            layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+                        }
+                        break;
+                    case 'delete':
+                        if(data.length === 0){
+                            layer.msg('请选择一行');
+                        } else {
+                            layer.msg('删除');
+                        }
+                        break;
+                };
+            });
 
         </script>
     </body>

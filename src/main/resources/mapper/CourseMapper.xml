@@ -15,7 +15,6 @@
     id, `name`, marjor_id, is_public, is_required
   </sql>
   <insert id="insert" parameterType="com.example.studentattendancesystem.model.Course">
-    <!--@mbg.generated-->
     insert into course (id, `name`, marjor_id, is_public, is_required)
     values (#{id}, #{name}, #{marjorId}, #{isPublic}, #{isRequired})
   </insert>
@@ -109,4 +108,8 @@
     from course;
 
     </select>
+
+    <delete id="deleteCourseById">
+        delete from course where id = #{courseId};
+    </delete>>
 </mapper>

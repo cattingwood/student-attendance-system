@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;import java.util.List;
 
 @Mapper
 public interface CourseMapper {
-    int insert(Course record);
+    int insert(Course course);
 
     int insertSelective(Course record);
 
@@ -18,4 +18,6 @@ public interface CourseMapper {
     List<Course> selectCourseByDepartment(Integer departmentId);
 
     List<Course> selectAll();
+
+    int deleteCourseById(Long courseId);
 }

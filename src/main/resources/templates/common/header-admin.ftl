@@ -18,7 +18,6 @@
 <div class="layui-side" style="top: 60px">
     <div class="layui-side-scroll" style="background-color: #1A1B20">
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
-        <li class="layui-nav-item layui-this" name="toSign"><a href="/sign/toSign">考勤</a></li>
         <li class="layui-nav-item" name="toCourseManage"><a href="/course/toCourseManage">课程管理</a></li>
     </ul>
     </div>

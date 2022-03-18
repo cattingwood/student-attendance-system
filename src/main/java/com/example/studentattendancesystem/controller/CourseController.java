@@ -53,6 +53,22 @@ public class CourseController {
         return "admin/admin-course-manage";
     }
 
+    /*添加课程*/
+    @RequestMapping("/addCourse")
+    @ResponseBody
+    public Integer addCourse(Course course){
+        int result =  courseService.addCourse(course);
+        return result;
+    }
+
+    /*删除课程*/
+    @RequestMapping("/deleteCourse")
+    @ResponseBody
+    public Integer deleteCourse(Long courseId){
+        int result =  courseService.deleteCourse(courseId);
+        return result;
+    }
+
     /*获取学生今日课表*/
     @RequestMapping("/todayCourse")
     @ResponseBody

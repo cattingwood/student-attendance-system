@@ -26,13 +26,18 @@
 <script>
     $(document).ready(function () {
         var menuFlag = '${menuFlag}';
-        $(".side li").each(function(index){
-            $(this).removeClass("layui-this");
-            if(menuFlag == $(this).attr("name")){
-                $(this).addClass("layui-this");
-                return;
-            }
-        });
+        if(menuFlag != null){
+            $(".side li").each(function(index){
+                $(this).removeClass("layui-this");
+                if(menuFlag == $(this).attr("name")){
+                    $(this).addClass("layui-this");
+                    return;
+                }
+            });
+        }else{
+            console.log("menuFlag为空！");
+        }
+
     });
 
     function timeTable(){

@@ -9,6 +9,7 @@ import com.example.studentattendancesystem.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,19 +35,19 @@ public class LoginController {
     }
 
     @RequestMapping("/toMainPage")
-    public String toMainPage(HttpServletRequest request){
+    public String toMainPage(Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         Student student = (Student) session.getAttribute("student");
         if(student != null){
-            return "student/student-sign";
+            return "redirect:/sign/toSign";
         }
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         if(teacher != null){
-            return "teacher/teacher-sign";
+            return "redirect:/sign/toSign";
         }
         Admin admin = (Admin) session.getAttribute("admin");
         if(admin != null){
-            return "admin/admin-course-manage";
+            return "redirect:/course/toCourseManage";/*redirect直接跳转到另一个函数*/
         }
         return "login";
     }
@@ -60,12 +61,15 @@ public class LoginController {
     @RequestMapping("/login")
     @ResponseBody
     public boolean login(String account, String password, String type,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.removeAttribute("student");//清空sesion防止登录串号
+        session.removeAttribute("teacher");
+        session.removeAttribute("admin");
         if(type.equals("学生")){
             Student student =  studentService.selectByAccount(Long.parseLong(account));
             if(student == null){
                 return false;
             }else if(student.getPassword().equals(password)){
-                HttpSession session = request.getSession();
                 session.setAttribute("student",student);
                 return true;
             }
@@ -74,7 +78,6 @@ public class LoginController {
             if(teacher == null){
                 return false;
             }else if(teacher.getPassword().equals(password)){
-                HttpSession session = request.getSession();
                 session.setAttribute("teacher",teacher);
                 return true;
             }
@@ -83,7 +86,6 @@ public class LoginController {
             if(admin == null){
                 return false;
             }else if(admin.getPassword().equals(password)){
-                HttpSession session = request.getSession();
                 session.setAttribute("admin",admin);
                 return true;
             }

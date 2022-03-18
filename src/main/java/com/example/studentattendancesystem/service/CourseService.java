@@ -30,10 +30,13 @@ public class CourseService {
     private TeacherMapper teacherMapper;
 
 
-    public int insert(Course record) {
-        return courseMapper.insert(record);
+    public int addCourse(Course course) {
+        return courseMapper.insertSelective(course);
     }
 
+    public int deleteCourse(Long courseId) {
+        return courseMapper.deleteCourseById(courseId);
+    }
 
     public int insertSelective(Course record) {
         return courseMapper.insertSelective(record);
