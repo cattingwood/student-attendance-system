@@ -111,5 +111,15 @@
 
     <delete id="deleteCourseById">
         delete from course where id = #{courseId};
-    </delete>>
+    </delete>
+
+  <select id="selectCourseByTeacher" parameterType="java.lang.Long" resultMap="BaseResultMap">
+
+    select
+
+    <include refid="Base_Column_List" />
+
+    from course WHERE id IN (select course_id from teacher_class where teacher_id = #{teacherId});
+
+  </select>
 </mapper>

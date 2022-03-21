@@ -24,6 +24,15 @@ public class CourseDetail {
      */
     private String teacherName;
 
+    /**
+     * 授课班级ID
+     */
+    private Long classId;
+
+    /**
+     * 授课班级
+     */
+    private String className;
 
     /**
      * 第几周

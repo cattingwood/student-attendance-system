@@ -1,12 +1,10 @@
 package com.example.studentattendancesystem.service;
 
-import com.example.studentattendancesystem.mapper.CourseTimeMapper;
-import com.example.studentattendancesystem.mapper.TeacherMapper;
-import com.example.studentattendancesystem.mapper.TimeTableMapper;
+import com.example.studentattendancesystem.mapper.*;
 import com.example.studentattendancesystem.model.*;
+import com.example.studentattendancesystem.model.Class;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import com.example.studentattendancesystem.mapper.CourseMapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +17,9 @@ public class CourseService {
 
     @Resource
     private CourseMapper courseMapper;
+
+    @Resource
+    private ClassMapper classMapper;
 
     @Resource
     private CourseTimeMapper courseTimeMapper;
@@ -47,6 +48,11 @@ public class CourseService {
         return courseList;
     }
 
+    public List<Course> selectCourseByTeacher(Long teacherId) {
+        List<Course> courseList = courseMapper.selectCourseByTeacher(teacherId);//选出学生所有课程
+        return courseList;
+    }
+
     public List<Course> selectCourseByClass(Long classId) {
         List<Course> courseList = courseMapper.selectCourseByClass(classId);//选出学生所有课程
         return courseList;
@@ -66,13 +72,19 @@ public class CourseService {
         return courseMapper.selectAll();//选出学生所有课程
     }
 
-    public List<CourseDetail> selectStudentCourseByWeek(Course course, Integer week) {
+    public List<CourseDetail> selectCourseByWeek(Course course, Integer week,Integer type,Long id) {
         List<CourseTime> courseTime = courseTimeMapper.selectByCourseId(course.getId());//获取该课程的所有上课时间
         List<CourseDetail> courseDetailList = new ArrayList<>();
         for (int i = 0; i < courseTime.size(); i++) {
             if (courseTime.get(i).getCourseWeek() == week) {/*若为所选周 添加到这周课程*/
-                CourseDetail courseDetail = getCourseDetail(course, courseTime.get(i));
-                courseDetailList.add(courseDetail);
+                if(type == 1 && courseTime.get(i).getClassId() == id){
+                    CourseDetail courseDetail = getCourseDetail(course, courseTime.get(i));
+                    courseDetailList.add(courseDetail);
+                }
+                else if(type == 2 && courseTime.get(i).getTeacherId() == id){
+                    CourseDetail courseDetail = getCourseDetail(course, courseTime.get(i));
+                    courseDetailList.add(courseDetail);
+                }
             }
         }
         return courseDetailList;
@@ -86,6 +98,9 @@ public class CourseService {
         courseDetail.setCourseWeek(courseTime.getCourseWeek());
         courseDetail.setCourseDay(courseTime.getCourseDay());
         courseDetail.setCourseSort(courseTime.getCourseSort());
+        courseDetail.setClassId(courseTime.getClassId());
+        Class aClass = classMapper.selectByPrimaryKey(courseTime.getClassId());
+        courseDetail.setClassName(aClass.getName());
         return courseDetail;
     }
 

@@ -20,4 +20,6 @@ public interface ClassMapper {
     int updateByPrimaryKey(Class record);
 
     List<Class> selectAll();
+
+    Class selectClassByStudentId(Long studentId);
 }

@@ -20,4 +20,6 @@ public interface CourseMapper {
     List<Course> selectAll();
 
     int deleteCourseById(Long courseId);
+
+    List<Course> selectCourseByTeacher(Long teacherId);
 }

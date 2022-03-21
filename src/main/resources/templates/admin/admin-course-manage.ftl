@@ -32,7 +32,7 @@
                 <div class="layui-input-inline">
                     <label class="layui-form-label">专业</label>
                     <div class="layui-form layui-input-block">
-                        <select id="majorSelect"lay-filter="majorSelect">
+                        <select id="majorSelect" lay-filter="majorSelect">
                             <option value="-1">请先选择学院</option>
                         </select>
                     </div>
@@ -54,14 +54,14 @@
         <select id="majorSelectHidden" hidden>
             <#if majorList??>
                 <#list majorList as ml>
-                    <option value="${ml.id}" departmentIdHidden="${ml.departmentId}">"${ml.name}"</option>
+                    <option value="${ml.id}" departmentIdHidden="${ml.departmentId}">${ml.name}</option>
                 </#list>
             </#if>
         </select>
         <select id="classSelectHidden" hidden>
             <#if classList??>
                 <#list classList as cl>
-                    <option value="${cl.id}" majorIdHidden="${cl.majorId}">"${cl.name}"</option>
+                    <option value="${cl.id}" majorIdHidden="${cl.majorId}">${cl.name}</option>
                 </#list>
             </#if>
         </select>
@@ -81,12 +81,26 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否为公共课</label>
                         <div class="layui-form layui-input-block">
-                            <select id="isPublic"lay-filter="majorSelect">
+                            <select id="isPublic"lay-filter="isPublic">
                                 <option value="1">是</option>
                                 <option value="0">否</option>
                             </select>
                         </div>
                     </div>
+
+                    <div class="layui-input-inline">
+                        <label class="layui-form-label">专业</label>
+                        <div class="layui-form layui-input-block">
+                            <select id="majorUpdate" lay-filter="majorUpdate" lay-search>
+                                <#if majorList??>
+                                    <#list majorList as ml>
+                                        <option value="${ml.id}" departmentIdHidden="${ml.departmentId}">${ml.name}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否为必修课</label>
                         <div class="layui-form layui-input-block">
@@ -128,39 +142,55 @@
             var nowDepartment = -1;
             var nowMajor = -1;
             var nowClass = -1;
+
+            /*初始化*/
             window.onload = function () {
-                /*classCourse(1);*/
                 var table = layui.table;
                 var form = layui.form;
 
                 layui.use(['form'], function(){
                     form = layui.form;
                     // 监听select切换事件
-                    form.on('select(departmentSelect)',function(data){//根据所选学院显示专业
+
+                    //根据所选学院显示专业
+                    form.on('select(departmentSelect)',function(data){
                         var majorList = "";
                         var departmentId = data.value;
                         nowDepartment = departmentId;
                         nowMajor = -1;
                         nowClass = -1;/*存储当前选择情况*/
-                        $('option[departmentIdHidden="' + departmentId + '"]').each(function (i) {
+                        $('option[departmentIdHidden=' + departmentId + ']').each(function (i) {
                             majorList += this.outerHTML;
                         });
                         $("#majorSelect").html(majorList);
                         form.render('select');
                     });
-                    form.on('select(majorSelect)', function(data){//根据所选专业显示班级
+                    //根据所选专业显示班级
+                    form.on('select(majorSelect)', function(data){
                         var classList = "";
                         var majorId = data.value;
                         nowMajor = majorId;
                         nowClass = -1;/*存储当前选择情况*/
-                        $('option[majorIdHidden="' + majorId + '"]').each(function (i) {
+                        $('option[majorIdHidden=' + majorId + ']').each(function (i) {
                             classList += this.outerHTML;
                         });
                         $("#classSelect").html(classList);
                         form.render('select',"classSelect");
                     });
-                    form.on('select(classSelect)', function(data){//根据所选专业显示班级
+                    //记录所选班级
+                    form.on('select(classSelect)', function(data){
                         nowClass = data.value;
+                    });
+
+                    form.on('select(isPublic)', function(data){//根据是否为公共课选择专业
+                        var isPublic = data.value;
+                        if(isPublic){
+                            $("#majorUpdate").attr("disabled",true);
+                            form.render('select',"majorUpdate");
+                        }else{
+                            $("#majorUpdate").removeAttr("disabled");
+                            form.render('select',"majorUpdate");
+                        }
                     });
                 });
 
@@ -172,12 +202,15 @@
                 if(nowClass != -1){
                     classCourse(nowClass);
                 }else if(nowMajor != -1){
-                    classCourse(nowMajor);
+                    majorCourse(nowMajor);
+                }else if(nowMajor != -1){
+                    departmentCourse(nowDepartment);
                 }else{
-                    classCourse(nowDepartment);
+                    allCourse();
                 }
             }
 
+            /*弹出添加课程窗口*/
             function addCourseWindow(){
                 var layer = layui.layer;
                 layer.open({
@@ -194,6 +227,7 @@
                 })
             }
 
+            /*添加课程*/
             function addCourse(){
                 var name = parent.$('#name').val();
                 if (name == '') {
@@ -216,27 +250,33 @@
                     "isRequired": isRequired
                 }, function (res) {
                     if(res == 1){
+                        layer.close(layer.index);
                         layer.alert("添加成功! ");
                     }
                 });
 
             }
 
+            /*编辑课程信息*/
             function editCourse(id){
                 alert(id);
             }
 
+            /*删除课程*/
             function deleteCourse(id,name){
                 layer.open({
                     title: '删除课程'
                     ,content: '是否删除' + name + "该项课程？"
                     ,btn: ['是', '否']
                     ,yes: function(index){
-                        $.post("/backend/", {
+                        $.post("/course/deleteCourse", {
                                 "courseId": id
                         }, function (res){
                             if(res == 1){
-                                layui.alert("删除成功！");
+                                layer.open({
+                                    title: false
+                                    ,content: '删除成功！'
+                                });
                             }
                         });
                     }
@@ -254,7 +294,6 @@
                         ,height: 312
                         ,url: '/course/ClassCourse?classId='+classId //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
-                            console.log(res)
                             return {
                                 "code": 0, //解析接口状态
                                 "msg": '成功', //解析提示文本
@@ -296,31 +335,156 @@
                 });
             }
 
-            table.on('toolbar(test)', function(obj){
-                var checkStatus = table.checkStatus(obj.config.id)
-                    ,data = checkStatus.data; //获取选中的数据
-                switch(obj.event){
-                    case 'add':
-                        layer.msg('添加');
-                        break;
-                    case 'update':
-                        if(data.length === 0){
-                            layer.msg('请选择一行');
-                        } else if(data.length > 1){
-                            layer.msg('只能同时编辑一个');
-                        } else {
-                            layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+            /*根据专业查找课程并显示*/
+            function majorCourse(majorId) {
+                layui.use('table', function(){
+                    table = layui.table;
+                    table.render({
+                        elem: '#courseTable'
+                        ,height: 312
+                        ,url: '/course/MajorCourse?majorId='+majorId //数据接口
+                        ,parseData: function(res){ //res 即为原始返回的数据
+                            return {
+                                "code": 0, //解析接口状态
+                                "msg": '成功', //解析提示文本
+                                "count": res.total, //解析数据长度
+                                "data": res //解析数据列表
+                            };
                         }
-                        break;
-                    case 'delete':
-                        if(data.length === 0){
-                            layer.msg('请选择一行');
-                        } else {
-                            layer.msg('删除');
+                        ,page: true //开启分页
+                        ,cols: [[ //表头
+                            {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                            ,{field: 'name', title: '课程名', width:200}
+                            ,{field: 'isPublic', title: '公共课', width:80,
+                                templet:function (res) {
+                                    if (res.isPublic === 1) {
+                                        return '是';
+                                    } else {
+                                        return '否';
+                                    }
+                                }
+                            }
+                            ,{field: 'isRequired', title: '必修课', width:80,
+                                templet:function (res) {
+                                    if (res.isRequired === 1) {
+                                        return '是';
+                                    } else {
+                                        return '否';
+                                    }
+                                }
+                            }
+                            , {field: '',width: 250, title: '操作',
+                                templet: function (res) {
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourse('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteCourse('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    return ops ;
+                                }
+                            }
+                        ]]
+                    });
+                });
+            }
+
+            /*根据学院查找课程并显示*/
+            function departmentCourse(departmentId) {
+                layui.use('table', function(){
+                    table = layui.table;
+                    table.render({
+                        elem: '#courseTable'
+                        ,height: 312
+                        ,url: '/course/DepartmentCourse?departmentId='+departmentId //数据接口
+                        ,parseData: function(res){ //res 即为原始返回的数据
+                            return {
+                                "code": 0, //解析接口状态
+                                "msg": '成功', //解析提示文本
+                                "count": res.total, //解析数据长度
+                                "data": res //解析数据列表
+                            };
                         }
-                        break;
-                };
-            });
+                        ,page: true //开启分页
+                        ,cols: [[ //表头
+                            {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                            ,{field: 'name', title: '课程名', width:200}
+                            ,{field: 'isPublic', title: '公共课', width:80,
+                                templet:function (res) {
+                                    if (res.isPublic === 1) {
+                                        return '是';
+                                    } else {
+                                        return '否';
+                                    }
+                                }
+                            }
+                            ,{field: 'isRequired', title: '必修课', width:80,
+                                templet:function (res) {
+                                    if (res.isRequired === 1) {
+                                        return '是';
+                                    } else {
+                                        return '否';
+                                    }
+                                }
+                            }
+                            , {field: '',width: 250, title: '操作',
+                                templet: function (res) {
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourse('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteCourse('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    return ops ;
+                                }
+                            }
+                        ]]
+                    });
+                });
+            }
+
+            /*查找所有课程并显示*/
+            function allCourse() {
+                layui.use('table', function(){
+                    table = layui.table;
+                    table.render({
+                        elem: '#courseTable'
+                        ,height: 312
+                        ,url: '/course/AllCourse' //数据接口
+                        ,parseData: function(res){ //res 即为原始返回的数据
+                            return {
+                                "code": 0, //解析接口状态
+                                "msg": '成功', //解析提示文本
+                                "count": res.total, //解析数据长度
+                                "data": res //解析数据列表
+                            };
+                        }
+                        ,page: true //开启分页
+                        ,cols: [[ //表头
+                            {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                            ,{field: 'name', title: '课程名', width:200}
+                            ,{field: 'isPublic', title: '公共课', width:80,
+                                templet:function (res) {
+                                    if (res.isPublic === 1) {
+                                        return '是';
+                                    } else {
+                                        return '否';
+                                    }
+                                }
+                            }
+                            ,{field: 'isRequired', title: '必修课', width:80,
+                                templet:function (res) {
+                                    if (res.isRequired === 1) {
+                                        return '是';
+                                    } else {
+                                        return '否';
+                                    }
+                                }
+                            }
+                            , {field: '',width: 250, title: '操作',
+                                templet: function (res) {
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourse('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteCourse('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    return ops ;
+                                }
+                            }
+                        ]]
+                    });
+                });
+            }
+
 
         </script>
     </body>

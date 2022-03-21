@@ -41,6 +41,12 @@ public class CourseController {
         return "student/student-schedule";
     }
 
+    @RequestMapping("/toTeacherCourse")
+    public String toTeacherCourse(Model model, HttpServletRequest request){
+        model.addAttribute("menuFlag", "toTeacherCourse");
+        return "teacher/teacher-schedule";
+    }
+
     @RequestMapping("/toCourseManage")
     public String toCourseManage(Model model, HttpServletRequest request){
         List<Department> departmentList = departmentService.selectAll();//获取所有学院资料
@@ -85,14 +91,34 @@ public class CourseController {
     }
 
     /*获取学生所选周课表*/
-    @RequestMapping("/weekCourse")
+    @RequestMapping("/studentWeekCourse")
     @ResponseBody
     public Map<String, Object> selectCourseByWeek(Long studentId,Integer week){
         List<Course> courseList =  courseService.selectStudentCourseById(studentId);//获取学生所有课程
+        Class studentClass = classService.selectClassByStudentId(studentId);
         List<CourseDetail> courseDetailList = new ArrayList<>();
         for(int i=0;i<courseList.size();i++){
-            if(courseService.selectStudentCourseByWeek(courseList.get(i),week) != null){/*若是所选周则添加日程*/
-                courseDetailList.addAll(courseService.selectStudentCourseByWeek(courseList.get(i),week));
+            if(courseService.selectCourseByWeek(courseList.get(i),week,1,studentClass.getId()) != null){/*若是所选周则添加日程*/
+                courseDetailList.addAll(courseService.selectCourseByWeek(courseList.get(i),week,1,studentClass.getId()));
+            }
+        }
+        Map<String, Object> courseDetailListTree = new HashMap<String, Object>();
+        for(int i=0;i<courseDetailList.size();i++){
+            courseDetailListTree.put(courseDetailList.get(i).getCourseDay() + "-" + courseDetailList.get(i).getCourseSort()
+                    , courseDetailList.get(i));
+        }
+        return courseDetailListTree;
+    }
+
+    /*获取老师所选周课表*/
+    @RequestMapping("/teacherWeekCourse")
+    @ResponseBody
+    public Map<String, Object> selectCourseByTeacher(Long teacherId,Integer week){
+        List<Course> courseList =  courseService.selectCourseByTeacher(teacherId);//获取教师所有课程
+        List<CourseDetail> courseDetailList = new ArrayList<>();
+        for(int i=0;i<courseList.size();i++){
+            if(courseService.selectCourseByWeek(courseList.get(i),week,2,teacherId) != null){/*若是所选周则添加日程*/
+                courseDetailList.addAll(courseService.selectCourseByWeek(courseList.get(i),week,2,teacherId));
             }
         }
         Map<String, Object> courseDetailListTree = new HashMap<String, Object>();
@@ -125,6 +151,14 @@ public class CourseController {
     @ResponseBody
     public List<Course> selectCourseByDepartment(Integer departmentId){
         List<Course> courseList =  courseService.selectCourseByDepartment(departmentId);//获取学院所有课程
+        return courseList;
+    }
+
+    /*获取所有课表*/
+    @RequestMapping("/AllCourse")
+    @ResponseBody
+    public List<Course> selectAllCourse(){
+        List<Course> courseList =  courseService.selectAll();
         return courseList;
     }
 }

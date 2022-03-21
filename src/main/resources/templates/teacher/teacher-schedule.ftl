@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>学生课表</title>
+        <title>教师课表</title>
         <script src="../lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="../lib/layui/css/layui.css">
@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="../css/schedule.css">
     </head>
     <body style="background-color: #F1F1F1;">
-        <#include "../common/header-student.ftl"/>
+        <#include "../common/header-teacher.ftl"/>
 
         <div class="layui-card-body" id="timeFilter">
             <form class="layui-form" action="">
@@ -112,10 +112,10 @@
             function weekCourse(week) {
                 $.ajax({
                     type: "post",
-                    url: "/course/studentWeekCourse",
+                    url: "/course/teacherWeekCourse",
                     dataType: "json",
                     data: {
-                        studentId: 1,
+                        teacherId: 1,
                         week: week
                     },
                     success: function (data) {

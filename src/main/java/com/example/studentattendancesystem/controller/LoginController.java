@@ -35,7 +35,7 @@ public class LoginController {
     }
 
     @RequestMapping("/toMainPage")
-    public String toMainPage(Model model, HttpServletRequest request){
+    public String toMainPage(HttpServletRequest request){
         HttpSession session = request.getSession();
         Student student = (Student) session.getAttribute("student");
         if(student != null){
@@ -43,7 +43,7 @@ public class LoginController {
         }
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         if(teacher != null){
-            return "redirect:/sign/toSign";
+            return "redirect:/course/toTeacherCourse";
         }
         Admin admin = (Admin) session.getAttribute("admin");
         if(admin != null){

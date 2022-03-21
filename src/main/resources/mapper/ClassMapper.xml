@@ -83,4 +83,9 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select * from class;
   </select>
+
+  <select id="selectClassByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from class where id IN (select class_id from student where id = #{studentId});
+  </select>
+
 </mapper>
