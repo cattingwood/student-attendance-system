@@ -280,7 +280,7 @@
 
             /*编辑课程信息*/
             function editCourse(id){
-
+                alert(id);
             }
 
             /*删除课程*/

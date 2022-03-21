@@ -19,6 +19,7 @@
     <div class="layui-side-scroll" style="background-color: #1A1B20">
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
         <li class="layui-nav-item" name="toCourseManage"><a href="/course/toCourseManage">课程管理</a></li>
+        <li class="layui-nav-item" name="toCourseManage"><a href="/course/toCourseTimeManage">课表时间管理</a></li>
     </ul>
     </div>
 </div>
