@@ -91,7 +91,7 @@
                     <div class="layui-input-inline">
                         <label class="layui-form-label">专业</label>
                         <div class="layui-form layui-input-block">
-                            <select id="majorUpdate" lay-filter="majorUpdate" lay-search disabled="disabled">
+                            <select id="majorAdd" lay-filter="majorAdd" lay-search disabled="disabled">
                                 <option value='-1'>请选择</option>
                                 <#if majorList??>
                                     <#list majorList as ml>
@@ -112,6 +112,52 @@
                         </div>
                     </div>
                     <div class="layui-btn"  onclick="addCourse()">新增课程</div>
+                </form>
+            </div>
+        </div>
+
+        <div hidden id="updateCourse" lay-verify="updateCourse">
+            <div style="margin: 50px;width: 500px;">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item"> <label class="layui-form-label">课程名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="updateName" lay-verify="name" autocomplete="off" placeholder="请输入课程名" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否为公共课</label>
+                        <div class="layui-form layui-input-block">
+                            <select id="isPublicUpdate" lay-filter="isPublicUpdate">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-input-inline">
+                        <label class="layui-form-label">专业</label>
+                        <div class="layui-form layui-input-block">
+                            <select id="majorUpdate" lay-filter="majorUpdate" lay-search disabled="disabled">
+                                <option value='-1'>请选择</option>
+                                <#if majorList??>
+                                    <#list majorList as ml>
+                                        <option value="${ml.id}">${ml.name}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否为必修课</label>
+                        <div class="layui-form layui-input-block">
+                            <select id="isRequiredUpdate" lay-filter="">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-btn"  onclick="updateCourse()">更新课程</div>
                 </form>
             </div>
         </div>
@@ -188,8 +234,20 @@
                     form.on('select(classSelect)', function(data){
                         nowClass = data.value;
                     });
-                    //根据是否为公共课选择专业
+                    //根据是否为公共课选择专业  添加课程
                     form.on('select(isPublic)', function(data){
+                        var isPublic = data.value;
+                        if(isPublic == 1){
+                            $("#majorAdd").attr("disabled","disabled");
+                            form.render('select');
+                        }else{
+                            $("#majorAdd").removeAttr("disabled");
+                            form.render('select');
+                        }
+                    });
+
+                    //根据是否为公共课选择专业  更新课程
+                    form.on('select(isPublicUpdate)', function(data){
                         var isPublic = data.value;
                         if(isPublic == 1){
                             $("#majorUpdate").attr("disabled","disabled");
@@ -199,8 +257,9 @@
                             form.render('select');
                         }
                     });
+
                     //记录新增课程时所选专业
-                    form.on('select(majorUpdate)', function(data){
+                    form.on('select(majorAdd)', function(data){
                         updateMajor = data.value;
                     });
 
@@ -228,7 +287,7 @@
                 layer.open({
                     type: 1,
                     title: '新增课程',
-                    area: ['40%', '50%'],//弹框大小  屏幕宽度的80%，高度的80%；
+                    area: ['40%', '50%'],//弹框大小
                     content: $("#addCourse"),
                     // 打开弹窗的回调函数，用于回显页面数据
                     success: function () {
@@ -278,9 +337,40 @@
 
             }
 
+            /*弹出编辑课程窗口*/
+            function editCourseWindow(id){
+                var layer = layui.layer;
+                var form = layui.form;
+                layer.open({
+                    type: 1,
+                    title: '更新课程',
+                    area: ['40%', '70%'],//弹框大小
+                    content: $("#updateCourse"),
+                    // 打开弹窗的回调函数，用于回显页面数据
+                    success: function () {
+                        $.post("/course/selectCourseById", {
+                            "courseId": id
+                        }, function (res){
+                            $("#updateName").val(res.name);
+                            $("#isPublicUpdate").find("option[value="+res.isPublic+"]").attr("selected",'');
+                            if(res.isPublic){
+                                $("#majorUpdate").attr("disabled","disabled");
+                            }else{
+                                $("#majorUpdate").removeAttr("disabled");
+                                $("#majorUpdate").find("option[value="+res.marjorId+"]").attr("selected",'');
+                            }
+                            form.render();
+                        });
+                    },
+                    end: function () {
+                        $("#updateCourse").hide();
+                    }
+                })
+            }
+
             /*编辑课程信息*/
             function editCourse(id){
-
+                editCourseWindow(id);
             }
 
             /*删除课程*/

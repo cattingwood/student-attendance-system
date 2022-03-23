@@ -39,6 +39,10 @@ public class CourseService {
         return courseMapper.deleteCourseById(courseId);
     }
 
+    public Course selectCourseById(Long courseId) {
+        return courseMapper.selectCourseById(courseId);
+    }
+
     public int insertSelective(Course record) {
         return courseMapper.insertSelective(record);
     }

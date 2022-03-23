@@ -122,4 +122,15 @@
     from course WHERE id IN (select course_id from teacher_class where teacher_id = #{teacherId});
 
   </select>
+
+  <select id="selectCourseById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+
+    select
+
+    <include refid="Base_Column_List" />
+
+    from course WHERE id = #{courseId};
+
+  </select>
+
 </mapper>

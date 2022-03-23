@@ -87,6 +87,14 @@ public class CourseController {
         return result;
     }
 
+    /*删除课程*/
+    @RequestMapping("/selectCourseById")
+    @ResponseBody
+    public Course selectCourseById(Long courseId){
+        Course course =  courseService.selectCourseById(courseId);
+        return course;
+    }
+
     /*获取学生今日课表*/
     @RequestMapping("/todayCourse")
     @ResponseBody

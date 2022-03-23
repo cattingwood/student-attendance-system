@@ -13,6 +13,8 @@ public interface CourseMapper {
 
     List<Course> selectCourseByClass(Long classId);
 
+    Course selectCourseById(Long courseId);
+
     List<Course> selectCourseByMajor(Integer majorId);
 
     List<Course> selectCourseByDepartment(Integer departmentId);
