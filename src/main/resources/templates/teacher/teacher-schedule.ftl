@@ -107,6 +107,10 @@
                 })
             })
 
+            $("#searchBtn").click(function () {
+                var week = 1;
+                weekCourse(week);
+            })
 
             /*根据周数查找课程并显示*/
             function weekCourse(week) {

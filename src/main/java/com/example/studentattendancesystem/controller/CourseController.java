@@ -59,18 +59,6 @@ public class CourseController {
         return "admin/admin-course-manage";
     }
 
-    @RequestMapping("/toCourseTimeManage")
-    public String toCourseTimeManage(Model model, HttpServletRequest request){
-        List<Department> departmentList = departmentService.selectAll();//获取所有学院资料
-        List<Major> majorList = majorService.selectAll();
-        List<Class> classList = classService.selectAll();
-        model.addAttribute("departmentList", departmentList);
-        model.addAttribute("majorList", majorList);
-        model.addAttribute("classList", classList);
-        model.addAttribute("menuFlag", "toCourseManage");
-        return "admin/admin-course-time-manage";
-    }
-
     /*添加课程*/
     @RequestMapping("/addCourse")
     @ResponseBody
@@ -87,7 +75,7 @@ public class CourseController {
         return result;
     }
 
-    /*删除课程*/
+    /*选择课程*/
     @RequestMapping("/selectCourseById")
     @ResponseBody
     public Course selectCourseById(Long courseId){

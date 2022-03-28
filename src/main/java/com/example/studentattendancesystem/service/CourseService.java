@@ -53,7 +53,7 @@ public class CourseService {
     }
 
     public List<Course> selectCourseByTeacher(Long teacherId) {
-        List<Course> courseList = courseMapper.selectCourseByTeacher(teacherId);//选出学生所有课程
+        List<Course> courseList = courseMapper.selectCourseByTeacher(teacherId);//选出教师所有课程
         return courseList;
     }
 

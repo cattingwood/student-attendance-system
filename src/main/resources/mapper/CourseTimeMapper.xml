@@ -74,6 +74,21 @@
     where course_id = #{courseId}
   </select>
 
+  <select id="selectAll" resultMap="BaseResultMap">
+    SELECT DISTINCT course_id,teacher_id,class_id FROM course_time;
+  </select>
 
+  <select id="getSameCourseTime" resultMap="BaseResultMap">
+    SELECT * FROM course_time where (class_id = #{classId} or teacher_id = #{teacherId})
+             and course_day = #{day} and course_sort = #{time} and course_week = #{week};
+  </select>
+
+  <select id="getCourseTimeByAllId" resultMap="BaseResultMap">
+    SELECT * FROM course_time where class_id = #{classId} and teacher_id = #{teacherId} and course_id = #{courseId};
+  </select>
+
+  <delete id="deleteCourseTime">
+    delete from course_time where class_id = #{classId} and teacher_id = #{teacherId} and course_id = #{courseId};
+  </delete>
 
 </mapper>

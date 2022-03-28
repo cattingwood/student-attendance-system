@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.studentattendancesystem.mapper.TeacherMapper;
 import com.example.studentattendancesystem.model.Teacher;
+
+import java.util.List;
+
 @Service
 public class TeacherService{
 
@@ -44,4 +47,7 @@ public class TeacherService{
         return teacherMapper.selectByAccount(account);
     }
 
+    public List<Teacher> selectAll() {
+        return teacherMapper.selectAll();
+    }
 }

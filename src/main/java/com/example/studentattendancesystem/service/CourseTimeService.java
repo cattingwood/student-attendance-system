@@ -5,6 +5,8 @@ import javax.annotation.Resource;
 import com.example.studentattendancesystem.mapper.CourseTimeMapper;
 import com.example.studentattendancesystem.model.CourseTime;
 
+import java.util.List;
+
 @Service
 public class CourseTimeService {
 
@@ -21,5 +23,33 @@ public class CourseTimeService {
         return courseTimeMapper.insertSelective(record);
     }
 
+    public List<CourseTime> selectAll() {
+        return courseTimeMapper.selectAll();
+    }
+
+    public List<CourseTime> getCourseTimeByAllId(Long courseId,Long teacherId,Long classId) {
+        return courseTimeMapper.getCourseTimeByAllId(courseId,teacherId,classId);
+    }
+
+    /*判断是否已有排课*/
+    public boolean isCourseTimeRepeated(Long classId,Long teacherId,Integer day,Integer time,Integer week){
+        List<CourseTime> courseTimeList =
+                courseTimeMapper.getSameCourseTime(classId,teacherId,day,time,week);
+        if(courseTimeList.size()>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /*添加排课*/
+    public int addCourseTime(CourseTime courseTime){
+        return courseTimeMapper.insert(courseTime);
+    }
+
+    /*删除排课*/
+    public int deleteCourseTime(Long courseId, Long classId, Long teacherId){
+        return courseTimeMapper.deleteCourseTime(courseId,classId,teacherId);
+    }
 }
 
