@@ -6,3 +6,15 @@
     left: 220px;
     background-color: white;
 }
+
+#sign2{
+    width: 83%;
+    position: relative;
+    top:10px;
+    left: 220px;
+    background-color: white;
+}
+
+#day{
+    font-size: 1rem;
+}

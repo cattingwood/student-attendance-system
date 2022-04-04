@@ -94,8 +94,22 @@ public class CourseController {
                 courseDetailList.addAll(courseService.getTodayCourseTime(courseList.get(i)));
             }
         }
-        courseDetailList.sort(Comparator.comparing(CourseDetail::getCourseSort));//按照时间重新排序
-        return courseDetailList;
+        //courseDetailList.sort(Comparator.comparing(CourseDetail::getCourseSort));//按照时间重新排序
+        List<CourseDetail> SortCourseDetailList = new ArrayList<>();
+        for(int i=0;i<10;i++){/*重排序*/
+            boolean hasCourse = false;
+            for(int j=0;j<courseDetailList.size();j++){
+                if(courseDetailList.get(j).getCourseSort() == i+1){
+                    SortCourseDetailList.add(i,courseDetailList.get(j));
+                    hasCourse = true;
+                }
+            }
+            if(!hasCourse){/*若没有课*/
+                SortCourseDetailList.add(i,null);
+            }
+            hasCourse = false;
+        }
+        return SortCourseDetailList;
     }
 
     /*获取学生所选周课表*/

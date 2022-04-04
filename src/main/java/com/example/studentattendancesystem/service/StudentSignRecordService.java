@@ -1,9 +1,13 @@
 package com.example.studentattendancesystem.service;
 
+import com.example.studentattendancesystem.model.CourseDetail;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.studentattendancesystem.model.StudentSignRecord;
 import com.example.studentattendancesystem.mapper.StudentSignRecordMapper;
+
+import java.util.List;
+
 @Service
 public class StudentSignRecordService{
 
@@ -38,6 +42,10 @@ public class StudentSignRecordService{
     
     public int updateByPrimaryKey(StudentSignRecord record) {
         return studentSignRecordMapper.updateByPrimaryKey(record);
+    }
+
+    public List<StudentSignRecord> selectByStudentAndDay(Long studentId, int week, int day) {
+        return studentSignRecordMapper.selectByStudentAndDay(studentId,week,day);
     }
 
 }

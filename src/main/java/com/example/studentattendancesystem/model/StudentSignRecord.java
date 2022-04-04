@@ -18,7 +18,7 @@ public class StudentSignRecord {
     /**
     * 课程id
     */
-    private Integer courseId;
+    private Long courseId;
 
     /**
     * 签到时间
@@ -39,4 +39,14 @@ public class StudentSignRecord {
     * 签到日
     */
     private Integer signDay;
+
+    /**
+     * 状态
+     */
+    private Integer status;
+
+    /**
+     * 排序
+     */
+    private Integer sort;
 }

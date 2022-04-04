@@ -63,7 +63,7 @@
         <include refid="Base_Column_List" />
 
     from course WHERE id IN
-    (SELECT course_id FROM teacher_class
+    (SELECT course_id FROM course_time
         WHERE class_id
     IN (SELECT class_id FROM student WHERE id = #{studentId}));
 
@@ -75,7 +75,7 @@
 
         <include refid="Base_Column_List" />
 
-    from course WHERE id IN (SELECT course_id FROM teacher_class WHERE class_id = #{classId});
+    from course WHERE id IN (SELECT course_id FROM course_time WHERE class_id = #{classId});
 
     </select>
 
@@ -119,7 +119,7 @@
 
     <include refid="Base_Column_List" />
 
-    from course WHERE id IN (select course_id from teacher_class where teacher_id = #{teacherId});
+    from course WHERE id IN (select course_id from course_time where teacher_id = #{teacherId});
 
   </select>
 

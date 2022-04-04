@@ -103,6 +103,9 @@ public class CourseService {
         courseDetail.setCourseDay(courseTime.getCourseDay());
         courseDetail.setCourseSort(courseTime.getCourseSort());
         courseDetail.setClassId(courseTime.getClassId());
+        Teacher teacher = teacherMapper.selectByPrimaryKey(courseTime.getTeacherId());
+        courseDetail.setTeacherId(teacher.getId());
+        courseDetail.setTeacherName(teacher.getName());
         Class aClass = classMapper.selectByPrimaryKey(courseTime.getClassId());
         courseDetail.setClassName(aClass.getName());
         return courseDetail;
