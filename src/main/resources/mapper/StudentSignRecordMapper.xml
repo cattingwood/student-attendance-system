@@ -13,10 +13,11 @@
     <result column="sign_day" property="signDay" />
     <result column="status" property="status" />
     <result column="sort" property="sort" />
+    <result column="teacher_id" property="teacherId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, student_id, course_id, sign_time, `type`, sign_week, sign_day, `status`, sort
+    id, student_id, course_id, sign_time, `type`, sign_week, sign_day, `status`, sort, teacher_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -32,8 +33,8 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.StudentSignRecord" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into student_sign_record (student_id, course_id, sign_time, `type`, sign_week, sign_day, status, sort)
-    values (#{studentId}, #{courseId}, #{signTime}, #{type}, #{signWeek}, #{signDay}, #{status}, #{sort})
+    insert into student_sign_record (student_id, course_id, sign_time, `type`, sign_week, sign_day, status, sort, teacher_id)
+    values (#{studentId}, #{courseId}, #{signTime}, #{type}, #{signWeek}, #{signDay}, #{status}, #{sort}, #{teacherId})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.StudentSignRecord" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -112,7 +113,10 @@
       sign_time = #{signTime},
       `type` = #{type},
       sign_week = #{signWeek},
-      sign_day = #{signDay}
+      sign_day = #{signDay},
+    status = #{status},
+    sort = #{sort},
+    teacher_id = #{teacherId}
     where id = #{id}
   </update>
 
@@ -121,6 +125,13 @@
     <include refid="Base_Column_List" />
     from student_sign_record
     where student_id = #{studentId} and sign_week = #{week} and sign_day = #{day}
+  </select>
+
+  <select id="selectResignByTeacherId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student_sign_record
+    where teacher_id = #{teacherId} and `type` = 2
   </select>
 
 </mapper>

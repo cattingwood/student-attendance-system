@@ -23,4 +23,6 @@ public interface StudentSignRecordMapper {
     List<StudentSignRecord> selectByStudentAndDay(@Param(value="studentId")Long studentId,
                                                   @Param(value="week")int week,
                                                   @Param(value="day")int day);
+
+    List<StudentSignRecord> selectResignByTeacherId(Long teacherId);
 }

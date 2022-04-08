@@ -1,10 +1,11 @@
 package com.example.studentattendancesystem.model;
 
-import java.util.Date;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class StudentSignRecord {
+public class StudentSignRecordDetail {
     /**
     * 签到记录id
     */
@@ -16,9 +17,19 @@ public class StudentSignRecord {
     private Long studentId;
 
     /**
+     * 学生名
+     */
+    private String studentName;
+
+    /**
     * 课程id
     */
     private Long courseId;
+
+    /**
+     * 课程名
+     */
+    private String courseName;
 
     /**
     * 签到时间
@@ -54,4 +65,9 @@ public class StudentSignRecord {
      * 教师ID
      */
     private Long teacherId;
+
+    /**
+     * 教师名
+     */
+    private String teacherName;
 }

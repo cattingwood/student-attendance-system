@@ -19,6 +19,7 @@
     <div class="layui-side-scroll" style="background-color: #1A1B20">
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
         <li class="layui-nav-item" name="toTeacherCourse"><a href="/course/toTeacherCourse">课表</a></li>
+        <li class="layui-nav-item" name="toTeacherResign"><a href="/sign/toTeacherResign">补签处理</a></li>
     </ul>
     </div>
 </div>

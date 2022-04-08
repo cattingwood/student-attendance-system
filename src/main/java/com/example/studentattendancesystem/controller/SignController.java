@@ -1,10 +1,7 @@
 package com.example.studentattendancesystem.controller;
 
 import com.example.studentattendancesystem.mapper.TimeTableMapper;
-import com.example.studentattendancesystem.model.CourseDetail;
-import com.example.studentattendancesystem.model.Student;
-import com.example.studentattendancesystem.model.StudentSignRecord;
-import com.example.studentattendancesystem.model.TimeTable;
+import com.example.studentattendancesystem.model.*;
 import com.example.studentattendancesystem.service.StudentSignRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +29,7 @@ public class SignController {
     @Resource
     private TimeTableMapper timeTableMapper;
 
+    /*前往学生签到页面*/
     @RequestMapping("/toSign")
     public String toLogin(Model model,HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -48,32 +46,36 @@ public class SignController {
         int weekCount = dateDiff/7 +1;
         int dayCount = dateDiff%7;
         List<StudentSignRecord> signList = studentSignRecordService.selectByStudentAndDay(student.getId(),weekCount,dayCount);
-        int[] sort = new int[10];
+        int[] status = new int[10];
         for (int i=0;i<10;i++){
-            sort[i] = 0;
+            status[i] = 0;
             for (int j=0;j<signList.size();j++){
                 if(signList.get(j).getSort() == i+1 && signList.get(j).getType() == 1){/*签到成功*/
-                    sort[i] = 1;
+                    status[i] = 1;
                 }else if(signList.get(j).getSort() == i+1
                         && signList.get(j).getType() == 2 && signList.get(j).getStatus() == 2){/*补签申请中*/
-                    sort[i] = 2;
+                    status[i] = 2;
                 }else if(signList.get(j).getSort() == i+1
                         && signList.get(j).getType() == 2 && signList.get(j).getStatus() == 1){/*补签申请成功*/
-                    sort[i] = 3;
+                    status[i] = 3;
+                }else if(signList.get(j).getSort() == i+1
+                        && signList.get(j).getType() == 2 && signList.get(j).getStatus() == -1){/*补签申请失败*/
+                    status[i] = -1;
                 }
             }
         }
         model.addAttribute("courseDetailList", courseDetailList);
-        model.addAttribute("sort", sort);
+        model.addAttribute("status", status);
         model.addAttribute("menuFlag", "toSign");
         model.addAttribute("week", weekCount);
         model.addAttribute("day", dayCount);
         return "student/student-sign";
     }
 
+    /*学生签到*/
     @RequestMapping("/studentSign")
     @ResponseBody
-    public int studentSign(Long courseId,Date signTime,int signWeek,int signDay,int sort,HttpServletRequest request){
+    public int studentSign(Long courseId,Long teacherId,Date signTime,int signWeek,int signDay,int sort,HttpServletRequest request){
         try{
             StudentSignRecord record = new StudentSignRecord();
             HttpSession session = request.getSession();
@@ -86,6 +88,7 @@ public class SignController {
             record.setSignDay(signDay);
             record.setStatus(1);
             record.setSort(sort);
+            record.setTeacherId(teacherId);
             studentSignRecordService.insert(record);
         }catch (Exception e){
             System.out.println("签到失败");
@@ -93,9 +96,10 @@ public class SignController {
         return 1;
     }
 
+    /*学生补签*/
     @RequestMapping("/studentResign")
     @ResponseBody
-    public int studentResign(Long courseId,Date signTime,int signWeek,int signDay,int sort,HttpServletRequest request){
+    public int studentResign(Long courseId,Long teacherId,Date signTime,int signWeek,int signDay,int sort,HttpServletRequest request){
         try{
             StudentSignRecord record = new StudentSignRecord();
             HttpSession session = request.getSession();
@@ -108,9 +112,45 @@ public class SignController {
             record.setSignDay(signDay);
             record.setStatus(2);
             record.setSort(sort);
+            record.setTeacherId(teacherId);
             studentSignRecordService.insert(record);
         }catch (Exception e){
             System.out.println("补签申请失败");
+        }
+        return 1;
+    }
+
+    /*学生补签处理页面*/
+    @RequestMapping("/toTeacherResign")
+    public String toTeacherResign(Model model,HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Teacher teacher = (Teacher) session.getAttribute("teacher");
+            List<StudentSignRecordDetail> studentResignDetailRecord = studentSignRecordService.selectResignDetailByTeacherId(teacher.getId());
+            model.addAttribute("resignRecord",studentResignDetailRecord);
+            model.addAttribute("menuFlag","toTeacherResign");
+        }catch (Exception e){
+            System.out.println("教师补签查寻失败");
+        }
+        return "teacher/teacher-sign";
+    }
+
+    /*补签处理*/
+    @RequestMapping("/ResignDeal")
+    @ResponseBody
+    public int ResignDeal(Long signId,int status,HttpServletRequest request){
+        try{
+            StudentSignRecord record = studentSignRecordService.selectByPrimaryKey(signId);
+            if(status == 1){/*同意补签*/
+                record.setStatus(1);
+                studentSignRecordService.updateByPrimaryKey(record);
+            }else if(status == 2){/*拒绝补签*/
+                record.setStatus(-1);
+                studentSignRecordService.updateByPrimaryKey(record);
+            }
+        }catch (Exception e){
+            System.out.println("补签处理失败");
+            return 0;
         }
         return 1;
     }

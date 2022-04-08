@@ -108,7 +108,7 @@
             })
 
             $("#searchBtn").click(function () {
-                var week = 1;
+                var week = $("#week").val();
                 weekCourse(week);
             })
 

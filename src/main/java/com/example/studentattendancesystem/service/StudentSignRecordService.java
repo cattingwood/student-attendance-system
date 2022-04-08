@@ -1,16 +1,26 @@
 package com.example.studentattendancesystem.service;
 
-import com.example.studentattendancesystem.model.CourseDetail;
+import com.example.studentattendancesystem.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import com.example.studentattendancesystem.model.StudentSignRecord;
+
 import com.example.studentattendancesystem.mapper.StudentSignRecordMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class StudentSignRecordService{
 
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private TeacherService teacherService;
     @Resource
     private StudentSignRecordMapper studentSignRecordMapper;
 
@@ -46,6 +56,37 @@ public class StudentSignRecordService{
 
     public List<StudentSignRecord> selectByStudentAndDay(Long studentId, int week, int day) {
         return studentSignRecordMapper.selectByStudentAndDay(studentId,week,day);
+    }
+
+    public List<StudentSignRecordDetail> selectResignDetailByTeacherId(Long teacherId) {
+        List<StudentSignRecord> records = studentSignRecordMapper.selectResignByTeacherId(teacherId);
+        List<StudentSignRecordDetail> recordDetails = new ArrayList<>();
+        for (int i=0;i<records.size();i++){
+            recordDetails.add(getSignRecordDetail(records.get(i)));
+        }
+        return recordDetails;
+    }
+
+    public StudentSignRecordDetail getSignRecordDetail(StudentSignRecord record){
+        StudentSignRecordDetail recordDetail = new StudentSignRecordDetail();
+        recordDetail.setId(record.getId());
+        Student student = studentService.selectByPrimaryKey(record.getStudentId());
+        recordDetail.setStudentId(student.getId());
+        recordDetail.setStudentName(student.getName());
+        Course course = courseService.selectCourseById(record.getCourseId());
+        recordDetail.setCourseId(course.getId());
+        recordDetail.setCourseName(course.getName());
+        recordDetail.setSignTime(record.getSignTime());
+        recordDetail.setType(record.getType());
+        recordDetail.setSignWeek(record.getSignWeek());
+        recordDetail.setSignDay(record.getSignDay());
+        recordDetail.setStatus(record.getStatus());
+        recordDetail.setSort(record.getSort());
+        Teacher teacher = teacherService.selectByPrimaryKey(record.getTeacherId());
+        recordDetail.setTeacherId(teacher.getId());
+        recordDetail.setTeacherName(teacher.getName());
+
+        return  recordDetail;
     }
 
 }

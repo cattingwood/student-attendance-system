@@ -20,7 +20,7 @@
             </form>
             <div hidden>
                 <#list  0..9 as i>
-                    <div id="sort${i}">${sort[i]}</div>
+                    <div id="status${i}">${status[i]}</div>
                 </#list>
             </div>
         </div>
@@ -44,13 +44,6 @@
                     </thead>
                     <tbody>
                     <#if (courseDetailList)?? &&((courseDetailList)?size>0)>
-                        <#--<#list courseDetailList as rl>
-                            <tr>
-                                <td>${rl.courseSort}</td>
-                                <td>${rl.name}</td>
-                                <td>${rl.teacherName}</td>
-                            </tr>
-                        </#list>-->
                         <#list 0..9 as i>
                             <#if (courseDetailList[i])??>
                                 <tr courseId="">
@@ -59,6 +52,7 @@
                                     <td>${courseDetailList[i].teacherName!''}</td>
                                     <td id="course${i+1}operate"
                                         courseId="${courseDetailList[i].id!''}"
+                                        teacherId="${courseDetailList[i].teacherId!''}"
                                         sort="${courseDetailList[i].courseSort!''}"></td>
                                 </tr>
                             <#else>
@@ -108,15 +102,18 @@
                 var opHTML = "";
                 for(var i=0;i<10;i++){
                     opHTML = "";
-                    if($("#sort" + i).html() == "1"){
+                    if($("#status" + i).html() == "1"){
                         opHTML = "<button class='layui-btn layui-btn-sm layui-btn-normal' disabled" +
                             " >已签到</button>";
-                    }else if($("#sort" + i).html() == "2") {
+                    }else if($("#status" + i).html() == "2") {
                         opHTML = "<button class='layui-btn layui-btn-sm layui-btn-normal' disabled" +
                             " >已申请补签</button>";
-                    }else if($("#sort" + i).html() == "3"){
+                    }else if($("#status" + i).html() == "3"){
                             opHTML = "<button class='layui-btn layui-btn-sm layui-btn-normal' disabled" +
                                 " >已补签</button>";
+                    }else if($("#status" + i).html() == "-1"){
+                        opHTML = "<button class='layui-btn layui-btn-sm layui-btn-normal' disabled" +
+                            " >补签失败</button>";
                     }else if(!timeCompare(time,daySchedule[i])) {/*若时间小于第I节课*/
                         opHTML = "<button class='layui-btn layui-btn-sm layui-btn-normal'" +
                             " onclick=''>未开始</button>";
@@ -150,6 +147,7 @@
             /*签到*/
             function sign(i){
                 var courseId = $('#course' + i + 'operate').attr("courseId");
+                var teacherId = $('#course' + i + 'operate').attr("teacherId");
                 var sort = $('#course' + i + 'operate').attr("sort");
                 var signTime = new Date();
                 var signWeek = $("#day").attr("week");
@@ -159,6 +157,7 @@
                     url:"/sign/studentSign",
                     data:{
                         "courseId": courseId,
+                        "teacherId": teacherId,
                         "signTime": signTime,
                         "signWeek": signWeek,
                         "signDay": signDay,
@@ -177,6 +176,7 @@
             /*补签*/
             function resign(i){
                 var courseId = $('#course' + i + 'operate').attr("courseId");
+                var teacherId = $('#course' + i + 'operate').attr("teacherId");
                 var sort = $('#course' + i + 'operate').attr("sort");
                 var signTime = new Date();
                 var signWeek = $("#day").attr("week");
@@ -186,6 +186,7 @@
                     url:"/sign/studentResign",
                     data:{
                         "courseId": courseId,
+                        "teacherId": teacherId,
                         "signTime": signTime,
                         "signWeek": signWeek,
                         "signDay": signDay,
