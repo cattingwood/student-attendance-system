@@ -2,6 +2,7 @@ package com.example.studentattendancesystem.controller;
 
 import com.example.studentattendancesystem.mapper.TimeTableMapper;
 import com.example.studentattendancesystem.model.*;
+import com.example.studentattendancesystem.service.CourseService;
 import com.example.studentattendancesystem.service.StudentSignRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/sign")
 @Controller
@@ -25,6 +27,9 @@ public class SignController {
 
     @Autowired
     StudentSignRecordService studentSignRecordService;
+
+    @Autowired
+    CourseService courseService;
 
     @Resource
     private TimeTableMapper timeTableMapper;
@@ -70,6 +75,89 @@ public class SignController {
         model.addAttribute("week", weekCount);
         model.addAttribute("day", dayCount);
         return "student/student-sign";
+    }
+
+    /*前往学生签到页面*/
+    @RequestMapping("/toSignPhone")
+    public String toSignPhone(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        if(student == null){
+            return "login";
+        }
+        List<CourseDetail> courseDetailList =
+                courseController.selectTodayCourseByStudentId(student.getId());//获取学生当日课程
+        Date today = new Date();
+        TimeTable timeTable = timeTableMapper.selectOne();
+        Date beginDate = timeTable.getTermBeginDay();//获取开学日
+        int dateDiff = dataDiff(beginDate,today);
+        int weekCount = dateDiff/7 +1;
+        int dayCount = dateDiff%7;
+        List<StudentSignRecord> signList = studentSignRecordService.selectByStudentAndDay(student.getId(),weekCount,dayCount);
+        int[] status = new int[10];
+        for (int i=0;i<10;i++){
+            status[i] = 0;
+            for (int j=0;j<signList.size();j++){
+                if(signList.get(j).getSort() == i+1 && signList.get(j).getType() == 1){/*签到成功*/
+                    status[i] = 1;
+                }else if(signList.get(j).getSort() == i+1
+                        && signList.get(j).getType() == 2 && signList.get(j).getStatus() == 2){/*补签申请中*/
+                    status[i] = 2;
+                }else if(signList.get(j).getSort() == i+1
+                        && signList.get(j).getType() == 2 && signList.get(j).getStatus() == 1){/*补签申请成功*/
+                    status[i] = 3;
+                }else if(signList.get(j).getSort() == i+1
+                        && signList.get(j).getType() == 2 && signList.get(j).getStatus() == -1){/*补签申请失败*/
+                    status[i] = -1;
+                }
+            }
+        }
+        model.addAttribute("courseDetailList", courseDetailList);
+        model.addAttribute("status", status);
+        model.addAttribute("menuFlag", "toSign");
+        model.addAttribute("week", weekCount);
+        model.addAttribute("day", dayCount);
+        return "student/student-sign-phone";
+    }
+
+    /*前往学生考勤统计页面*/
+    @RequestMapping("/toSignData")
+    public String toSignData(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        if(student == null){
+            return "login";
+        }
+        List<Course> courseList = courseService.selectStudentCourseById(student.getId());
+        model.addAttribute("menuFlag", "toSignData");
+        model.addAttribute("courseList", courseList);
+        return "student/student-sign-data";
+    }
+
+    /*学生签到统计*/
+    @RequestMapping("/SignData")
+    @ResponseBody
+    public Map<String, Object> SignData(HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        Map<String,Object> map2 = studentSignRecordService.selectSignDataByStudentId(student.getId());
+        map.put("sign",map2.get("sign"));
+        map.put("resign",map2.get("resign"));
+        return map;
+    }
+
+    /*学生签到统计*/
+    @RequestMapping("/getSignDataByCourse")
+    @ResponseBody
+    public Map<String, Object> getSignDataByCourse(Long courseId,HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        Map<String,Object> map2 = studentSignRecordService.selectSignDataByCourseAndStudent(courseId,student.getId());
+        map.put("sign",map2.get("sign"));
+        map.put("resign",map2.get("resign"));
+        return map;
     }
 
     /*学生签到*/

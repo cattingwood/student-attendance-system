@@ -3,24 +3,23 @@
 <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
 
 
-<div class="layui-header">
+<div class="layui-header" style="width: 70%">
     <ul class="layui-nav header" style="background-color: #1A1B20;pointer-events: none">
         <li class="layui-nav-item">
-            <span style="font-size: 23px">
+            <span style="font-size: 2.3rem;">
                 学生考勤系统
             </span>
-            <span style="font-size: 13px">-学生版</span>
+            <span style="font-size: 1.3rem;">-学生版</span>
         </li>
     </ul>
 </div>
 
 
-<div class="layui-side" style="top: 60px">
-    <div class="layui-side-scroll" style="background-color: #1A1B20">
-    <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
-        <li class="layui-nav-item layui-this" name="toSign"><a href="/sign/toSign">考勤</a></li>
-        <li class="layui-nav-item" name="toSchedule"><a href="/course/toTimeTable">课表</a></li>
-        <li class="layui-nav-item" name="toSignData"><a href="/sign/toSignData">考勤统计</a></li>
+<div class="layui-header" style="width: 70%">
+    <ul class="layui-nav header" style="background-color: #1A1B20">
+        <li class="layui-nav-item layui-this" name="toSign"><a href="/sign/toSign" style="font-size: 1.7rem;">考勤</a></li>
+        <li class="layui-nav-item" name="toSchedule"><a href="/course/toTimeTable" style="font-size: 1.7rem;">课表</a></li>
+        <li class="layui-nav-item" name="toSignData"><a href="/sign/toSignData" style="font-size: 1.7rem;">考勤统计</a></li>
     </ul>
     </div>
 </div>

@@ -52,6 +52,20 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping("/toMainPagePhone")
+    public String toMainPagePhone(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        if(student != null){
+            return "redirect:/sign/toSignPhone";
+        }
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        if(teacher != null){
+            return "redirect:/course/toTeacherCourse";
+        }
+        return "login";
+    }
+
     @RequestMapping("/loginPhone")
     public String loginPhone(){
         return "login-phone";

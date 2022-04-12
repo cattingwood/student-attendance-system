@@ -8,7 +8,9 @@ import javax.annotation.Resource;
 import com.example.studentattendancesystem.mapper.StudentSignRecordMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentSignRecordService{
@@ -65,6 +67,24 @@ public class StudentSignRecordService{
             recordDetails.add(getSignRecordDetail(records.get(i)));
         }
         return recordDetails;
+    }
+
+    public Map<String,Object> selectSignDataByStudentId(Long studentId) {
+        Map<String,Object> map = new HashMap<>();
+        int signCount = studentSignRecordMapper.selectSignCountByStudentId(studentId);
+        int resignCount = studentSignRecordMapper.selectResignCountByStudentId(studentId);
+        map.put("sign",signCount);
+        map.put("resign",resignCount);
+        return map;
+    }
+
+    public Map<String,Object> selectSignDataByCourseAndStudent(Long courseId,Long studentId) {
+        Map<String,Object> map = new HashMap<>();
+        int signCount = studentSignRecordMapper.selectSignCountByCourseAndStudent(courseId,studentId);
+        int resignCount = studentSignRecordMapper.selectResignCountByCourseAndStudent(courseId,studentId);
+        map.put("sign",signCount);
+        map.put("resign",resignCount);
+        return map;
     }
 
     public StudentSignRecordDetail getSignRecordDetail(StudentSignRecord record){

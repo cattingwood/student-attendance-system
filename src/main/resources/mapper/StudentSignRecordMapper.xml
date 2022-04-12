@@ -134,4 +134,32 @@
     where teacher_id = #{teacherId} and `type` = 2
   </select>
 
+  <select id="selectSignCountByStudentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id = #{studentId} and `type` = 1
+  </select>
+
+  <select id="selectResignCountByStudentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id = #{studentId} and `type` = 2
+  </select>
+
+  <select id="selectSignCountByCourseAndStudent" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id = #{studentId} and course_id = #{courseId} and `type` = 1
+  </select>
+
+  <select id="selectResignCountByCourseAndStudent" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id = #{studentId} and course_id = #{courseId} and `type` = 2
+  </select>
+
 </mapper>

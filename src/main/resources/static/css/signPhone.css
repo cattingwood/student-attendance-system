@@ -1,0 +1,36 @@
+#sign{
+    height: 3rem;
+    width: 83%;
+    position: relative;
+    top:10px;
+    background-color: white;
+}
+
+#sign2{
+    width: 83%;
+    position: relative;
+    top:10px;
+    background-color: white;
+}
+
+#day{
+    font-size: 1.5rem;
+}
+
+.layui-table td{
+    height: 1.5rem !important;
+    line-height: 1.5rem !important;
+    font-size: 1.5rem !important;
+}
+
+.layui-table th{
+    height: 1.5rem !important;
+    line-height: 1.5rem !important;
+    font-size: 1.5rem !important;
+}
+
+button{
+    height: 2rem !important;
+    line-height: 1.5rem !important;
+    font-size: 1.5rem !important;
+}

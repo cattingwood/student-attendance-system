@@ -183,4 +183,6 @@ public class CourseController {
         List<Course> courseList =  courseService.selectAll();
         return courseList;
     }
+
+
 }
