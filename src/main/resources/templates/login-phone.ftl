@@ -15,8 +15,8 @@
     <div class="message">学生考勤系统登录</div>
 
     <form method="post" class="layui-form">
-        <input name="account" lay-filter="account" placeholder="账号" type="number" lay-verify="required|number" class="layui-input">
-        <input name="password" lay-filter="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+        <input name="account" lay-filter="account" placeholder="账号" type="number" class="layui-input">
+        <input name="password" lay-filter="password"  placeholder="密码" type="password" class="layui-input">
         <div class="layui-form-item" id="loginType">
             <div class="layui-input-block">
                 登录方式：
@@ -37,7 +37,7 @@
                     if (res) {
                         window.location.href="/login/toMainPagePhone";
                     } else {
-                        layer.alert("账号或密码错误！");
+                        layer.msg("账号或密码错误！",{offset:[430,200]});
                     }
                 });
             })

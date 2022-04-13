@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=0.7,user-scalable=no"/>
-        <title>学生课表</title>
+        <title>教师课表</title>
         <script src="../lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="../lib/layui/css/layui.css">
@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="../css/schedulePhone.css">
     </head>
     <body style="background-color: #F1F1F1;">
-        <#include "../common/header-student-phone.ftl"/>
+        <#include "../common/header-teacher-phone.ftl"/>
 
         <div class="layui-card-body" id="timeFilter">
             <form class="layui-form" action="">
@@ -28,7 +28,7 @@
 
         <div class="layui-card-body schedule">
 
-            <div class="table layui-col-md12 sort">
+            <div class="table layui-col-md2 sort">
                 <div class="layui-row grid">
                     <div class="layui-col-md12">
                         <div class="grid2 layui-bg-green">
@@ -111,15 +111,19 @@
                 })
             })
 
+            $("#searchBtn").click(function () {
+                var week = $("#week").val();
+                weekCourse(week);
+            })
 
             /*根据周数查找课程并显示*/
             function weekCourse(week) {
                 $.ajax({
                     type: "post",
-                    url: "/course/studentWeekCourse",
+                    url: "/course/teacherWeekCourse",
                     dataType: "json",
                     data: {
-                        studentId: 1,
+                        teacherId: 1,
                         week: week
                     },
                     success: function (data) {

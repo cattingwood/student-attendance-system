@@ -61,7 +61,7 @@ public class LoginController {
         }
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         if(teacher != null){
-            return "redirect:/course/toTeacherCourse";
+            return "redirect:/course/toTeacherCoursePhone";
         }
         return "login";
     }

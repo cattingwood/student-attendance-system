@@ -2,7 +2,6 @@
 <link rel="stylesheet" href="../css/common.css">
 <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
 
-
 <div class="layui-header">
     <ul class="layui-nav header" style="background-color: #1A1B20;pointer-events: none">
         <li class="layui-nav-item">
@@ -18,6 +17,7 @@
 <div class="layui-side" style="top: 60px">
     <div class="layui-side-scroll" style="background-color: #1A1B20">
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
+        <li class="layui-nav-item" name="toTeacherManage"><a href="/teacher/toTeacherManage">教师管理</a></li>
         <li class="layui-nav-item" name="toCourseManage"><a href="/course/toCourseManage">课程管理</a></li>
         <li class="layui-nav-item" name="toCourseTimeManage"><a href="/courseTime/toCourseTimeManage">课表时间管理</a></li>
     </ul>

@@ -1,13 +1,15 @@
 .schedule{
     height: 30rem;
-    width: 40%;
+    width: 52%;
     position: relative;
     left: 10px;
     top: 30px;
     background-color: white;
 }
 
-.schedule
+.sort{
+    width: 3rem;
+}
 
 #filter{
     height: 2.2rem;
@@ -17,15 +19,29 @@
 }
 
 #timeFilter{
-    height: 3rem;
+    height: 4rem;
     width: 52%;
     position: relative;
     top:10px;
     left: 10px;
     background-color: white;
+    font-size: 1.5rem;
 }
 
 #timeFilter input{
     display: inline-block;
-    width: 6rem;
+    height: 4rem;
+    width: 9rem;
+    font-size: 1.5rem;
+}
+
+#searchBtn{
+    width: 7rem;
+    height: 4rem;
+    font-size: 1.9rem;
+    line-height: 3.7rem;
+}
+
+#timeTable{
+    width: 15rem;
 }

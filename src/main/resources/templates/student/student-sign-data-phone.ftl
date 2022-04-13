@@ -2,16 +2,17 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=0.7,user-scalable=no"/>
         <title>学生签到统计</title>
         <script src="../lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
         <script type="text/javascript" src="../js/echarts.js"></script>
         <link rel="stylesheet" href="../lib/layui/css/layui.css">
         <link rel="stylesheet" href="../css/common.css">
-        <link rel="stylesheet" href="../css/signData.css">
+        <link rel="stylesheet" href="../css/signDataPhone.css">
     </head>
     <body style="background-color: #F1F1F1;">
-        <#include "../common/header-student.ftl"/>
+        <#include "../common/header-student-phone.ftl"/>
 
         <div class="layui-card-body" id="timeFilter">
             <form class="layui-form" action="">
@@ -49,6 +50,11 @@
         </div>
 
         <script>
+            window.onload = function () {
+                var mo=function(e){e.preventDefault();};
+                document.body.style.overflow='hidden';
+                document.addEventListener("touchmove",mo,false);
+            }
             var nowCourse = -1;/*当前所选学院*/
 
             layui.use(['form'], function() {
@@ -149,6 +155,7 @@
                     }
                 })
             }
+
 
         </script>
     </body>

@@ -1,16 +1,21 @@
 #sign{
     height: 3rem;
-    width: 83%;
+    width: 52%;
     position: relative;
     top:10px;
+    left: 10px;
     background-color: white;
+    font-size: 1.8rem;
+    line-height: 4rem;
 }
 
 #sign2{
-    width: 83%;
+    width: 52%;
     position: relative;
     top:10px;
+    left: 10px;
     background-color: white;
+    font-size: 1.5rem;
 }
 
 #day{

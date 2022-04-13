@@ -20,3 +20,17 @@
 .layui-card-body{
     background-color: white;
 }
+
+.toEvaluate{
+    position: absolute;
+    width: 1.25rem;
+    height: 1.1rem;
+    text-align: center;
+    right: .4rem;
+    color: #FFB028;
+    z-index: 99;
+    /*bottom: calc(7.9rem + env(safe-area-inset-bottom));*/
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}

@@ -1,0 +1,21 @@
+.signData{
+    height: 30rem;
+    width: 52%;
+    position: relative;
+    left: 10px;
+    top: 30px;
+    background-color: white;
+}
+#timeFilter{
+    height: 9rem;
+    width: 52%;
+    position: relative;
+    top:10px;
+    left:10px;
+    background-color: white;
+}
+
+#timeFilter input{
+    display: inline-block;
+    width: 6rem;
+}

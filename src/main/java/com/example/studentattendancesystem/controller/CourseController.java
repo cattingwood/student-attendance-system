@@ -43,7 +43,7 @@ public class CourseController {
 
     @RequestMapping("/toTimeTablePhone")
     public String toTimeTablePhone(Model model, HttpServletRequest request){
-        model.addAttribute("menuFlag", "toSchedule");
+        model.addAttribute("menuFlag", "toSchedulePhone");
         return "student/student-schedule-phone";
     }
 
@@ -51,6 +51,12 @@ public class CourseController {
     public String toTeacherCourse(Model model, HttpServletRequest request){
         model.addAttribute("menuFlag", "toTeacherCourse");
         return "teacher/teacher-schedule";
+    }
+
+    @RequestMapping("/toTeacherCoursePhone")
+    public String toTeacherCoursePhone(Model model, HttpServletRequest request){
+        model.addAttribute("menuFlag", "toTeacherCoursePhone");
+        return "teacher/teacher-schedule-phone";
     }
 
     @RequestMapping("/toCourseManage")

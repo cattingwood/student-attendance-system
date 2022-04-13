@@ -114,7 +114,7 @@ public class SignController {
         }
         model.addAttribute("courseDetailList", courseDetailList);
         model.addAttribute("status", status);
-        model.addAttribute("menuFlag", "toSign");
+        model.addAttribute("menuFlag", "toSignPhone");
         model.addAttribute("week", weekCount);
         model.addAttribute("day", dayCount);
         return "student/student-sign-phone";
@@ -132,6 +132,20 @@ public class SignController {
         model.addAttribute("menuFlag", "toSignData");
         model.addAttribute("courseList", courseList);
         return "student/student-sign-data";
+    }
+
+    /*前往学生考勤统计页面*/
+    @RequestMapping("/toSignDataPhone")
+    public String toSignDataPhone(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        if(student == null){
+            return "login";
+        }
+        List<Course> courseList = courseService.selectStudentCourseById(student.getId());
+        model.addAttribute("menuFlag", "toSignDataPhone");
+        model.addAttribute("courseList", courseList);
+        return "student/student-sign-data-phone";
     }
 
     /*学生签到统计*/
@@ -221,6 +235,21 @@ public class SignController {
             System.out.println("教师补签查寻失败");
         }
         return "teacher/teacher-sign";
+    }
+
+    /*学生补签处理页面*/
+    @RequestMapping("/toTeacherResignPhone")
+    public String toTeacherResignPhone(Model model,HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Teacher teacher = (Teacher) session.getAttribute("teacher");
+            List<StudentSignRecordDetail> studentResignDetailRecord = studentSignRecordService.selectResignDetailByTeacherId(teacher.getId());
+            model.addAttribute("resignRecord",studentResignDetailRecord);
+            model.addAttribute("menuFlag","toTeacherResignPhone");
+        }catch (Exception e){
+            System.out.println("教师补签查寻失败");
+        }
+        return "teacher/teacher-sign-phone";
     }
 
     /*补签处理*/

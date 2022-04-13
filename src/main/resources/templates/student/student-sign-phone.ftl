@@ -171,7 +171,7 @@
                     success:function (res) {
                         if(res == 1){
                             var layer = layui.layer;
-                            layer.alert("签到成功！");
+                            layer.msg("签到成功！",{offset:[10rem,10rem]});
                         }
                     }
                 })
