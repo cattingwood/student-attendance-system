@@ -1,0 +1,31 @@
+.schedule{
+    height: 30rem;
+    width: 40%;
+    position: relative;
+    left: 10px;
+    top: 30px;
+    background-color: white;
+}
+
+.schedule
+
+#filter{
+    height: 2.2rem;
+    position: relative;
+    left: 10px;
+    top: 20px;
+}
+
+#timeFilter{
+    height: 3rem;
+    width: 52%;
+    position: relative;
+    top:10px;
+    left: 10px;
+    background-color: white;
+}
+
+#timeFilter input{
+    display: inline-block;
+    width: 6rem;
+}
