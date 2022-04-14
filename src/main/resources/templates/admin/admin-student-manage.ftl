@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>教师管理</title>
+        <title>学生管理</title>
         <script src="../lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="../lib/layui/css/layui.css">
@@ -46,8 +46,8 @@
                         </select>
                     </div>
                 </div>
-                <button class="layui-btn js-search" onclick="searchTeacher()"><i class="layui-icon">&#xe615;</i></button>
-                <button class="layui-btn" onclick="addCourseWindow()">新增教师</button>
+                <button class="layui-btn js-search" onclick="searchStudent()"><i class="layui-icon">&#xe615;</i></button>
+                <button class="layui-btn" onclick="addCourseWindow()">新增学生</button>
             </div>
         </div>
 
@@ -111,7 +111,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="layui-btn"  onclick="addCourse()">新增课程</div>
+                    <div class="layui-btn"  onclick="addStudent()">新增学生</div>
                 </form>
             </div>
         </div>
@@ -263,7 +263,7 @@
 
 
             /*根据下拉框值查找课程*/
-            function searchTeacher() {
+            function searchStudent() {
                 if(nowClass != -1){
                     classCourse(nowClass);
                 }else if(nowMajor != -1){
@@ -271,7 +271,7 @@
                 }else if(nowMajor != -1){
                     departmentCourse(nowDepartment);
                 }else{
-                    allTeacher();
+                    allStudent();
                 }
             }
 
@@ -293,7 +293,7 @@
             }
 
             /*添加课程*/
-            function addCourse(){
+            function addStudent(){
                 var name = parent.$('#name').val();
                 if (name == '') {
                     layer.alert("请输入课程名称! ");
@@ -560,13 +560,13 @@
             }
 
             /*查找所有教师并显示*/
-            function allTeacher() {
+            function allStudent() {
                 layui.use('table', function(){
                     table = layui.table;
                     table.render({
                         elem: '#teacherTable'
                         ,height: 312
-                        ,url: '/teacher/allTeacher' //数据接口
+                        ,url: '/student/allStudent' //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
                             return {
                                 "code": 0, //解析接口状态
@@ -578,9 +578,15 @@
                         ,page: true //开启分页
                         ,cols: [[ //表头
                             {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-                            ,{field: 'name', title: '教师名', width:200}
-                            ,{field: 'account', title: '账号', width:200}
-                            , {field: '',width: 250, title: '操作',
+                            ,{field: 'name', title: '学生名', width:100}
+                            ,{field: 'account', title: '账号', width:120}
+                            ,{field: 'departmentId', title: '学院ID', width:90}
+                            ,{field: 'departmentName', title: '学院名', width:120}
+                            ,{field: 'classId', title: '所班级ID', width:90}
+                            ,{field: 'className', title: '班级名', width:150}
+                            ,{field: 'period', title: '届数', width:70}
+                            ,{field: 'major', title: '专业', width:200}
+                            , {field: '',width: 200, title: '操作',
                                 templet: function (res) {
                                     var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" onclick=\"editTeacher('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
                                     ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\"  onclick=\"deleteTeacher('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";

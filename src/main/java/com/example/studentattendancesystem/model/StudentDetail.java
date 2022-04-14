@@ -3,7 +3,7 @@ package com.example.studentattendancesystem.model;
 import lombok.Data;
 
 @Data
-public class Student {
+public class StudentDetail {
     /**
      * id
      */
@@ -30,9 +30,19 @@ public class Student {
     private Integer departmentId;
 
     /**
+     * 学院名称
+     */
+    private String departmentName;
+
+    /**
      * 班级ID
      */
     private Long classId;
+
+    /**
+     * 班级名称
+     */
+    private String className;
 
     /**
      * 第几届学生

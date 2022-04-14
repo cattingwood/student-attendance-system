@@ -133,4 +133,10 @@
   where account = #{account}
 </select>
 
+  <select id="selectAll" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from student
+</select>
+
 </mapper>

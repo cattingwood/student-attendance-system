@@ -51,6 +51,12 @@
       <if test="name != null">
         `name` = #{name},
       </if>
+      <if test="account != null">
+        `account` = #{account},
+      </if>
+      <if test="password != null">
+        `password` = #{password},
+      </if>
     </set>
     where id = #{id}
   </update>

@@ -5,6 +5,8 @@ import javax.annotation.Resource;
 import com.example.studentattendancesystem.model.Student;
 import com.example.studentattendancesystem.mapper.StudentMapper;
 
+import java.util.List;
+
 @Service
 public class StudentService {
 
@@ -45,6 +47,9 @@ public class StudentService {
         return studentMapper.updateByPrimaryKey(record);
     }
 
+    public List<Student> selectAll(){
+        return  studentMapper.selectAll();
+    }
 }
 
 
