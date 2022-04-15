@@ -134,6 +134,13 @@ public class SignController {
         return "student/student-sign-data";
     }
 
+    /*前往管理员考勤统计页面*/
+    @RequestMapping("/toAllSignData")
+    public String toAllSignData(Model model,HttpServletRequest request){
+        model.addAttribute("menuFlag", "toAllSignData");
+        return "admin/admin-sign-data";
+    }
+
     /*前往学生考勤统计页面*/
     @RequestMapping("/toSignDataPhone")
     public String toSignDataPhone(Model model,HttpServletRequest request){
