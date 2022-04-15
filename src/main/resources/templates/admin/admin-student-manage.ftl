@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <button class="layui-btn js-search" onclick="searchStudent()"><i class="layui-icon">&#xe615;</i></button>
-                <button class="layui-btn" onclick="addCourseWindow()">新增学生</button>
+                <button class="layui-btn" onclick="addStudentWindow()">新增学生</button>
             </div>
         </div>
 
@@ -70,87 +70,94 @@
             <div class="table" id="teacherTable"></div>
         </div>
 
-        <div hidden id="addCourse">
+        <div hidden id="addStudent">
             <div style="margin: 50px;width: 500px;">
                 <form class="layui-form" action="">
-                    <div class="layui-form-item"> <label class="layui-form-label">课程名</label>
+                    <div class="layui-form-item"> <label class="layui-form-label">学生名</label>
                         <div class="layui-input-block">
-                            <input type="text" id="name" lay-verify="title" autocomplete="off" placeholder="请输入课程名" class="layui-input">
+                            <input type="text" id="nameAdd" lay-verify="nameAdd" autocomplete="off" placeholder="请输入学生名" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">是否为公共课</label>
-                        <div class="layui-form layui-input-block">
-                            <select id="isPublic"lay-filter="isPublic">
-                                <option value="1">是</option>
-                                <option value="0">否</option>
-                            </select>
+                    <div class="layui-form-item"> <label class="layui-form-label">账号</label>
+                        <div class="layui-input-block">
+                            <input type="number" id="accountAdd" lay-verify="accountAdd" autocomplete="off" placeholder="请输入账号" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item"> <label class="layui-form-label">密码</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="pwdAdd" lay-verify="pwdAdd" autocomplete="off" placeholder="请输入账号" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-input-inline">
-                        <label class="layui-form-label">专业</label>
+                        <label class="layui-form-label">班级</label>
                         <div class="layui-form layui-input-block">
-                            <select id="majorAdd" lay-filter="majorAdd" lay-search disabled="disabled">
+                            <select id="classAdd" lay-filter="classAdd" lay-search>
                                 <option value='-1'>请选择</option>
-                                <#if majorList??>
-                                    <#list majorList as ml>
-                                        <option value="${ml.id}">${ml.name}</option>
+                                <#if classList??>
+                                    <#list classList as cl>
+                                        <option value="${cl.id}">${cl.name}</option>
                                     </#list>
                                 </#if>
                             </select>
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">是否为必修课</label>
-                        <div class="layui-form layui-input-block">
-                            <select id="isRequired"lay-filter="majorSelect">
-                                <option value="1">是</option>
-                                <option value="0">否</option>
-                            </select>
+
+
+                    <div class="layui-form-item"> <label class="layui-form-label">届数</label>
+                        <div class="layui-input-block">
+                            <input type="number" id="yearAdd" lay-verify="yearAdd" autocomplete="off" placeholder="请输入届数" class="layui-input">
                         </div>
                     </div>
+
                     <div class="layui-btn"  onclick="addStudent()">新增学生</div>
                 </form>
             </div>
         </div>
 
-        <div hidden id="updateTeacher" lay-verify="updateTeacher">
+        <div hidden id="updateStudent" lay-verify="updateStudent">
             <div style="margin: 50px;width: 500px;">
                 <form class="layui-form" action="">
-                    <div class="layui-form-item"> <label class="layui-form-label">教师ID</label>
+                    <div class="layui-form-item"> <label class="layui-form-label">学生ID</label>
                         <div class="layui-input-block">
-                            <input type="text" id="updateID" lay-verify="ID" autocomplete="off" placeholder="请输入教师名" class="layui-input layui-disabled" disabled>
-                        </div>
-                    </div>
-                    <div class="layui-form-item"> <label class="layui-form-label">教师名</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="updateName" lay-verify="name" autocomplete="off" placeholder="请输入教师名" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">账号</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="updateAccount" lay-verify="account" autocomplete="off" placeholder="请输入账号" class="layui-input">
+                            <input type="text" id="IDUpdate" lay-verify="ID" autocomplete="off" placeholder="请输入教师名" class="layui-input layui-disabled" disabled>
                         </div>
                     </div>
 
-                    <#--<div class="layui-input-inline">
-                        <label class="layui-form-label">专业</label>
+                    <div class="layui-form-item"> <label class="layui-form-label">学生名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="nameUpdate" lay-verify="nameUpdate" autocomplete="off" placeholder="请输入教师名" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-input-inline">
+                        <label class="layui-form-label">班级</label>
                         <div class="layui-form layui-input-block">
-                            <select id="majorUpdate" lay-filter="majorUpdate" lay-search disabled="disabled">
+                            <select id="classUpdate" lay-filter="classUpdate" lay-search>
                                 <option value='-1'>请选择</option>
-                                <#if majorList??>
-                                    <#list majorList as ml>
-                                        <option value="${ml.id}">${ml.name}</option>
+                                <#if classList??>
+                                    <#list classList as cl>
+                                        <option value="${cl.id}">${cl.name}</option>
                                     </#list>
                                 </#if>
                             </select>
                         </div>
-                    </div>-->
+                    </div>
 
-                    <div class="layui-btn"  onclick="updateTeacher()">更新教师信息</div>
+                    <div class="layui-form-item"> <label class="layui-form-label">账号</label>
+                        <div class="layui-input-block">
+                            <input type="number" id="accountUpdate" lay-verify="accountUpdate" autocomplete="off" placeholder="请输入账号" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item"> <label class="layui-form-label">密码</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="pwdUpdate" lay-verify="pwdUpdate" autocomplete="off" placeholder="请输入账号" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-btn"  onclick="updateStudent()">更新学生信息</div>
                 </form>
             </div>
         </div>
@@ -183,6 +190,8 @@
             var nowDepartment = -1;/*当前所选学院*/
             var nowMajor = -1;/*当前所选专业*/
             var nowClass = -1;/*当前所选班级*/
+            var AddClass = -1;/*添加学生所选班级*/
+            var UpdateClass = -1;/*添加学生所选班级*/
             var updateMajor = -1;/*新增教师时所选专业*/
 
             /*初始化*/
@@ -253,8 +262,13 @@
                     });
 
                     //记录新增课程时所选专业
-                    form.on('select(majorAdd)', function(data){
-                        updateMajor = data.value;
+                    form.on('select(classAdd)', function(data){
+                        AddClass = data.value;
+                    });
+
+                    //记录新增课程时所选专业
+                    form.on('select(classUpdate)', function(data){
+                        UpdateClass = data.value;
                     });
 
                 });
@@ -276,78 +290,96 @@
             }
 
             /*弹出添加课程窗口*/
-            function addCourseWindow(){
+            function addStudentWindow(){
                 var layer = layui.layer;
                 layer.open({
                     type: 1,
-                    title: '新增课程',
+                    title: '新增学生',
                     area: ['40%', '50%'],//弹框大小
-                    content: $("#addCourse"),
+                    content: $("#addStudent"),
                     // 打开弹窗的回调函数，用于回显页面数据
                     success: function () {
                     },
                     end: function () {
-                        $("#addCourse").hide();
+                        $("#addStudent").hide();
                     }
                 })
             }
 
-            /*添加课程*/
+            /*添加学生*/
             function addStudent(){
-                var name = parent.$('#name').val();
+                var name = parent.$('#nameAdd').val();
                 if (name == '') {
-                    layer.alert("请输入课程名称! ");
-                    return false;
-                }
-                var isPublic = parent.$('#isPublic').val();
-                if (isPublic == '') {
-                    layer.alert("请选择是否为公共课! ");
+                    layer.alert("请输入学生名称! ");
                     return false;
                 }
 
-                var majorId = -1;
-                if(isPublic == '0'){
-                    majorId = updateMajor;
-                }
-
-                var isRequired = parent.$('#isRequired').val();
-                if (isRequired == '') {
-                    layer.alert("请选择是否为必修课! ");
+                var account = parent.$('#accountAdd').val();
+                if (account == '') {
+                    layer.alert("请输入账号! ");
                     return false;
                 }
-                $.post("/course/addCourse", {
+
+                var pwd = parent.$('#pwdAdd').val();
+                if (pwd == '') {
+                    layer.alert("请输入密码! ");
+                    return false;
+                }
+
+                if(AddClass == -1){
+                    layer.alert("请选择班级! ");
+                    return false;
+                }
+
+
+                var year = parent.$('#yearAdd').val();
+                if (year == '') {
+                    layer.alert("请输入届数! ");
+                    return false;
+                }
+
+                $.post("/student/addStudent", {
                     "name": name,
-                    "marjorId": majorId,
-                    "isPublic": isPublic,
-                    "isRequired": isRequired
+                    "account": account,
+                    "pwd": pwd,
+                    "classId": AddClass,
+                    "year": year
                 }, function (res) {
                     if(res == 1){
                         layer.close(layer.index);
                         layer.alert("添加成功! ");
-                        $("#name").val("");
-                        updateMajor = -1;
+                        $('#nameAdd').val('');
+                        $('#accountAdd').val('');
+                        $("#classAdd").val(-1);
+                        $('#pwdAdd').val('');
+                        $('#yearAdd').val('');
+                        form.render();
+                        AddClass = -1;
                     }
                 });
 
             }
 
-            /*弹出编辑课程窗口*/
-            function editTeacherWindow(id){
+            /*弹出编辑学生窗口*/
+            function editStudentWindow(id){
                 var layer = layui.layer;
                 var form = layui.form;
                 layer.open({
                     type: 1,
-                    title: '更新教师信息',
+                    title: '更新学生信息',
                     area: ['40%', '70%'],//弹框大小
-                    content: $("#updateTeacher"),
+                    content: $("#updateStudent"),
                     // 打开弹窗的回调函数，用于回显页面数据
                     success: function () {
-                        $.post("/teacher/selectTeacherById", {
-                            "teacherId": id
+                        $.post("/student/selectStudentById", {
+                            "studentId": id
                         }, function (res){
-                            $("#updateID").val(res.id);
-                            $("#updateName").val(res.name);
-                            $("#updateAccount").val(res.account);
+                            $("#IDUpdate").val(res.id);
+                            $("#nameUpdate").val(res.name);
+                            $("#classUpdate").val(res.classId);
+                            UpdateClass = res.classId;
+                            $("#accountUpdate").val(res.account);
+                            $("#pwdUpdate").val(res.password);
                             form.render();
                         });
                     },
@@ -357,27 +389,39 @@
                 })
             }
 
-            /*编辑课程信息*/
-            function editTeacher(id){
-                editTeacherWindow(id);
+            /*编辑学生信息*/
+            function editStudent(id){
+                editStudentWindow(id);
             }
 
-            function updateTeacher() {
-                var id = parent.$('#updateID').val();
-                var name = parent.$('#updateName').val();
+            function updateStudent() {
+                var id = parent.$('#IDUpdate').val();
+                var name = parent.$('#nameUpdate').val();
                 if (name == '') {
-                    layer.alert("请输入教师名称! ");
+                    layer.alert("请输入学生名! ");
                     return false;
                 }
-                var account = parent.$('#updateAccount').val();
+                var classId = UpdateClass;
+                if (classId == -1) {
+                    layer.alert("请选择班级! ");
+                    return false;
+                }
+                var account = parent.$('#accountUpdate').val();
                 if (account == '') {
                     layer.alert("请输入账号! ");
                     return false;
                 }
-                $.post("/teacher/editTeacher", {
-                    "teacherId": id,
+                var pwd = parent.$('#pwdUpdate').val();
+                if (pwd == '') {
+                    layer.alert("请输入密码! ");
+                    return false;
+                }
+                $.post("/student/editStudent", {
+                    "studentId": id,
                     "name": name,
-                    "account": account
+                    "classId": classId,
+                    "account": account,
+                    "pwd": pwd
                 }, function (res) {
                     if(res == 1){
                         layer.close(layer.index);
@@ -386,15 +430,15 @@
                 });
             }
 
-            /*删除老师*/
-            function deleteTeacher(id,name){
+            /*删除学生*/
+            function deleteStudent(id,name){
                 layer.open({
-                    title: '删除课程'
-                    ,content: '是否删除' + name + "老师的信息？"
+                    title: '删除学生'
+                    ,content: '是否删除' + name + "学生的信息？"
                     ,btn: ['是', '否']
                     ,yes: function(index){
-                        $.post("/teacher/deleteTeacher", {
-                                "teacherId": id
+                        $.post("/student/deleteStudent", {
+                                "studentId": id
                         }, function (res){
                             if(res == 1){
                                 layer.open({
@@ -559,7 +603,7 @@
                 });
             }
 
-            /*查找所有教师并显示*/
+            /*查找所有学生并显示*/
             function allStudent() {
                 layui.use('table', function(){
                     table = layui.table;
@@ -580,16 +624,14 @@
                             {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
                             ,{field: 'name', title: '学生名', width:100}
                             ,{field: 'account', title: '账号', width:120}
-                            ,{field: 'departmentId', title: '学院ID', width:90}
-                            ,{field: 'departmentName', title: '学院名', width:120}
-                            ,{field: 'classId', title: '所班级ID', width:90}
-                            ,{field: 'className', title: '班级名', width:150}
+                            ,{field: 'departmentName', title: '学院名', width:150}
+                            ,{field: 'className', title: '班级名', width:200}
                             ,{field: 'period', title: '届数', width:70}
-                            ,{field: 'major', title: '专业', width:200}
-                            , {field: '',width: 200, title: '操作',
+                            ,{field: 'majorName', title: '专业名', width:200}
+                            , {field: '',width: 180, title: '操作',
                                 templet: function (res) {
-                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" onclick=\"editTeacher('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
-                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\"  onclick=\"deleteTeacher('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" onclick=\"editStudent('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\"  onclick=\"deleteStudent('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
                                     return ops ;
                                 }
                             }

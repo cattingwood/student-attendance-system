@@ -10,11 +10,11 @@
     <result column="department_id" property="departmentId" />
     <result column="class_id" property="classId" />
     <result column="period" property="period" />
-    <result column="major" property="major" />
+    <result column="major_id" property="majorId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, account, `name`, `password`, department_id, class_id, period, major
+    id, account, `name`, `password`, department_id, class_id, period, major_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -31,9 +31,9 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Student" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into student (account, `name`, `password`, department_id, class_id, period, 
-      major)
+      major_id)
     values (#{account}, #{name}, #{password}, #{departmentId}, #{classId}, #{period}, 
-      #{major})
+      #{majorId})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Student" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -57,8 +57,8 @@
       <if test="period != null">
         period,
       </if>
-      <if test="major != null">
-        major,
+      <if test="majorId != null">
+        major_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -80,8 +80,8 @@
       <if test="period != null">
         #{period},
       </if>
-      <if test="major != null">
-        #{major},
+      <if test="majorId != null">
+        #{majorId},
       </if>
     </trim>
   </insert>
@@ -107,8 +107,8 @@
       <if test="period != null">
         period = #{period},
       </if>
-      <if test="major != null">
-        major = #{major},
+      <if test="majorId != null">
+        major_id = #{majorId},
       </if>
     </set>
     where id = #{id}
@@ -122,7 +122,7 @@
       department_id = #{departmentId},
       class_id = #{classId},
       period = #{period},
-      major = #{major}
+      major_id = #{majorId}
     where id = #{id}
   </update>
 

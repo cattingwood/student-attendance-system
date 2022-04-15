@@ -50,7 +50,12 @@ public class StudentDetail {
     private Integer period;
 
     /**
-     * 专业
+     * 专业ID
      */
-    private String major;
+    private Integer majorId;
+
+    /**
+     * 专业名
+     */
+    private String majorName;
 }

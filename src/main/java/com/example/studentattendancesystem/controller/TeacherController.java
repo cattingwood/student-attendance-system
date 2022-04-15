@@ -52,7 +52,7 @@ public class TeacherController {
         return teacherService.updateByPrimaryKeySelective(teacher);
     }
 
-    /*通过ID删除取教师*/
+    /*通过ID删除教师*/
     @RequestMapping("/deleteTeacher")
     @ResponseBody
     public Integer deleteTeacher(Long teacherId){

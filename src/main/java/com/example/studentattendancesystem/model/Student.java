@@ -10,14 +10,14 @@ public class Student {
     private Long id;
 
     /**
-     * 学号/账号
-     */
-    private Long account;
-
-    /**
      * 姓名
      */
     private String name;
+
+    /**
+     * 学号/账号
+     */
+    private Long account;
 
     /**
      * 密码
@@ -25,22 +25,22 @@ public class Student {
     private String password;
 
     /**
-     * 学院ID
-     */
-    private Integer departmentId;
-
-    /**
-     * 班级ID
-     */
-    private Long classId;
-
-    /**
      * 第几届学生
      */
     private Integer period;
 
     /**
+     * 学院ID
+     */
+    private Integer departmentId;
+
+    /**
      * 专业
      */
-    private String major;
+    private Integer majorId;
+
+    /**
+     * 班级ID
+     */
+    private Long classId;
 }

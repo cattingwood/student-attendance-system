@@ -47,7 +47,7 @@ public class LoginController {
         }
         Admin admin = (Admin) session.getAttribute("admin");
         if(admin != null){
-            return "redirect:/teacher/toTeacherManage";/*redirect直接跳转到另一个函数*/
+            return "redirect:/student/toStudentManage";/*redirect直接跳转到另一个函数*/
         }
         return "login";
     }
