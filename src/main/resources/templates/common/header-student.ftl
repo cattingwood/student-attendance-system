@@ -19,6 +19,7 @@
     <div class="layui-side-scroll" style="background-color: #1A1B20">
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
         <li class="layui-nav-item layui-this" name="toSign"><a href="/sign/toSign">考勤</a></li>
+        <li class="layui-nav-item" name="toStudentVacate"><a href="/sign/toStudentVacate">请假</a></li>
         <li class="layui-nav-item" name="toSchedule"><a href="/course/toTimeTable">课表</a></li>
         <li class="layui-nav-item" name="toSignData"><a href="/sign/toSignData">考勤统计</a></li>
     </ul>

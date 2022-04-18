@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.VacateRecordMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.VacateRecord">
+    <!--@mbg.generated-->
+    <!--@Table vacate_record-->
+    <id column="id" property="id" />
+    <result column="student_id" property="studentId" />
+    <result column="begin_week" property="beginWeek" />
+    <result column="begin_day" property="beginDay" />
+    <result column="begin_time" property="beginTime" />
+    <result column="end_week" property="endWeek" />
+    <result column="end_day" property="endDay" />
+    <result column="end_time" property="endTime" />
+    <result column="status" property="status" />
+    <result column="create_time" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, student_id, begin_week, begin_day, begin_time, end_week, end_day, end_time, `status`, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from vacate_record
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from vacate_record
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.VacateRecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into vacate_record (student_id, begin_week, begin_day, begin_time, end_week, end_day, 
+      end_time, `status`, create_time)
+    values (#{studentId}, #{beginWeek}, #{beginDay}, #{beginTime}, #{endWeek}, #{endDay}, 
+      #{endTime}, #{status}, #{createTime})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.VacateRecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into vacate_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="beginWeek != null">
+        begin_week,
+      </if>
+      <if test="beginDay != null">
+        begin_day,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endWeek != null">
+        end_week,
+      </if>
+      <if test="endDay != null">
+        end_day,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+        create_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        #{studentId},
+      </if>
+      <if test="beginWeek != null">
+        #{beginWeek},
+      </if>
+      <if test="beginDay != null">
+        #{beginDay},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime},
+      </if>
+      <if test="endWeek != null">
+        #{endWeek},
+      </if>
+      <if test="endDay != null">
+        #{endDay},
+      </if>
+      <if test="endTime != null">
+        #{endTime},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+        now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.studentattendancesystem.model.VacateRecord">
+    <!--@mbg.generated-->
+    update vacate_record
+    <set>
+      <if test="studentId != null">
+        student_id = #{studentId},
+      </if>
+      <if test="beginWeek != null">
+        begin_week = #{beginWeek},
+      </if>
+      <if test="beginDay != null">
+        begin_day = #{beginDay},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime},
+      </if>
+      <if test="endWeek != null">
+        end_week = #{endWeek},
+      </if>
+      <if test="endDay != null">
+        end_day = #{endDay},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime},
+      </if>
+      <if test="status != null">
+        `status` = #{status},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.studentattendancesystem.model.VacateRecord">
+    <!--@mbg.generated-->
+    update vacate_record
+    set student_id = #{studentId},
+      begin_week = #{beginWeek},
+      begin_day = #{beginDay},
+      begin_time = #{beginTime},
+      end_week = #{endWeek},
+      end_day = #{endDay},
+      end_time = #{endTime},
+      `status` = #{status},
+      create_time = #{createTime}
+    where id = #{id}
+  </update>
+
+  <select id="selectByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+      select
+        <include refid="Base_Column_List" />
+        from vacate_record
+        where student_id = #{studentId}
+  </select>
+
+</mapper>

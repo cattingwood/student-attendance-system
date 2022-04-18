@@ -1,5 +1,7 @@
 package com.example.studentattendancesystem.service;
 
+import com.example.studentattendancesystem.mapper.CourseTimeMapper;
+import com.example.studentattendancesystem.mapper.TimeTableMapper;
 import com.example.studentattendancesystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,10 +9,7 @@ import javax.annotation.Resource;
 
 import com.example.studentattendancesystem.mapper.StudentSignRecordMapper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StudentSignRecordService{
@@ -23,9 +22,15 @@ public class StudentSignRecordService{
 
     @Autowired
     private TeacherService teacherService;
+
     @Resource
     private StudentSignRecordMapper studentSignRecordMapper;
 
+    @Resource
+    private CourseTimeMapper courseTimeMapper;
+
+    @Resource
+    private TimeTableMapper timeTableMapper;
     
     public int deleteByPrimaryKey(Long id) {
         return studentSignRecordMapper.deleteByPrimaryKey(id);
@@ -69,12 +74,30 @@ public class StudentSignRecordService{
         return recordDetails;
     }
 
+    public List<StudentSignRecordDetail> selectVacateDetailByStudentId(Long studentId) {
+        List<StudentSignRecord> records = studentSignRecordMapper.selectVacateDetailByStudentId(studentId);
+        List<StudentSignRecordDetail> recordDetails = new ArrayList<>();
+        for (int i=0;i<records.size();i++){
+            recordDetails.add(getSignRecordDetail(records.get(i)));
+        }
+        return recordDetails;
+    }
+
     public Map<String,Object> selectSignDataByStudentId(Long studentId) {
         Map<String,Object> map = new HashMap<>();
         int signCount = studentSignRecordMapper.selectSignCountByStudentId(studentId);
         int resignCount = studentSignRecordMapper.selectResignCountByStudentId(studentId);
+        Date today = new Date();
+        TimeTable timeTable = timeTableMapper.selectOne();
+        Date beginDate = timeTable.getTermBeginDay();//获取开学日
+        int dateDiff = dataDiff(beginDate,today);
+        int weekCount = dateDiff/7 +1;
+        int dayCount = dateDiff%7;
+        int allCount = courseTimeMapper.selectCourseCountByStudentId(studentId,weekCount,dayCount);
         map.put("sign",signCount);
         map.put("resign",resignCount);
+        map.put("absenceCount",allCount-signCount-resignCount);
+        map.put("allCount",allCount);
         return map;
     }
 
@@ -82,8 +105,17 @@ public class StudentSignRecordService{
         Map<String,Object> map = new HashMap<>();
         int signCount = studentSignRecordMapper.selectSignCountByCourseAndStudent(courseId,studentId);
         int resignCount = studentSignRecordMapper.selectResignCountByCourseAndStudent(courseId,studentId);
+        Date today = new Date();
+        TimeTable timeTable = timeTableMapper.selectOne();
+        Date beginDate = timeTable.getTermBeginDay();//获取开学日
+        int dateDiff = dataDiff(beginDate,today);
+        int weekCount = dateDiff/7 +1;
+        int dayCount = dateDiff%7;
+        int allCount = courseTimeMapper.selectCourseCountByCourseAndStudent(studentId,weekCount,dayCount,courseId);
         map.put("sign",signCount);
         map.put("resign",resignCount);
+        map.put("absenceCount",allCount-signCount-resignCount);
+        map.put("allCount",allCount);
         return map;
     }
 
@@ -107,6 +139,14 @@ public class StudentSignRecordService{
         recordDetail.setTeacherName(teacher.getName());
 
         return  recordDetail;
+    }
+
+    public int dataDiff(Date beginDate,Date endDate){
+        Long starTime=beginDate.getTime();
+        Long endTime=endDate.getTime();
+        Long num=endTime-starTime;//时间戳相差的毫秒数
+        int dayCount = (int) Math.ceil(num/24/60/60/1000) + 1;
+        return dayCount;
     }
 
 }

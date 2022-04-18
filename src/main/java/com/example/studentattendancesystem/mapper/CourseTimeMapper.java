@@ -28,4 +28,14 @@ public interface CourseTimeMapper {
     int deleteCourseTime(@Param(value="courseId")Long courseId,
                          @Param(value="classId")Long classId,
                          @Param(value="teacherId")Long teacherId);
+
+    int selectCourseCountByStudentId(@Param(value="studentId")Long studentId,
+                                     @Param(value="weekCount")Integer weekCount,
+                                     @Param(value="dayCount")Integer dayCount);
+
+    int selectCourseCountByCourseAndStudent(@Param(value="studentId")Long studentId,
+                                            @Param(value="weekCount")Integer weekCount,
+                                            @Param(value="dayCount")Integer dayCount,
+                                            @Param(value="courseId")Long courseId);
+
 }

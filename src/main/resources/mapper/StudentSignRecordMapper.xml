@@ -162,4 +162,11 @@
     where student_id = #{studentId} and course_id = #{courseId} and `type` = 2
   </select>
 
+  <select id="selectVacateDetailByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student_sign_record
+    where student_id = #{studentId} and `type` = 3
+  </select>
+
 </mapper>

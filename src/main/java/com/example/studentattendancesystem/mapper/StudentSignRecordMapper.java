@@ -26,6 +26,8 @@ public interface StudentSignRecordMapper {
 
     List<StudentSignRecord> selectResignByTeacherId(Long teacherId);
 
+    List<StudentSignRecord> selectVacateDetailByStudentId(Long studentId);
+
     int selectSignCountByStudentId(Long studentId);
 
     int selectResignCountByStudentId(Long studentId);

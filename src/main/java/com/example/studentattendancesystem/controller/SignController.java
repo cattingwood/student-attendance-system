@@ -4,6 +4,7 @@ import com.example.studentattendancesystem.mapper.TimeTableMapper;
 import com.example.studentattendancesystem.model.*;
 import com.example.studentattendancesystem.service.CourseService;
 import com.example.studentattendancesystem.service.StudentSignRecordService;
+import com.example.studentattendancesystem.service.VacateRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,8 @@ public class SignController {
 
     @Autowired
     CourseService courseService;
+    @Autowired
+    VacateRecordService vacateRecordService;
 
     @Resource
     private TimeTableMapper timeTableMapper;
@@ -165,6 +168,8 @@ public class SignController {
         Map<String,Object> map2 = studentSignRecordService.selectSignDataByStudentId(student.getId());
         map.put("sign",map2.get("sign"));
         map.put("resign",map2.get("resign"));
+        map.put("absenceCount",map2.get("absenceCount"));
+        map.put("allCount",map2.get("allCount"));
         return map;
     }
 
@@ -178,6 +183,8 @@ public class SignController {
         Map<String,Object> map2 = studentSignRecordService.selectSignDataByCourseAndStudent(courseId,student.getId());
         map.put("sign",map2.get("sign"));
         map.put("resign",map2.get("resign"));
+        map.put("absenceCount",map2.get("absenceCount"));
+        map.put("allCount",map2.get("allCount"));
         return map;
     }
 
@@ -227,6 +234,59 @@ public class SignController {
             System.out.println("补签申请失败");
         }
         return 1;
+    }
+
+    /*学生请假页面*/
+    @RequestMapping("/toStudentVacate")
+    public String toStudentVacate(Model model,HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Student student = (Student) session.getAttribute("student");
+            List<VacateRecord> vacateRecords = vacateRecordService.selectByStudentId(student.getId());
+            model.addAttribute("vacateRecords",vacateRecords);
+            model.addAttribute("menuFlag","toStudentVacate");
+        }catch (Exception e){
+            System.out.println("学生请假查寻失败");
+        }
+        return "student/student-vacate";
+    }
+
+    /*申请请假*/
+    @RequestMapping("/addVacate")
+    @ResponseBody
+    public int addVacate(Integer beginWeek,Integer beginDay,Integer beginTime,
+                         Integer endWeek,Integer endDay,Integer endTime,HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Student student = (Student) session.getAttribute("student");
+            VacateRecord vacateRecord = new VacateRecord();
+            vacateRecord.setStudentId(student.getId());
+            vacateRecord.setBeginWeek(beginWeek);
+            vacateRecord.setBeginDay(beginDay);
+            vacateRecord.setBeginTime(beginTime);
+            vacateRecord.setEndWeek(endWeek);
+            vacateRecord.setEndDay(endDay);
+            vacateRecord.setEndTime(endTime);
+            vacateRecord.setStatus(0);/*1为成功-1为失败0为待确认*/
+            return vacateRecordService.insertSelective(vacateRecord);
+        }catch (Exception e){
+            System.out.println("申请请假失败");
+            return 0;
+        }
+    }
+
+    /*查询请假记录*/
+    @RequestMapping("/selectVacateRecordByStudent")
+    @ResponseBody
+    public List<VacateRecord> selectVacateRecordByStudent(HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Student student = (Student) session.getAttribute("student");
+            return  vacateRecordService.selectByStudentId(student.getId());
+        }catch (Exception e){
+            System.out.println("学生请假查寻失败");
+            return null;
+        }
     }
 
     /*学生补签处理页面*/

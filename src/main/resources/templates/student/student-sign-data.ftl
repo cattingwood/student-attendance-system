@@ -31,7 +31,6 @@
                     <label class="layui-form-label">选择课程：</label>
                     <div class="layui-form layui-input-block">
                         <select id="courseSelect" lay-filter="courseSelect">
-                            <option value="-1">请选择课程</option>
                             <#if courseList??>
                                 <#list courseList as cl>
                                     <option type="course" value="${cl.id}">${cl.name}</option>
@@ -93,11 +92,12 @@
                                 text: courseName + '考勤统计图'
                             },
                             series: [{
-                                name: ['签到','补签'],
+                                name: ['签到','补签','缺勤'],
                                 type: 'pie',
                                 data: [
                                     {value:data["sign"], name:data["sign"]+'-签到'},
-                                    {value:data["resign"], name:data["resign"]+'-补签'}
+                                    {value:data["resign"], name:data["resign"]+'-补签'},
+                                    {value:data["absenceCount"], name:data["absenceCount"]+'-缺勤'}
                                 ]
                             }]
                         };
@@ -136,11 +136,12 @@
                                 text: '考勤统计总图'
                             },
                             series: [{
-                                name: ['签到','补签'],
+                                name: ['签到','补签','缺勤'],
                                 type: 'pie',
                                 data: [
                                     {value:data["sign"], name:data["sign"]+'-签到'},
-                                    {value:data["resign"], name:data["resign"]+'-缺勤'}
+                                    {value:data["resign"], name:data["resign"]+'-补签'},
+                                    {value:data["absenceCount"], name:data["absenceCount"]+'-缺勤'}
                                 ]
                             }]
                         };

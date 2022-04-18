@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>教师补签</title>
+        <title>请假处理</title>
         <script src="../lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="../lib/layui/css/layui.css">
@@ -15,7 +15,7 @@
         <div class="layui-card-body" id="sign">
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    学生补签处理
+                    学生请假处理
                 </div>
             </form>
         </div>

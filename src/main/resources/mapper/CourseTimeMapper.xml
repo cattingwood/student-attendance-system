@@ -91,4 +91,20 @@
     delete from course_time where class_id = #{classId} and teacher_id = #{teacherId} and course_id = #{courseId};
   </delete>
 
+  <select id="selectCourseCountByStudentId" resultType="java.lang.Integer">
+    select
+    count(1)
+    from course_time
+    where class_id in (select class_id from student where id = #{studentId})
+    and (course_week &lt; #{weekCount} or (course_week = #{weekCount} and course_day &lt; #{dayCount}))
+  </select>
+
+    <select id="selectCourseCountByCourseAndStudent" resultType="java.lang.Integer">
+    select
+    count(1)
+    from course_time
+    where class_id in (select class_id from student where id = #{studentId}) and  course_id = #{courseId}
+    and (course_week &lt; #{weekCount} or (course_week = #{weekCount} and course_day &lt; #{dayCount}))
+  </select>
+
 </mapper>
