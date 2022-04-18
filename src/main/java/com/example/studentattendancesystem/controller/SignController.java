@@ -31,6 +31,7 @@ public class SignController {
 
     @Autowired
     CourseService courseService;
+
     @Autowired
     VacateRecordService vacateRecordService;
 

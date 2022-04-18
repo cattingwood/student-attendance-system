@@ -17,6 +17,7 @@
 <div class="layui-side" style="top: 60px">
     <div class="layui-side-scroll" style="background-color: #1A1B20">
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
+        <li class="layui-nav-item" name="toMajorManage"><a href="/major/toMajorManage">专业管理</a></li>
         <li class="layui-nav-item" name="toStudentManage"><a href="/student/toStudentManage">学生管理</a></li>
         <li class="layui-nav-item" name="toTeacherManage"><a href="/teacher/toTeacherManage">教师管理</a></li>
         <li class="layui-nav-item" name="toCourseManage"><a href="/course/toCourseManage">课程管理</a></li>
