@@ -72,4 +72,12 @@ public class MajorController {
         return majorDetailList;
     }
 
+    /*添加课程*/
+    @RequestMapping("/addMajor")
+    @ResponseBody
+    public Integer addMajor(Major major){
+        int result =  majorService.insertSelective(major);
+        return result;
+    }
+
 }

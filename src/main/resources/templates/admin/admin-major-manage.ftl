@@ -29,13 +29,39 @@
                     </div>
                 </div>
                 <button class="layui-btn js-search" onclick="searchMajor()"><i class="layui-icon">&#xe615;</i></button>
-                <button class="layui-btn" onclick="addCourseWindow()">新增专业</button>
+                <button class="layui-btn" onclick="addMajorWindow()">新增专业</button>
             </div>
         </div>
         <div class="layui-card-body schedule">
             <div class="table" id="majorTable"></div>
         </div>
 
+        <div id="addMajor" hidden  lay-verify="addMajor">
+            <div style="margin: 50px;width: 500px;">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专业名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="addName" lay-verify="name" autocomplete="off" placeholder="请输入专业名" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属学院</label>
+                        <div class="layui-input-block">
+                            <select id="addDepartmentSelect" lay-filter="addDepartmentSelect">
+                                <#if departmentList??>
+                                    <#list departmentList as dl>
+                                        <option value="${dl.id}">${dl.name}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-btn"  onclick="addMajor()">添加专业</div>
+                </form>
+            </div>
+        </div>
+        
         <!-- L2Dwidget.js L2D网页动画人物 -->
         <script>
             L2Dwidget.init({
@@ -70,7 +96,41 @@
                 });
             }
 
+            function addMajorWindow(){
+                var layer = layui.layer;
+                layer.open({
+                    type: 1,
+                    title: '新增课程',
+                    area: ['40%', '50%'],//弹框大小
+                    content: $("#addMajor"),
+                    // 打开弹窗的回调函数，用于回显页面数据
+                    success: function () {
+                    },
+                    end: function () {
+                        $("#addCourse").hide();
+                    }
+                })
+            }
 
+            function addMajor() {
+                var name = parent.$('#addName').val();
+                if (name == '') {
+                    layer.alert("请输入专业名称! ");
+                    return false;
+                }
+                var departmentId = parent.$('#addDepartmentSelect').val();
+                $.post("/major/addMajor", {
+                    "name": name,
+                    "departmentId": departmentId
+                }, function (res) {
+                    if(res == 1){
+                        layer.close(layer.index);
+                        layer.alert("添加成功! ");
+                        $("#name").val("");
+                        updateMajor = -1;
+                    }
+                });
+            }
 
             function searchMajor(){
                 if(nowDepartment != -1){
