@@ -92,11 +92,12 @@
                                 text: courseName + '考勤统计图'
                             },
                             series: [{
-                                name: ['签到','补签','缺勤'],
+                                name: ['签到','补签','请假','缺勤'],
                                 type: 'pie',
                                 data: [
                                     {value:data["sign"], name:data["sign"]+'-签到'},
                                     {value:data["resign"], name:data["resign"]+'-补签'},
+                                    {value:data["vacate"], name:data["vacate"]+'-请假'},
                                     {value:data["absenceCount"], name:data["absenceCount"]+'-缺勤'}
                                 ]
                             }]
@@ -136,11 +137,12 @@
                                 text: '考勤统计总图'
                             },
                             series: [{
-                                name: ['签到','补签','缺勤'],
+                                name: ['签到','补签','请假','缺勤'],
                                 type: 'pie',
                                 data: [
                                     {value:data["sign"], name:data["sign"]+'-签到'},
                                     {value:data["resign"], name:data["resign"]+'-补签'},
+                                    {value:data["vacate"], name:data["vacate"]+'-请假'},
                                     {value:data["absenceCount"], name:data["absenceCount"]+'-缺勤'}
                                 ]
                             }]

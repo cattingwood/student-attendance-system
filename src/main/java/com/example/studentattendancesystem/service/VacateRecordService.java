@@ -37,6 +37,10 @@ public class VacateRecordService {
         return vacateRecordMapper.selectByStudentId(studentId);
     }
 
+    public List<VacateRecord> selectByCounsellorId(Long counsellorId) {
+        return vacateRecordMapper.selectByCounsellorId(counsellorId);
+    }
+
     public int updateByPrimaryKeySelective(VacateRecord record) {
         return vacateRecordMapper.updateByPrimaryKeySelective(record);
     }

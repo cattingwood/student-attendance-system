@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="../css/sign.css">
     </head>
     <body style="background-color: #F1F1F1;">
-        <#include "../common/header-teacher.ftl"/>
+        <#include "../common/header-counsellor.ftl"/>
 
         <div class="layui-card-body" id="sign">
             <form class="layui-form" action="">
@@ -31,30 +31,31 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>日期</th>
-                        <th>课程名</th>
+                        <th>开始日期</th>
+                        <th>结束日期</th>
                         <th>学生名</th>
                         <th>操作</th>
+                        <th>申请时间</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <#if (resignRecord)?? &&((resignRecord)?size>0)>
-                        <#list resignRecord as rr>
+                    <#if (vacateRecords)?? &&((vacateRecords)?size>0)>
+                        <#list vacateRecords as vr>
                             <tr>
-                                <td>第${rr.signWeek!''}周星期${rr.signDay!''}第${rr.sort!''}节</td>
-                                <td>${rr.courseName!''}</td>
-                                <td>${rr.studentName!''}</td>
+                                <td>第${vr.beginWeek!''}周星期${vr.beginDay!''}第${vr.beginTime!''}节</td>
+                                <td>第${vr.endWeek!''}周星期${vr.endDay!''}第${vr.endTime!''}节</td>
+                                <td>123</td>
                                 <td>
-                                    <#if rr.status == 2>
-                                        <button class='layui-btn layui-btn-sm layui-btn-normal' onclick="resign(${rr.id!''},1)">同意补签</button>
-                                        <button class='layui-btn layui-btn-sm layui-btn-normal' onclick="resign(${rr.id!''},2)">拒绝补签</button>
-                                    <#elseif rr.status == 1>
-                                        <button class='layui-btn layui-btn-sm layui-btn-normal'>已同意</button>
-                                    <#elseif rr.status == -1>
-                                        <button class='layui-btn layui-btn-sm layui-btn-normal'>已拒绝</button>
-                                    <#else>
+                                    <#if vr.status == 0>
+                                        <button class='layui-btn layui-btn-sm layui-btn-normal' onclick="vacate(${vr.id!''},1)">同意请假</button>
+                                        <button class='layui-btn layui-btn-sm layui-btn-normal' onclick="vacate(${vr.id!''},2)">拒绝请假</button>
+                                    <#elseif vr.status == 1>
+                                        已同意假期申请
+                                    <#elseif vr.status == -1>
+                                        已拒绝假期申请
                                     </#if>
                                 </td>
+                                <td>${(vr.createTime?string("yyyy-MM-dd HH:mm:ss"))!''}</td>
                             </tr>
                         </#list>
                     </#if>
@@ -69,13 +70,14 @@
             window.onload = function () {
             }
 
-            function resign(signId,status) {
+
+            function vacate(id,type) {
                 $.ajax({
                     type:"post",
-                    url:"/sign/ResignDeal",
+                    url:"/sign/VacateDeal",
                     data:{
-                        "signId":signId,
-                        "status":status
+                        "vacateId":id,
+                        "status":type
                     },
                     dataType:"json",
                     success:function (res) {
@@ -86,6 +88,7 @@
                     }
                 })
             }
+
         </script>
     </body>
 </html>

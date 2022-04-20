@@ -99,12 +99,21 @@
     and (course_week &lt; #{weekCount} or (course_week = #{weekCount} and course_day &lt; #{dayCount}))
   </select>
 
-    <select id="selectCourseCountByCourseAndStudent" resultType="java.lang.Integer">
+  <select id="selectCourseCountByCourseAndStudent" resultType="java.lang.Integer">
     select
     count(1)
     from course_time
     where class_id in (select class_id from student where id = #{studentId}) and  course_id = #{courseId}
     and (course_week &lt; #{weekCount} or (course_week = #{weekCount} and course_day &lt; #{dayCount}))
+  </select>
+
+  <select id="getCourseTimeByTime" resultMap="BaseResultMap">
+    select
+    *
+    from course_time
+    where  class_id in (select class_id from student where id = #{studentId})
+    AND course_week*10000+course_day*100+course_sort >= #{beginTime}
+    and course_week*10000+course_day*100+course_sort &lt;= #{endTime};
   </select>
 
 </mapper>

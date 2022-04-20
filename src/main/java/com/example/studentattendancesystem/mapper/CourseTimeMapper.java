@@ -25,6 +25,10 @@ public interface CourseTimeMapper {
                                           @Param(value="teacherId")Long teacherId,
                                           @Param(value="classId")Long classId);
 
+    List<CourseTime> getCourseTimeByTime(@Param(value="beginTime")int beginTime,
+                                         @Param(value="endTime")int endTime,
+                                         @Param(value="studentId")Long studentId);
+
     int deleteCourseTime(@Param(value="courseId")Long courseId,
                          @Param(value="classId")Long classId,
                          @Param(value="teacherId")Long teacherId);

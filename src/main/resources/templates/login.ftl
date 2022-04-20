@@ -31,6 +31,7 @@
                         登录方式：
                         <input type="radio" name="type" lay-filter="type" value="学生" title="学生" checked="">
                         <input type="radio" name="type" lay-filter="type"value="老师" title="老师">
+                        <input type="radio" name="type" lay-filter="type"value="辅导员" title="辅导员">
                         <input type="radio" name="type" lay-filter="type" value="管理员" title="管理员">
                     </div>
                 </div>

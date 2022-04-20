@@ -31,6 +31,10 @@ public class CourseTimeService {
         return courseTimeMapper.getCourseTimeByAllId(courseId,teacherId,classId);
     }
 
+    public List<CourseTime> getCourseTimeByTime(int beginTime,int endTime,Long studentId) {
+        return courseTimeMapper.getCourseTimeByTime(beginTime,endTime,studentId);
+    }
+
     /*判断是否已有排课*/
     public boolean isCourseTimeRepeated(Long classId,Long teacherId,Integer day,Integer time,Integer week){
         List<CourseTime> courseTimeList =

@@ -153,4 +153,13 @@
         where student_id = #{studentId}
   </select>
 
+    <select id="selectByCounsellorId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+      select
+        <include refid="Base_Column_List" />
+        from vacate_record
+        where student_id in (
+            select student_id from student where class_id in
+         (select class_id from counsellor_class where counsellor_id = #{counsellorId}))
+  </select>
+
 </mapper>

@@ -17,6 +17,8 @@ public interface VacateRecordMapper {
 
     List<VacateRecord> selectByStudentId(Long studentId);
 
+    List<VacateRecord> selectByCounsellorId(Long counsellorId);
+
     int updateByPrimaryKeySelective(VacateRecord record);
 
     int updateByPrimaryKey(VacateRecord record);

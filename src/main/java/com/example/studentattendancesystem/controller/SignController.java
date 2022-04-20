@@ -3,6 +3,7 @@ package com.example.studentattendancesystem.controller;
 import com.example.studentattendancesystem.mapper.TimeTableMapper;
 import com.example.studentattendancesystem.model.*;
 import com.example.studentattendancesystem.service.CourseService;
+import com.example.studentattendancesystem.service.CourseTimeService;
 import com.example.studentattendancesystem.service.StudentSignRecordService;
 import com.example.studentattendancesystem.service.VacateRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class SignController {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    CourseTimeService courseTimeService;
 
     @Autowired
     VacateRecordService vacateRecordService;
@@ -169,6 +173,7 @@ public class SignController {
         Map<String,Object> map2 = studentSignRecordService.selectSignDataByStudentId(student.getId());
         map.put("sign",map2.get("sign"));
         map.put("resign",map2.get("resign"));
+        map.put("vacate",map2.get("vacate"));
         map.put("absenceCount",map2.get("absenceCount"));
         map.put("allCount",map2.get("allCount"));
         return map;
@@ -184,6 +189,7 @@ public class SignController {
         Map<String,Object> map2 = studentSignRecordService.selectSignDataByCourseAndStudent(courseId,student.getId());
         map.put("sign",map2.get("sign"));
         map.put("resign",map2.get("resign"));
+        map.put("vacate",map2.get("vacate"));
         map.put("absenceCount",map2.get("absenceCount"));
         map.put("allCount",map2.get("allCount"));
         return map;
@@ -276,6 +282,19 @@ public class SignController {
         }
     }
 
+    /*辅导员批准请假页面*/
+    @RequestMapping("/toCounsellorVacate")
+    public String toCounsellorVacate(Model model,HttpServletRequest request){
+        try{
+            List<VacateRecord> vacateRecords = vacateRecordService.selectByCounsellorId(1L);
+            model.addAttribute("vacateRecords",vacateRecords);
+            model.addAttribute("menuFlag","toCounsellorVacate");
+        }catch (Exception e){
+            System.out.println("学生请假查寻失败");
+        }
+        return "counsellor/counsellor-vacate";
+    }
+
     /*查询请假记录*/
     @RequestMapping("/selectVacateRecordByStudent")
     @ResponseBody
@@ -288,6 +307,63 @@ public class SignController {
             System.out.println("学生请假查寻失败");
             return null;
         }
+    }
+
+    /*请假处理*/
+    @RequestMapping("/VacateDeal")
+    @ResponseBody
+    public int VacateDeal(Long vacateId,int status,HttpServletRequest request){
+        try{
+            VacateRecord record = vacateRecordService.selectByPrimaryKey(vacateId);
+            if(status == 1){/*同意请假*/
+                record.setStatus(1);
+                vacateRecordService.updateByPrimaryKey(record);
+                int BeginWeek = record.getBeginWeek();
+                int BeginDay = record.getBeginDay();
+                int BeginTime = record.getBeginTime();
+                int EndWeek = record.getEndWeek();
+                int EndDay = record.getEndDay();
+                int EndTime = record.getEndTime();
+                int beginTime = BeginWeek*10000 + BeginDay*100 + BeginTime;
+                int endTime = EndWeek*10000 + EndDay*100 + EndTime;
+                Long studentId = record.getStudentId();
+                List<CourseTime> courseTimeList =
+                        courseTimeService.getCourseTimeByTime(beginTime,endTime,studentId);
+                for(int i=0;i<courseTimeList.size();i++){
+                    CourseTime courseTime = courseTimeList.get(i);
+                    Date date = new Date();
+                    int result =  studentVacate(studentId,courseTime.getCourseId(),courseTime.getTeacherId(),date,
+                            courseTime.getCourseWeek(),courseTime.getCourseDay(),courseTime.getCourseSort());
+                }
+                return 1;
+            }else if(status == 2){/*拒绝请假*/
+                record.setStatus(-1);
+                vacateRecordService.updateByPrimaryKey(record);
+            }
+        }catch (Exception e){
+            System.out.println("补签处理失败");
+            return 0;
+        }
+        return 1;
+    }
+
+    public int studentVacate(Long studentId,Long courseId,Long teacherId,Date signTime,int signWeek,int signDay,int sort){
+        try{
+            StudentSignRecord record = new StudentSignRecord();
+            record.setStudentId(studentId);
+            record.setCourseId(courseId);
+            record.setSignTime(signTime);
+            record.setType(3);/*3为请假*/
+            record.setSignWeek(signWeek);
+            record.setSignDay(signDay);
+            record.setStatus(1);
+            record.setSort(sort);
+            record.setTeacherId(teacherId);
+            studentSignRecordService.insert(record);
+        }catch (Exception e){
+            System.out.println("请假记录失败");
+        }
+        return 1;
     }
 
     /*学生补签处理页面*/

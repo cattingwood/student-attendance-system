@@ -86,6 +86,23 @@
                             第8节
                         </div>
                     </div>
+                    <div class="layui-col-md6">
+                        <div class="grid layui-bg-green" style="height: 6rem;line-height: 6rem;">
+                            晚上
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="grid2 layui-bg-green">
+                            <table>
+                                第9节
+                            </table>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="grid2 layui-bg-green">
+                            第10节
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -130,17 +147,17 @@
                                 "                        星期" + i + "\n" +
                                 "                    </div>\n" +
                                 "                </div>";
-                            for (var j = 1; j <= 8; j++) {
+                            for (var j = 1; j <= 10; j++) {
                                 var courseDetail = courseWeekList[i + "-" + j];
                                 if (courseDetail != null) {
                                     timeTableHtml += "<div class=\"layui-col-md12 course\">" +
-                                        "                    <div class=\"grid2\">" +
+                                        "                    <div class=\"grid2\" style=\"height: 2.87rem;\" >" +
                                         courseDetail.name +
                                         "                    </div>" +
                                         "                </div>";
                                 } else {
                                     timeTableHtml += "<div class=\"layui-col-md12 course\">" +
-                                        "                    <div class=\"grid2\">" +
+                                        "                    <div class=\"grid2\" style=\"height: 2.87rem;\" >" +
                                         "无" +
                                         "                    </div>" +
                                         "                </div>";

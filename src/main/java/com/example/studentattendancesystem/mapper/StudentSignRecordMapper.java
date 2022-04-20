@@ -32,9 +32,14 @@ public interface StudentSignRecordMapper {
 
     int selectResignCountByStudentId(Long studentId);
 
+    int selectVacateCountByStudentId(Long studentId);
+
     int selectSignCountByCourseAndStudent(@Param(value="courseId")Long courseId,
                                           @Param(value="studentId")Long studentId);
 
     int selectResignCountByCourseAndStudent(@Param(value="courseId")Long courseId,
+                                            @Param(value="studentId")Long studentId);
+
+    int selectVacateCountByCourseAndStudent(@Param(value="courseId")Long courseId,
                                             @Param(value="studentId")Long studentId);
 }

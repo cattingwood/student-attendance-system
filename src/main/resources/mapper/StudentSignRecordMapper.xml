@@ -148,6 +148,13 @@
     where student_id = #{studentId} and `type` = 2
   </select>
 
+  <select id="selectVacateCountByStudentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id = #{studentId} and `type` = 3
+  </select>
+
   <select id="selectSignCountByCourseAndStudent" resultType="java.lang.Integer">
     select
     count(1)
@@ -167,6 +174,13 @@
     <include refid="Base_Column_List" />
     from student_sign_record
     where student_id = #{studentId} and `type` = 3
+  </select>
+
+    <select id="selectVacateCountByCourseAndStudent" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id = #{studentId} and course_id = #{courseId} and `type` = 3
   </select>
 
 </mapper>

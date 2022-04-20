@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.CounsellorClassMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.CounsellorClass">
+    <!--@mbg.generated-->
+    <!--@Table counsellor_class-->
+    <result column="id" property="id" />
+    <result column="counsellor_id" property="counsellorId" />
+    <result column="class_id" property="classId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, counsellor_id, class_id
+  </sql>
+  <insert id="insert" parameterType="com.example.studentattendancesystem.model.CounsellorClass">
+    <!--@mbg.generated-->
+    insert into counsellor_class (id, counsellor_id, class_id)
+    values (#{id}, #{counsellorId}, #{classId})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.CounsellorClass">
+    <!--@mbg.generated-->
+    insert into counsellor_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="counsellorId != null">
+        counsellor_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="counsellorId != null">
+        #{counsellorId},
+      </if>
+      <if test="classId != null">
+        #{classId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

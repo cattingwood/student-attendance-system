@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.CounsellorMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.Counsellor">
+    <!--@mbg.generated-->
+    <!--@Table counsellor-->
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="account" property="account" />
+    <result column="password" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, account, `password`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from counsellor
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from counsellor
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Counsellor" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into counsellor (`name`, account, `password`)
+    values (#{name}, #{account}, #{password})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Counsellor" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into counsellor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="account != null">
+        #{account},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.studentattendancesystem.model.Counsellor">
+    <!--@mbg.generated-->
+    update counsellor
+    <set>
+      <if test="name != null">
+        `name` = #{name},
+      </if>
+      <if test="account != null">
+        account = #{account},
+      </if>
+      <if test="password != null">
+        `password` = #{password},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.studentattendancesystem.model.Counsellor">
+    <!--@mbg.generated-->
+    update counsellor
+    set `name` = #{name},
+      account = #{account},
+      `password` = #{password}
+    where id = #{id}
+  </update>
+
+  <select id="selectByAccount" resultMap="BaseResultMap">
+    select * from counsellor where account = #{acount};
+  </select>
+</mapper>

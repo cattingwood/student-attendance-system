@@ -1,9 +1,11 @@
 package com.example.studentattendancesystem.controller;
 
 import com.example.studentattendancesystem.model.Admin;
+import com.example.studentattendancesystem.model.Counsellor;
 import com.example.studentattendancesystem.model.Student;
 import com.example.studentattendancesystem.model.Teacher;
 import com.example.studentattendancesystem.service.AdminService;
+import com.example.studentattendancesystem.service.CounsellorService;
 import com.example.studentattendancesystem.service.StudentService;
 import com.example.studentattendancesystem.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class LoginController {
     private TeacherService teacherService;
 
     @Autowired
+    private CounsellorService counsellorService;
+
+    @Autowired
     private AdminService adminService;
 
     @RequestMapping("/toLogin")
@@ -44,6 +49,10 @@ public class LoginController {
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         if(teacher != null){
             return "redirect:/course/toTeacherCourse";
+        }
+        Counsellor counsellor = (Counsellor) session.getAttribute("counsellor");
+        if(counsellor != null){
+            return "redirect:/sign/toCounsellorVacate";
         }
         Admin admin = (Admin) session.getAttribute("admin");
         if(admin != null){
@@ -93,6 +102,14 @@ public class LoginController {
                 return false;
             }else if(teacher.getPassword().equals(password)){
                 session.setAttribute("teacher",teacher);
+                return true;
+            }
+        }else if(type.equals("辅导员")){
+            Counsellor counsellor =  counsellorService.selectByAccount(Long.parseLong(account));
+            if(counsellor == null){
+                return false;
+            }else if(counsellor.getPassword().equals(password)){
+                session.setAttribute("counsellor",counsellor);
                 return true;
             }
         }else if(type.equals("管理员")){

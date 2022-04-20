@@ -87,6 +87,7 @@ public class StudentSignRecordService{
         Map<String,Object> map = new HashMap<>();
         int signCount = studentSignRecordMapper.selectSignCountByStudentId(studentId);
         int resignCount = studentSignRecordMapper.selectResignCountByStudentId(studentId);
+        int vacateCount = studentSignRecordMapper.selectVacateCountByStudentId(studentId);
         Date today = new Date();
         TimeTable timeTable = timeTableMapper.selectOne();
         Date beginDate = timeTable.getTermBeginDay();//获取开学日
@@ -96,7 +97,8 @@ public class StudentSignRecordService{
         int allCount = courseTimeMapper.selectCourseCountByStudentId(studentId,weekCount,dayCount);
         map.put("sign",signCount);
         map.put("resign",resignCount);
-        map.put("absenceCount",allCount-signCount-resignCount);
+        map.put("vacate",vacateCount);
+        map.put("absenceCount",allCount-signCount-resignCount-vacateCount);
         map.put("allCount",allCount);
         return map;
     }
@@ -105,6 +107,7 @@ public class StudentSignRecordService{
         Map<String,Object> map = new HashMap<>();
         int signCount = studentSignRecordMapper.selectSignCountByCourseAndStudent(courseId,studentId);
         int resignCount = studentSignRecordMapper.selectResignCountByCourseAndStudent(courseId,studentId);
+        int vacateCount = studentSignRecordMapper.selectVacateCountByCourseAndStudent(courseId,studentId);
         Date today = new Date();
         TimeTable timeTable = timeTableMapper.selectOne();
         Date beginDate = timeTable.getTermBeginDay();//获取开学日
@@ -114,7 +117,8 @@ public class StudentSignRecordService{
         int allCount = courseTimeMapper.selectCourseCountByCourseAndStudent(studentId,weekCount,dayCount,courseId);
         map.put("sign",signCount);
         map.put("resign",resignCount);
-        map.put("absenceCount",allCount-signCount-resignCount);
+        map.put("vacate",vacateCount);
+        map.put("absenceCount",allCount-signCount-resignCount-vacateCount);
         map.put("allCount",allCount);
         return map;
     }
