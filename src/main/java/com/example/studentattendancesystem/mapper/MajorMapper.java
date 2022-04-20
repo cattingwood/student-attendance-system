@@ -20,4 +20,6 @@ public interface MajorMapper {
     int updateByPrimaryKey(Major record);
 
     List<Major> selectAll();
+
+    List<Major> selectByDepartment(Integer id);
 }

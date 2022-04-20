@@ -73,4 +73,9 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select * from major;
   </select>
+
+    <select id="selectByDepartment" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from major where department_id = #{id};
+  </select>
+
 </mapper>

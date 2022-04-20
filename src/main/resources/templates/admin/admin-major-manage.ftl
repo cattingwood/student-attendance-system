@@ -60,12 +60,57 @@
         </script>
 
         <script>
+            var nowDepartment = -1;/*当前所选学院*/
             /*初始化*/
             window.onload = function () {
+                var form = layui.form;
+                //记录所选学院
+                form.on('select(departmentSelect)',function(data){
+                    nowDepartment = data.value;
+                });
             }
 
+
+
             function searchMajor(){
-                allMajor();
+                if(nowDepartment != -1){
+                    getMajorByDepartment(nowDepartment);
+                }else{
+                    allMajor();
+                }
+            }
+
+            function getMajorByDepartment(id) {
+                layui.use('table', function(){
+                    table = layui.table;
+                    table.render({
+                        elem: '#majorTable'
+                        ,height: 312
+                        ,url: '/major/getMajorByDepartment?id='+id //数据接口
+                        ,parseData: function(res){ //res 即为原始返回的数据
+                            return {
+                                "code": 0, //解析接口状态
+                                "msg": '成功', //解析提示文本
+                                "count": res.total, //解析数据长度
+                                "data": res //解析数据列表
+                            };
+                        }
+                        ,page: true //开启分页
+                        ,cols: [[ //表头
+                            {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                            ,{field: 'name', title: '专业名', width:200}
+                            ,{field: 'departmentId', title: '学院id', width:80}
+                            ,{field: 'departmentName', title: '学院名', width:200}
+                            , {field: '',width: 250, title: '操作',
+                                templet: function (res) {
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourse('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteCourse('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    return ops ;
+                                }
+                            }
+                        ]]
+                    });
+                });
             }
 
             /*查找所有课程并显示*/

@@ -28,11 +28,13 @@ public class MajorController {
     /*前往学生考勤统计页面*/
     @RequestMapping("/toMajorManage")
     public String toMajorManage(Model model, HttpServletRequest request){
+        List<Department> departmentList = departmentService.selectAll();
+        model.addAttribute("departmentList", departmentList);
         model.addAttribute("menuFlag", "toMajorManage");
         return "admin/admin-major-manage";
     }
 
-    /*补签处理*/
+    /*查询所有专业*/
     @RequestMapping("/AllMajor")
     @ResponseBody
     public List<MajorDetail> AllMajor(HttpServletRequest request){
@@ -51,5 +53,23 @@ public class MajorController {
         return majorDetailList;
     }
 
+    /*查询所有专业*/
+    @RequestMapping("/getMajorByDepartment")
+    @ResponseBody
+    public List<MajorDetail> getMajorByDepartment(Integer id,HttpServletRequest request){
+        List<Major> majorList = majorService.selectByDepartment(id);
+        List<MajorDetail> majorDetailList = new ArrayList<>();
+        for(int i=0;i<majorList.size();i++){
+            Major major = majorList.get(i);
+            MajorDetail majorDetail = new MajorDetail();
+            majorDetail.setId(major.getId());
+            majorDetail.setName(major.getName());
+            majorDetail.setDepartmentId(major.getDepartmentId());
+            majorDetail.setDepartmentName(departmentService.selectByPrimaryKey(major.getDepartmentId()).getName());
+
+            majorDetailList.add(majorDetail);
+        }
+        return majorDetailList;
+    }
 
 }

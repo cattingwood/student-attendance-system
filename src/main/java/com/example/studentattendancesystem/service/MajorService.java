@@ -46,5 +46,9 @@ public class MajorService {
     public List<Major> selectAll() {
         return majorMapper.selectAll();
     }
+
+    public List<Major> selectByDepartment(Integer id) {
+        return majorMapper.selectByDepartment(id);
+    }
 }
 
