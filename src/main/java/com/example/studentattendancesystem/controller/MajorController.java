@@ -72,11 +72,19 @@ public class MajorController {
         return majorDetailList;
     }
 
-    /*添加课程*/
+    /*添加专业*/
     @RequestMapping("/addMajor")
     @ResponseBody
     public Integer addMajor(Major major){
         int result =  majorService.insertSelective(major);
+        return result;
+    }
+
+    /*删除专业*/
+    @RequestMapping("/deleteMajor")
+    @ResponseBody
+    public Integer deleteMajor(Integer id){
+        int result =  majorService.deleteByPrimaryKey(id);
         return result;
     }
 

@@ -132,6 +132,28 @@
                 });
             }
 
+            function deleteMajor(id,name) {
+                layer.open({
+                    title: '删除专业'
+                    ,content: '是否删除' + name + "该项专业？"
+                    ,btn: ['是', '否']
+                    ,yes: function(index){
+                        $.post("/major/deleteMajor", {
+                            "id": id
+                        }, function (res){
+                            if(res == 1){
+                                layer.open({
+                                    title: false
+                                    ,content: '删除成功！'
+                                });
+                            }
+                        });
+                    }
+                    ,btn2: function(index){
+                    }
+                });
+            }
+
             function searchMajor(){
                 if(nowDepartment != -1){
                     getMajorByDepartment(nowDepartment);
@@ -163,8 +185,8 @@
                             ,{field: 'departmentName', title: '学院名', width:200}
                             , {field: '',width: 250, title: '操作',
                                 templet: function (res) {
-                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourse('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
-                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteCourse('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editMajor('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteMajor('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
                                     return ops ;
                                 }
                             }
@@ -197,8 +219,8 @@
                             ,{field: 'departmentName', title: '学院名', width:200}
                             , {field: '',width: 250, title: '操作',
                                 templet: function (res) {
-                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourse('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
-                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteCourse('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editMajor('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteMajor('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
                                     return ops ;
                                 }
                             }
