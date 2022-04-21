@@ -148,11 +148,18 @@
     where student_id = #{studentId} and `type` = 2
   </select>
 
-  <select id="selectVacateCountByStudentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    <select id="selectVacateCountByStudentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
     select
     count(1)
     from student_sign_record
     where student_id = #{studentId} and `type` = 3
+  </select>
+
+  <select id="selectVacateDetailByTeacherId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    *
+    from student_sign_record
+    where teacher_id = #{teacherId} and `type` = 3
   </select>
 
   <select id="selectSignCountByCourseAndStudent" resultType="java.lang.Integer">
@@ -181,6 +188,10 @@
     count(1)
     from student_sign_record
     where student_id = #{studentId} and course_id = #{courseId} and `type` = 3
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from student_sign_record;
   </select>
 
 </mapper>

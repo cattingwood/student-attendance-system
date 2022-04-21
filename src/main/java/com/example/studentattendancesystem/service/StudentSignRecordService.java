@@ -65,6 +65,15 @@ public class StudentSignRecordService{
         return studentSignRecordMapper.selectByStudentAndDay(studentId,week,day);
     }
 
+    public List<StudentSignRecordDetail> selectAll() {
+        List<StudentSignRecord> studentSignRecords = studentSignRecordMapper.selectAll();
+        List<StudentSignRecordDetail> details = new ArrayList<>();
+        for(int i=0;i<studentSignRecords.size();i++){
+            details.add(getSignRecordDetail(studentSignRecords.get(i)));
+        }
+        return details;
+    }
+
     public List<StudentSignRecordDetail> selectResignDetailByTeacherId(Long teacherId) {
         List<StudentSignRecord> records = studentSignRecordMapper.selectResignByTeacherId(teacherId);
         List<StudentSignRecordDetail> recordDetails = new ArrayList<>();
@@ -74,8 +83,8 @@ public class StudentSignRecordService{
         return recordDetails;
     }
 
-    public List<StudentSignRecordDetail> selectVacateDetailByStudentId(Long studentId) {
-        List<StudentSignRecord> records = studentSignRecordMapper.selectVacateDetailByStudentId(studentId);
+    public List<StudentSignRecordDetail> selectVacateDetailByTeacherId(Long teacherId) {
+        List<StudentSignRecord> records = studentSignRecordMapper.selectVacateDetailByTeacherId(teacherId);
         List<StudentSignRecordDetail> recordDetails = new ArrayList<>();
         for (int i=0;i<records.size();i++){
             recordDetails.add(getSignRecordDetail(records.get(i)));

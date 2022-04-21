@@ -70,6 +70,8 @@
             </div>
         </div>
 
+        <#include "../common/evaluate.ftl"/>
+
         <script>
             window.onload = function () {
                 $('#signBtn').click(function () {

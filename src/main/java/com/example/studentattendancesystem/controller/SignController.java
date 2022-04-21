@@ -179,6 +179,20 @@ public class SignController {
         return map;
     }
 
+    /*前往管理员考勤管理页面*/
+    @RequestMapping("/toSignDataManage")
+    public String toSignDataManage(Model model,HttpServletRequest request){
+        model.addAttribute("menuFlag", "toSignDataManage");
+        return "admin/admin-sign-data-manage";
+    }
+
+    /*学生签到记录管理*/
+    @RequestMapping("/AllSignData")
+    @ResponseBody
+    public List<StudentSignRecordDetail> AllSignData(){
+        return studentSignRecordService.selectAll();
+    }
+
     /*学生签到统计*/
     @RequestMapping("/getSignDataByCourse")
     @ResponseBody
@@ -256,6 +270,22 @@ public class SignController {
             System.out.println("学生请假查寻失败");
         }
         return "student/student-vacate";
+    }
+
+    /*教师查看学生请假页面*/
+    @RequestMapping("/toTeacherVacateCheck")
+    public String toTeacherVacateCheck(Model model,HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Teacher teacher = (Teacher) session.getAttribute("teacher");
+            List<StudentSignRecordDetail> studentSignRecords =
+                    studentSignRecordService.selectVacateDetailByTeacherId(teacher.getId());
+            model.addAttribute("studentSignRecords",studentSignRecords);
+            model.addAttribute("menuFlag","toTeacherVacateCheck");
+        }catch (Exception e){
+            System.out.println("学生请假查寻失败");
+        }
+        return "teacher/teacher-vacate-check";
     }
 
     /*申请请假*/

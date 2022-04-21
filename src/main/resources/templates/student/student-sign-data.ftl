@@ -48,7 +48,11 @@
         </div>
 
         <script>
-            var nowCourse = -1;/*当前所选学院*/
+            var nowCourse = 1;/*当前所选课程*/
+
+            $(document).ready(function(){
+                $('.layui-input.layui-unselect').css("width","13rem");
+            });
 
             layui.use(['form'], function() {
                 form = layui.form;

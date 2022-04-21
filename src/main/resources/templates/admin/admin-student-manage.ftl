@@ -459,7 +459,7 @@
                     table = layui.table;
                     table.render({
                         elem: '#courseTable'
-                        ,height: 312
+                        ,height: 450
                         ,url: '/course/ClassCourse?classId='+classId //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
                             return {
@@ -509,7 +509,7 @@
                     table = layui.table;
                     table.render({
                         elem: '#courseTable'
-                        ,height: 312
+                        ,height: 450
                         ,url: '/course/MajorCourse?majorId='+majorId //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
                             return {
@@ -559,7 +559,7 @@
                     table = layui.table;
                     table.render({
                         elem: '#courseTable'
-                        ,height: 312
+                        ,height: 450
                         ,url: '/course/DepartmentCourse?departmentId='+departmentId //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
                             return {
@@ -609,7 +609,7 @@
                     table = layui.table;
                     table.render({
                         elem: '#teacherTable'
-                        ,height: 312
+                        ,height: 450
                         ,url: '/student/allStudent' //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
                             return {

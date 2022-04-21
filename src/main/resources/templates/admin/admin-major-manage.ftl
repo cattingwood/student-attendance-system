@@ -167,7 +167,7 @@
                     table = layui.table;
                     table.render({
                         elem: '#majorTable'
-                        ,height: 312
+                        ,height: 450
                         ,url: '/major/getMajorByDepartment?id='+id //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
                             return {
@@ -201,7 +201,7 @@
                     table = layui.table;
                     table.render({
                         elem: '#majorTable'
-                        ,height: 312
+                        ,height: 450
                         ,url: '/major/AllMajor' //数据接口
                         ,parseData: function(res){ //res 即为原始返回的数据
                             return {

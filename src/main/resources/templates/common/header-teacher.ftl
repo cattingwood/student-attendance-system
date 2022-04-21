@@ -20,6 +20,7 @@
     <ul class="layui-nav layui-nav-tree side" style="background-color: #1A1B20">
         <li class="layui-nav-item" name="toTeacherCourse"><a href="/course/toTeacherCourse">课表</a></li>
         <li class="layui-nav-item" name="toTeacherResign"><a href="/sign/toTeacherResign">补签处理</a></li>
+        <li class="layui-nav-item" name="toTeacherVacateCheck"><a href="/sign/toTeacherVacateCheck">学生请假记录</a></li>
     </ul>
     </div>
 </div>
