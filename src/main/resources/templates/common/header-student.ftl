@@ -50,19 +50,4 @@
 </script>
 
 
-<div id="dg" style="z-index: 9999; position: fixed ! important; right: 50px; bottom: 100px;">
-    <table width=""100% style="position: absolute; width:260px; right: 50px; bottom: 100px;">
-        <button class="layui-btn layui-btn-radius" onclick="evaluate()" style="">
-            <i class="layui-icon">&#xe6b2;</i>评价
-        </button>
-    </table>
-</div>
-
-<div hidden>
-
-</div>
-<script>
-    function evaluate() {
-
-    }
-</script>
+<#include "../common/evaluate.ftl"/>

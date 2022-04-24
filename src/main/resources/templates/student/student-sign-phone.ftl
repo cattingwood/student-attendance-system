@@ -200,7 +200,10 @@
                     success:function (res) {
                         if(res == 1){
                             var layer = layui.layer;
-                            layer.alert("申请补签成功！");
+                            layer.open({
+                                content: '申请补签成功！ ',
+                                offset: ['400px','130px']
+                            });
                         }
                     }
                 })

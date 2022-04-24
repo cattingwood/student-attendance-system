@@ -19,6 +19,7 @@
     <ul class="layui-nav header" style="background-color: #1A1B20">
         <li class="layui-nav-item" name="toTeacherCoursePhone"><a href="/course/toTeacherCoursePhone" style="font-size: 1.7rem;">课表</a></li>
         <li class="layui-nav-item" name="toTeacherResignPhone"><a href="/sign/toTeacherResignPhone" style="font-size: 1.7rem;">补签处理</a></li>
+        <li class="layui-nav-item" name="toTeacherVacateCheckPhone"><a href="/sign/toTeacherVacateCheckPhone" style="font-size: 1.7rem;">学生请假记录</a></li>
     </ul>
 </div>
 <script>

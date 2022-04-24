@@ -41,22 +41,22 @@
                         </div>
                     </div>-->
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             第1节
                         </div>
                     </div>
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             第2节
                         </div>
                     </div>
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             第3节
                         </div>
                     </div>
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             第4节
                         </div>
                     </div>
@@ -66,24 +66,24 @@
                         </div>
                     </div>-->
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             第5节
                         </div>
                     </div>
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             第6节
                         </div>
                     </div>
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             <table>
                                 第7节
                             </table>
                         </div>
                     </div>
                     <div class="layui-col-md6">
-                        <div class="grid2 layui-bg-green">
+                        <div class="grid2 layui-bg-green sortCol">
                             第8节
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                                 var courseDetail = courseWeekList[i + "-" + j];
                                 if (courseDetail != null) {
                                     timeTableHtml += "<div class=\"layui-col-md12 course\">" +
-                                        "                    <div class=\"grid2\">" +
+                                        "                    <div class=\"grid2\" style='line-height: 1rem;position: relative;top:.7rem'>" +
                                         courseDetail.name +
                                         "                    </div>" +
                                         "                </div>";
@@ -183,7 +183,8 @@
                         $(".course").css("border-width", "1px");
                         $(".course").css("border-style", "solid");
                         $(".course").css("border-color", "#e2e2e2");
-                        $(".schedule").css("height", "30rem");
+                        $(".schedule").css("height", "40rem");
+                        $(".sortCol").css("height", "3.12rem");
                     }
                 })
             }

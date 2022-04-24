@@ -18,6 +18,7 @@
 <div class="layui-header" style="width: 70%">
     <ul class="layui-nav header" style="background-color: #1A1B20">
         <li class="layui-nav-item layui-this" name="toSignPhone"><a href="/sign/toSignPhone" style="font-size: 1.7rem;">考勤</a></li>
+        <li class="layui-nav-item" name="toStudentVacatePhone"><a href="/sign/toStudentVacatePhone" style="font-size: 1.7rem;">请假</a></li>
         <li class="layui-nav-item" name="toSchedulePhone"><a href="/course/toTimeTablePhone" style="font-size: 1.7rem;">课表</a></li>
         <li class="layui-nav-item" name="toSignDataPhone"><a href="/sign/toSignDataPhone" style="font-size: 1.7rem;">考勤统计</a></li>
     </ul>

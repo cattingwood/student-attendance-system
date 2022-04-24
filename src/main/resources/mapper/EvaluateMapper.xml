@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.EvaluateMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.Evaluate">
+    <!--@mbg.generated-->
+    <!--@Table evaluate-->
+    <id column="id" property="id" />
+    <result column="score" property="score" />
+    <result column="content" property="content" />
+    <result column="user_type" property="userType" />
+    <result column="user_id" property="userId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, score, content, user_type, user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from evaluate
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from evaluate
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Evaluate" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into evaluate (score, content, user_type, user_id)
+    values (#{score}, #{content}, #{userType}, #{userId})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.studentattendancesystem.model.Evaluate" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="score != null">
+        score,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="score != null">
+        #{score},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+      <if test="userType != null">
+        #{userType},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.studentattendancesystem.model.Evaluate">
+    <!--@mbg.generated-->
+    update evaluate
+    <set>
+      <if test="score != null">
+        score = #{score},
+      </if>
+      <if test="content != null">
+        content = #{content},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.studentattendancesystem.model.Evaluate">
+    <!--@mbg.generated-->
+    update evaluate
+    set score = #{score},
+      content = #{content},
+      user_type = #{userType},
+      user_id = #{userId}
+    where id = #{id}
+  </update>
+</mapper>

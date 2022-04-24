@@ -84,7 +84,10 @@
                     success:function (res) {
                         if(res == 1){
                             var layer = layui.layer;
-                            layer.alert("处理成功！");
+                            layer.open({
+                                content: '处理成功! ',
+                                offset: ['400px','130px']
+                            });
                         }
                     }
                 })

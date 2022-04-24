@@ -81,8 +81,8 @@
                         var signData = document.getElementById('signData');
                         //用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
                         var resizeMainContainer = function () {
-                            signData.style.width = window.innerWidth*0.3+'px';
-                            signData.style.height = window.innerHeight*0.3+'px';
+                            signData.style.width = window.innerWidth*0.6+'px';
+                            signData.style.height = window.innerHeight*0.4+'px';
                         };
                         //设置div容器高宽
                         resizeMainContainer();
@@ -99,11 +99,13 @@
                                 text: courseName + '考勤统计图'
                             },
                             series: [{
-                                name: ['签到','补签'],
+                                name: ['签到','补签','请假','缺勤'],
                                 type: 'pie',
                                 data: [
                                     {value:data["sign"], name:data["sign"]+'-签到'},
-                                    {value:data["resign"], name:data["resign"]+'-补签'}
+                                    {value:data["resign"], name:data["resign"]+'-补签'},
+                                    {value:data["vacate"], name:data["vacate"]+'-请假'},
+                                    {value:data["absenceCount"], name:data["absenceCount"]+'-缺勤'}
                                 ]
                             }]
                         };
@@ -142,11 +144,13 @@
                                 text: '考勤统计总图'
                             },
                             series: [{
-                                name: ['签到','补签'],
+                                name: ['签到','补签','请假','缺勤'],
                                 type: 'pie',
                                 data: [
                                     {value:data["sign"], name:data["sign"]+'-签到'},
-                                    {value:data["resign"], name:data["resign"]+'-缺勤'}
+                                    {value:data["resign"], name:data["resign"]+'-补签'},
+                                    {value:data["vacate"], name:data["vacate"]+'-请假'},
+                                    {value:data["absenceCount"], name:data["absenceCount"]+'-缺勤'}
                                 ]
                             }]
                         };

@@ -87,6 +87,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.removeAttribute("student");//清空sesion防止登录串号
         session.removeAttribute("teacher");
+        session.removeAttribute("counsellor");
         session.removeAttribute("admin");
         if(type.equals("学生")){
             Student student =  studentService.selectByAccount(Long.parseLong(account));

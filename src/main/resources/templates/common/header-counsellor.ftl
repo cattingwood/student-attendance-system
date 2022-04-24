@@ -40,3 +40,5 @@
 
 
 </script>
+
+<#include "../common/evaluate.ftl"/>

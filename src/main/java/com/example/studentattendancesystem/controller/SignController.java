@@ -272,6 +272,21 @@ public class SignController {
         return "student/student-vacate";
     }
 
+    /*学生请假手机页面*/
+    @RequestMapping("/toStudentVacatePhone")
+    public String toStudentVacatePhone(Model model,HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Student student = (Student) session.getAttribute("student");
+            List<VacateRecord> vacateRecords = vacateRecordService.selectByStudentId(student.getId());
+            model.addAttribute("vacateRecords",vacateRecords);
+            model.addAttribute("menuFlag","toStudentVacatePhone");
+        }catch (Exception e){
+            System.out.println("学生请假查询失败");
+        }
+        return "student/student-vacate-phone";
+    }
+
     /*教师查看学生请假页面*/
     @RequestMapping("/toTeacherVacateCheck")
     public String toTeacherVacateCheck(Model model,HttpServletRequest request){
@@ -286,6 +301,22 @@ public class SignController {
             System.out.println("学生请假查寻失败");
         }
         return "teacher/teacher-vacate-check";
+    }
+
+    /*教师查看学生请假手机页面*/
+    @RequestMapping("/toTeacherVacateCheckPhone")
+    public String toTeacherVacateCheckPhone(Model model,HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Teacher teacher = (Teacher) session.getAttribute("teacher");
+            List<StudentSignRecordDetail> studentSignRecords =
+                    studentSignRecordService.selectVacateDetailByTeacherId(teacher.getId());
+            model.addAttribute("studentSignRecords",studentSignRecords);
+            model.addAttribute("menuFlag","toTeacherVacateCheckPhone");
+        }catch (Exception e){
+            System.out.println("学生请假查寻失败");
+        }
+        return "teacher/teacher-vacate-check-phone";
     }
 
     /*申请请假*/
