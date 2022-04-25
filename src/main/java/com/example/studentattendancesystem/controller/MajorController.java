@@ -80,6 +80,27 @@ public class MajorController {
         return result;
     }
 
+    /*通过ID查找专业*/
+    @RequestMapping("/selectMajorById")
+    @ResponseBody
+    public MajorDetail selectMajorById(Integer majorId){
+        Major major =  majorService.selectByPrimaryKey(majorId);
+        MajorDetail majorDetail = new MajorDetail();
+        majorDetail.setId(major.getId());
+        majorDetail.setName(major.getName());
+        majorDetail.setDepartmentId(major.getDepartmentId());
+        majorDetail.setDepartmentName(departmentService.selectByPrimaryKey(major.getDepartmentId()).getName());
+        return majorDetail;
+    }
+
+    /*更新专业*/
+    @RequestMapping("/updateMajor")
+    @ResponseBody
+    public Integer updateMajor(Major major){
+        int result =  majorService.updateByPrimaryKeySelective(major);
+        return result;
+    }
+
     /*删除专业*/
     @RequestMapping("/deleteMajor")
     @ResponseBody

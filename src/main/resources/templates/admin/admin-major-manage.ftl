@@ -61,6 +61,38 @@
                 </form>
             </div>
         </div>
+
+        <div id="updateMajor" hidden  lay-verify="updateMajor">
+            <div style="margin: 50px;width: 500px;">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">ID</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="updateId" lay-verify="id" class="layui-input" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专业名</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="updateName" lay-verify="name" autocomplete="off" placeholder="请输入专业名" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属学院</label>
+                        <div class="layui-input-block">
+                            <select id="updateDepartmentSelect" lay-filter="updateDepartmentSelect">
+                                <#if departmentList??>
+                                    <#list departmentList as dl>
+                                        <option value="${dl.id}">${dl.name}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-btn"  onclick="updateMajor()">更新专业</div>
+                </form>
+            </div>
+        </div>
         
         <!-- L2Dwidget.js L2D网页动画人物 -->
         <script>
@@ -87,6 +119,7 @@
 
         <script>
             var nowDepartment = -1;/*当前所选学院*/
+            var updateDepartment = -1;/*更新所选学院*/
             /*初始化*/
             window.onload = function () {
                 var form = layui.form;
@@ -94,20 +127,23 @@
                 form.on('select(departmentSelect)',function(data){
                     nowDepartment = data.value;
                 });
+                form.on('select(updateDepartmentSelect)',function(data){
+                    updateDepartment = data.value;
+                });
             }
 
             function addMajorWindow(){
                 var layer = layui.layer;
                 layer.open({
                     type: 1,
-                    title: '新增课程',
+                    title: '新增专业',
                     area: ['40%', '50%'],//弹框大小
                     content: $("#addMajor"),
                     // 打开弹窗的回调函数，用于回显页面数据
                     success: function () {
                     },
                     end: function () {
-                        $("#addCourse").hide();
+                        $("#addMajor").hide();
                     }
                 })
             }
@@ -132,12 +168,60 @@
                 });
             }
 
+            function editMajorWindow(id) {
+                var layer = layui.layer;
+                layer.open({
+                    type: 1,
+                    title: '更新专业',
+                    area: ['40%', '50%'],//弹框大小
+                    content: $("#updateMajor"),
+                    // 打开弹窗的回调函数，用于回显页面数据
+                    success: function () {
+                        $.post("/major/selectMajorById", {
+                            "majorId": id
+                        }, function (res){
+                            $("#updateId").val(res.id);
+                            $("#updateName").val(res.name);
+                            $("#updateDepartmentSelect").find("option[value="+res.departmentId+"]").attr("selected",'');
+                            updateDepartment = res.departmentId;
+                            layui.form.render();
+                        });
+                    },
+                    end: function () {
+                        $("#updateMajor").hide();
+                    }
+                })
+            }
+
+            function updateMajor() {
+                var id = $("#updateId").val();
+                var name = parent.$('#updateName').val();
+                if (name == "") {
+                    layer.alert("请填写专业名称! ");
+                    return false;
+                }
+                $.post("/major/updateMajor", {
+                    "id": id,
+                    "name": name,
+                    "departmentId": updateDepartment
+                }, function (res){
+                    if(res == 1){
+                        layer.close(layer.index);
+                        layer.open({
+                            title: false
+                            ,content: '更新成功！'
+                        });
+
+                    }
+                });
+            }
+            
             function deleteMajor(id,name) {
                 layer.open({
                     title: '删除专业'
                     ,content: '是否删除' + name + "该项专业？"
                     ,btn: ['是', '否']
-                    ,yes: function(index){
+                    ,yes: function(){
                         $.post("/major/deleteMajor", {
                             "id": id
                         }, function (res){
@@ -185,7 +269,7 @@
                             ,{field: 'departmentName', title: '学院名', width:200}
                             , {field: '',width: 250, title: '操作',
                                 templet: function (res) {
-                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editMajor('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editMajorWindow('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
                                     ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteMajor('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
                                     return ops ;
                                 }
@@ -219,7 +303,7 @@
                             ,{field: 'departmentName', title: '学院名', width:200}
                             , {field: '',width: 250, title: '操作',
                                 templet: function (res) {
-                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editMajor('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
+                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editMajorWindow('" + res.id + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
                                     ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"上架\" onclick=\"deleteMajor('" + res.id + "','" + res.name + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
                                     return ops ;
                                 }
