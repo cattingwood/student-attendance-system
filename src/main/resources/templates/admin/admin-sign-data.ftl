@@ -17,19 +17,16 @@
             <form class="layui-form" action="">
                 <div class="layui-form-item">
                     <a class="layui-btn layui-btn-primary"
-                       lay-submit lay-filter="search" id="searchBtn" onclick="getAllSignData()">查询所有签到记录</a>
+                       lay-submit lay-filter="search" id="searchBtn" onclick="getAllSignData()">统计所有考勤记录</a>
+                    <a class="layui-btn layui-btn-primary"
+                       lay-submit lay-filter="search" id="searchBtn" onclick="getSignDataByDepart()">根据学院统计考勤记录</a>
                 </div>
                 <div class="layui-form-item">
-                    第
-                    <input type="text" id="week" required  lay-verify="required"
-                           value="1" autocomplete="off" class="layui-input">
-                    周考勤记录
-                    <a class="layui-btn layui-btn-primary"
-                       lay-submit lay-filter="search" id="searchBtn" onclick="getAllSignData()">按照周数查询</a>
+
                 </div>
                 <div class="layui-input-inline">
                     <label class="layui-form-label">选择课程：</label>
-                    <div class="layui-form layui-input-block">
+                    <div class="layui-form layui-input-block" style="width: 10rem">
                         <select id="courseSelect" lay-filter="courseSelect">
                             <option value="-1">请选择课程</option>
                             <#if courseList??>
@@ -51,6 +48,10 @@
         <script>
             var nowCourse = -1;/*当前所选学院*/
 
+            $(document).ready(function () {
+                $(".layui-unselect").css("width","100%");
+            })
+
             layui.use(['form'], function() {
                 form = layui.form;
                 form.on('select(courseSelect)', function (data) {
@@ -59,6 +60,26 @@
                 });
             })
 
+            function getSignDataByDepart() {
+                $.ajax({
+                    type:"post",
+                    url:"/sign/getSignDataByDepart",
+                    dataType:"json",
+                    success:function (res) {
+                        var size =  res.size;
+                        var html = "";
+                        for(var i=0;i<size;i++){
+                            html += "<div class=\"table signPie\" id=\"signData" + i + "\"></div>";
+                        }
+                        $(".signData").html(html);
+                        for(var i=0;i<size;i++){
+                            myChart(res[i].name,res[i],"signData" + i);
+                        }
+                        $(".signPie").css("display","inline-block");
+                    }
+                })
+            }
+            
             function getSignDataByCourse() {
                 var courseId = parseInt(nowCourse);
                 var courseName = $("option[type='course'][value=" + courseId +"]").html();
@@ -70,39 +91,8 @@
                         "courseId":courseId
                     },
                     success:function (res) {
-                        var data = res;
-                        // 基于准备好的dom，初始化echarts实例
-                        var signData = document.getElementById('signData');
-                        //用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
-                        var resizeMainContainer = function () {
-                            signData.style.width = window.innerWidth*0.3+'px';
-                            signData.style.height = window.innerHeight*0.3+'px';
-                        };
-                        //设置div容器高宽
-                        resizeMainContainer();
-                        // 初始化图表
-                        var myChart = echarts.init(signData);
-                        $(window).on('resize',function(){//
-                            //屏幕大小自适应，重置容器高宽
-                            resizeMainContainer();
-                            myChart.resize();
-                        });
-                        // 指定图表的配置项和数据
-                        var option = {
-                            title: {
-                                text: courseName + '考勤统计图'
-                            },
-                            series: [{
-                                name: ['签到','补签'],
-                                type: 'pie',
-                                data: [
-                                    {value:data["sign"], name:data["sign"]+'-签到'},
-                                    {value:data["resign"], name:data["resign"]+'-补签'}
-                                ]
-                            }]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        myChart.setOption(option);
+                        $(".signData").html("<div class=\"table\" id=\"signData\"></div>");
+                        myChart(courseName + '考勤统计图',res,"signData");
                     }
                 })
             }
@@ -110,44 +100,52 @@
             function getAllSignData() {
                 $.ajax({
                     type:"post",
-                    url:"/sign/SignData",
+                    url:"/sign/AllSignData",
                     dataType:"json",
                     success:function (res) {
-                        var data = res;
-                        // 基于准备好的dom，初始化echarts实例
-                        var signData = document.getElementById('signData');
-                        //用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
-                        var resizeMainContainer = function () {
-                            signData.style.width = window.innerWidth*0.3+'px';
-                            signData.style.height = window.innerHeight*0.3+'px';
-                        };
-                        //设置div容器高宽
-                        resizeMainContainer();
-                        // 初始化图表
-                        var myChart = echarts.init(signData);
-                        $(window).on('resize',function(){//
-                            //屏幕大小自适应，重置容器高宽
-                            resizeMainContainer();
-                            myChart.resize();
-                        });
-                        // 指定图表的配置项和数据
-                        var option = {
-                            title: {
-                                text: '考勤统计总图'
-                            },
-                            series: [{
-                                name: ['签到','补签'],
-                                type: 'pie',
-                                data: [
-                                    {value:data["sign"], name:data["sign"]+'-签到'},
-                                    {value:data["resign"], name:data["resign"]+'-缺勤'}
-                                ]
-                            }]
-                        };
-                        // 使用刚指定的配置项和数据显示图表。
-                        myChart.setOption(option);
+                        $(".signData").html("<div class=\"table\" id=\"signData\"></div>");
+                        myChart('考勤统计总图',res,"signData");
                     }
                 })
+            }
+
+            /*name:统计图名,res:数据,elementId:dom元素id*/
+            function myChart(name,res,elementId) {
+                var data = res;
+                // 基于准备好的dom，初始化echarts实例
+                var signData = document.getElementById(elementId);
+                //用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
+                var resizeMainContainer = function () {
+                    signData.style.width = window.innerWidth*0.3+'px';
+                    signData.style.height = window.innerHeight*0.3+'px';
+                };
+                //设置div容器高宽
+                resizeMainContainer();
+                // 初始化图表
+                var myChart = echarts.init(signData);
+                $(window).on('resize',function(){//
+                    //屏幕大小自适应，重置容器高宽
+                    resizeMainContainer();
+                    myChart.resize();
+                });
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: name
+                    },
+                    series: [{
+                        name: ['签到','补签','请假','缺勤'],
+                        type: 'pie',
+                        data: [
+                            {value:data["sign"], name:data["sign"]+'-签到'},
+                            {value:data["resign"], name:data["resign"]+'-补签'},
+                            {value:data["vacate"], name:data["vacate"]+'-请假'},
+                            {value:data["absenceCount"], name:data["absenceCount"]+'-缺勤'}
+                        ]
+                    }]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
             }
 
         </script>

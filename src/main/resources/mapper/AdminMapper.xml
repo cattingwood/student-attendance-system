@@ -19,4 +19,11 @@
         where account = #{account}
     </select>
 
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from admin
+        where id = #{id}
+    </select>
+
 </mapper>

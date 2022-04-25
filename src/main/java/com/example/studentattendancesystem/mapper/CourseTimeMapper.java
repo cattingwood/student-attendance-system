@@ -33,9 +33,20 @@ public interface CourseTimeMapper {
                          @Param(value="classId")Long classId,
                          @Param(value="teacherId")Long teacherId);
 
+    int selectAllCourseCount(@Param(value="weekCount")Integer weekCount,
+                             @Param(value="dayCount")Integer dayCount);
+
     int selectCourseCountByStudentId(@Param(value="studentId")Long studentId,
                                      @Param(value="weekCount")Integer weekCount,
                                      @Param(value="dayCount")Integer dayCount);
+
+    int selectCourseCountByDepart(@Param(value="weekCount")Integer weekCount,
+                                  @Param(value="dayCount")Integer dayCount,
+                                  @Param(value="departId")Integer departId);
+
+    int selectCourseCountByCourse(@Param(value="weekCount")Integer weekCount,
+                                  @Param(value="dayCount")Integer dayCount,
+                                  @Param(value="courseId")Long courseId);
 
     int selectCourseCountByCourseAndStudent(@Param(value="studentId")Long studentId,
                                             @Param(value="weekCount")Integer weekCount,

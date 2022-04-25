@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AdminMapper {
 
     Admin selectByAccount(Long account);
+
+    Admin selectByPrimaryKey(Integer id);
 }

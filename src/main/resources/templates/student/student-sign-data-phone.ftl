@@ -70,7 +70,7 @@
                 var courseName = $("option[type='course'][value=" + courseId +"]").html();
                 $.ajax({
                     type:"post",
-                    url:"/sign/getSignDataByCourse",
+                    url:"/sign/getSignDataByCourseAndStudent",
                     dataType:"json",
                     data: {
                         "courseId":courseId
@@ -118,7 +118,7 @@
             function getAllSignData() {
                 $.ajax({
                     type:"post",
-                    url:"/sign/SignData",
+                    url:"/sign/StudentSignData",
                     dataType:"json",
                     success:function (res) {
                         var data = res;

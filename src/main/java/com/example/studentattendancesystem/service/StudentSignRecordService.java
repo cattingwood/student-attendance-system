@@ -92,6 +92,26 @@ public class StudentSignRecordService{
         return recordDetails;
     }
 
+    public Map<String,Object> selectAllSignData() {
+        Map<String,Object> map = new HashMap<>();
+        int signCount = studentSignRecordMapper.selectAllSignCount();
+        int resignCount = studentSignRecordMapper.selectAllResignCount();
+        int vacateCount = studentSignRecordMapper.selectAllVacateCount();
+        Date today = new Date();
+        TimeTable timeTable = timeTableMapper.selectOne();
+        Date beginDate = timeTable.getTermBeginDay();//获取开学日
+        int dateDiff = dataDiff(beginDate,today);
+        int weekCount = dateDiff/7 +1;
+        int dayCount = dateDiff%7;
+        int allCount = courseTimeMapper.selectAllCourseCount(weekCount,dayCount);
+        map.put("sign",signCount);
+        map.put("resign",resignCount);
+        map.put("vacate",vacateCount);
+        map.put("absenceCount",allCount-signCount-resignCount-vacateCount);
+        map.put("allCount",allCount);
+        return map;
+    }
+
     public Map<String,Object> selectSignDataByStudentId(Long studentId) {
         Map<String,Object> map = new HashMap<>();
         int signCount = studentSignRecordMapper.selectSignCountByStudentId(studentId);
@@ -104,6 +124,46 @@ public class StudentSignRecordService{
         int weekCount = dateDiff/7 +1;
         int dayCount = dateDiff%7;
         int allCount = courseTimeMapper.selectCourseCountByStudentId(studentId,weekCount,dayCount);
+        map.put("sign",signCount);
+        map.put("resign",resignCount);
+        map.put("vacate",vacateCount);
+        map.put("absenceCount",allCount-signCount-resignCount-vacateCount);
+        map.put("allCount",allCount);
+        return map;
+    }
+
+    public Map<String,Object> getSignDataByDepart(Integer departId) {
+        Map<String,Object> map = new HashMap<>();
+        int signCount = studentSignRecordMapper.selectSignCountByDepart(departId);
+        int resignCount = studentSignRecordMapper.selectResignCountByDepart(departId);
+        int vacateCount = studentSignRecordMapper.selectVacateCountByDepart(departId);
+        Date today = new Date();
+        TimeTable timeTable = timeTableMapper.selectOne();
+        Date beginDate = timeTable.getTermBeginDay();//获取开学日
+        int dateDiff = dataDiff(beginDate,today);
+        int weekCount = dateDiff/7 +1;
+        int dayCount = dateDiff%7;
+        int allCount = courseTimeMapper.selectCourseCountByDepart(weekCount,dayCount,departId);
+        map.put("sign",signCount);
+        map.put("resign",resignCount);
+        map.put("vacate",vacateCount);
+        map.put("absenceCount",allCount-signCount-resignCount-vacateCount);
+        map.put("allCount",allCount);
+        return map;
+    }
+
+    public Map<String,Object> selectSignDataByCourse(Long courseId) {
+        Map<String,Object> map = new HashMap<>();
+        int signCount = studentSignRecordMapper.selectSignCountByCourse(courseId);
+        int resignCount = studentSignRecordMapper.selectResignCountByCourse(courseId);
+        int vacateCount = studentSignRecordMapper.selectVacateCountByCourse(courseId);
+        Date today = new Date();
+        TimeTable timeTable = timeTableMapper.selectOne();
+        Date beginDate = timeTable.getTermBeginDay();//获取开学日
+        int dateDiff = dataDiff(beginDate,today);
+        int weekCount = dateDiff/7 +1;
+        int dayCount = dateDiff%7;
+        int allCount = courseTimeMapper.selectCourseCountByCourse(weekCount,dayCount,courseId);
         map.put("sign",signCount);
         map.put("resign",resignCount);
         map.put("vacate",vacateCount);

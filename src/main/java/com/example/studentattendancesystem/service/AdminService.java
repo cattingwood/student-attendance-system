@@ -15,4 +15,8 @@ public class AdminService {
     public Admin selectByAccount(Long account) {
         return adminMapper.selectByAccount(account);
     }
+
+    public Admin selectByPrimaryKey(Integer id) {
+        return adminMapper.selectByPrimaryKey(id);
+    }
 }

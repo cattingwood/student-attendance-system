@@ -4,11 +4,13 @@ import com.example.studentattendancesystem.model.*;
 import com.example.studentattendancesystem.service.EvaluateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RequestMapping("/evaluate")
 @Controller
@@ -17,6 +19,21 @@ public class EvaluateController {
     @Autowired
     EvaluateService evaluateService;
 
+    /*前往管理员评价记录查询页面*/
+    @RequestMapping("/toEvaluateRecord")
+    public String toEvaluateRecord(Model model, HttpServletRequest request){
+        List<EvaluateDetail> evaluateList = evaluateService.selectAll();
+        model.addAttribute("evaluateList", evaluateList);
+        model.addAttribute("menuFlag", "toEvaluateRecord");
+        return "admin/admin-evaluate-manage";
+    }
+
+    /*评价提交*/
+    @RequestMapping("/AllEvaluateRecord")
+    @ResponseBody
+    public List<EvaluateDetail> AllEvaluateRecord(HttpServletRequest request){
+        return evaluateService.selectAll();
+    }
 
     /*评价提交*/
     @RequestMapping("/evaluateSubmit")

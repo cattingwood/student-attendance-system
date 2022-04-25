@@ -134,6 +134,27 @@
     where teacher_id = #{teacherId} and `type` = 2
   </select>
 
+  <select id="selectAllSignCount" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where `type` = 1
+  </select>
+
+  <select id="selectAllResignCount" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where `type` = 2
+  </select>
+
+    <select id="selectAllVacateCount" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where `type` = 3
+  </select>
+
   <select id="selectSignCountByStudentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
     select
     count(1)
@@ -162,6 +183,48 @@
     where teacher_id = #{teacherId} and `type` = 3
   </select>
 
+<select id="selectSignCountByDepart" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id in (select id from student where department_id = #{departId}) and `type` = 1
+  </select>
+
+  <select id="selectResignCountByDepart" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id in (select id from student where department_id = #{departId}) and `type` = 2
+  </select>
+
+    <select id="selectVacateCountByDepart" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where student_id in (select id from student where department_id = #{departId})and `type` = 3
+  </select>
+
+<select id="selectSignCountByCourse" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where course_id = #{courseId} and `type` = 1
+  </select>
+
+  <select id="selectResignCountByCourse" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where course_id = #{courseId} and `type` = 2
+  </select>
+
+    <select id="selectVacateCountByCourse" resultType="java.lang.Integer">
+    select
+    count(1)
+    from student_sign_record
+    where course_id = #{courseId} and `type` = 3
+  </select>
+
   <select id="selectSignCountByCourseAndStudent" resultType="java.lang.Integer">
     select
     count(1)
@@ -176,18 +239,18 @@
     where student_id = #{studentId} and course_id = #{courseId} and `type` = 2
   </select>
 
-  <select id="selectVacateDetailByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from student_sign_record
-    where student_id = #{studentId} and `type` = 3
-  </select>
-
     <select id="selectVacateCountByCourseAndStudent" resultType="java.lang.Integer">
     select
     count(1)
     from student_sign_record
     where student_id = #{studentId} and course_id = #{courseId} and `type` = 3
+  </select>
+
+    <select id="selectVacateDetailByStudentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student_sign_record
+    where student_id = #{studentId} and `type` = 3
   </select>
 
   <select id="selectAll" resultMap="BaseResultMap">

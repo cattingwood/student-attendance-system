@@ -91,4 +91,10 @@
       user_id = #{userId}
     where id = #{id}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from evaluate;
+  </select>
+
+
 </mapper>

@@ -1,0 +1,22 @@
+.schedule{
+    height: 30rem;
+    width: 83%;
+    position: relative;
+    left: 220px;
+    top: 30px;
+    background-color: white;
+}
+
+#timeFilter{
+    height: 9rem;
+    width: 83%;
+    position: relative;
+    top:10px;
+    left: 220px;
+    background-color: white;
+}
+
+#timeFilter input{
+    display: inline-block;
+    width: 6rem;
+}

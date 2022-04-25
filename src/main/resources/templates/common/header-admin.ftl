@@ -22,8 +22,9 @@
         <li class="layui-nav-item" name="toTeacherManage"><a href="/teacher/toTeacherManage">教师管理</a></li>
         <li class="layui-nav-item" name="toCourseManage"><a href="/course/toCourseManage">课程管理</a></li>
         <li class="layui-nav-item" name="toCourseTimeManage"><a href="/courseTime/toCourseTimeManage">课表时间管理</a></li>
-        <li class="layui-nav-item" name="toSignDataManage"><a href="/sign/toSignDataManage">考勤记录管理</a></li>
+        <li class="layui-nav-item" name="toSignRecordManage"><a href="/sign/toSignRecordManage">考勤记录管理</a></li>
         <li class="layui-nav-item" name="toAllSignData"><a href="/sign/toAllSignData">考勤统计</a></li>
+        <li class="layui-nav-item" name="toEvaluateRecord"><a href="/evaluate/toEvaluateRecord">评价记录查询</a></li>
     </ul>
     </div>
 </div>

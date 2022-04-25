@@ -30,11 +30,29 @@ public interface StudentSignRecordMapper {
 
     List<StudentSignRecord> selectVacateDetailByTeacherId(Long teacherId);
 
+    int selectAllSignCount();
+
+    int selectAllResignCount();
+
+    int selectAllVacateCount();
+
     int selectSignCountByStudentId(Long studentId);
 
     int selectResignCountByStudentId(Long studentId);
 
     int selectVacateCountByStudentId(Long studentId);
+
+    int selectSignCountByDepart(@Param(value="departId")Integer departId);
+
+    int selectResignCountByDepart(@Param(value="departId")Integer departId);
+
+    int selectVacateCountByDepart(@Param(value="departId")Integer departId);
+
+    int selectSignCountByCourse(@Param(value="courseId")Long courseId);
+
+    int selectResignCountByCourse(@Param(value="courseId")Long courseId);
+
+    int selectVacateCountByCourse(@Param(value="courseId")Long courseId);
 
     int selectSignCountByCourseAndStudent(@Param(value="courseId")Long courseId,
                                           @Param(value="studentId")Long studentId);

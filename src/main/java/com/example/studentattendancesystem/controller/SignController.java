@@ -2,10 +2,8 @@ package com.example.studentattendancesystem.controller;
 
 import com.example.studentattendancesystem.mapper.TimeTableMapper;
 import com.example.studentattendancesystem.model.*;
-import com.example.studentattendancesystem.service.CourseService;
-import com.example.studentattendancesystem.service.CourseTimeService;
-import com.example.studentattendancesystem.service.StudentSignRecordService;
-import com.example.studentattendancesystem.service.VacateRecordService;
+import com.example.studentattendancesystem.model.Class;
+import com.example.studentattendancesystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +30,18 @@ public class SignController {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    DepartmentService departmentService;
+
+    @Autowired
+    MajorService majorService;
+
+    @Autowired
+    ClassService classService;
+
+    @Autowired
+    StudentService studentService;
 
     @Autowired
     CourseTimeService courseTimeService;
@@ -145,6 +155,14 @@ public class SignController {
     /*前往管理员考勤统计页面*/
     @RequestMapping("/toAllSignData")
     public String toAllSignData(Model model,HttpServletRequest request){
+        List<Department> departmentList = departmentService.selectAll();
+        List<Class> classList = classService.selectAll();
+        List<Course> courseList = courseService.selectAll();
+        List<Student> studentList = studentService.selectAll();
+        model.addAttribute("departmentList", departmentList);
+        model.addAttribute("classList", classList);
+        model.addAttribute("courseList", courseList);
+        model.addAttribute("studentList", studentList);
         model.addAttribute("menuFlag", "toAllSignData");
         return "admin/admin-sign-data";
     }
@@ -163,10 +181,54 @@ public class SignController {
         return "student/student-sign-data-phone";
     }
 
-    /*学生签到统计*/
-    @RequestMapping("/SignData")
+    /*所有签到统计*/
+    @RequestMapping("/AllSignData")
     @ResponseBody
-    public Map<String, Object> SignData(HttpServletRequest request){
+    public Map<String, Object> AllSignData(HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map2 = studentSignRecordService.selectAllSignData();
+        map.put("sign",map2.get("sign"));
+        map.put("resign",map2.get("resign"));
+        map.put("vacate",map2.get("vacate"));
+        map.put("absenceCount",map2.get("absenceCount"));
+        map.put("allCount",map2.get("allCount"));
+        return map;
+    }
+
+    /*课程签到统计*/
+    @RequestMapping("/getSignDataByDepart")
+    @ResponseBody
+    public Map<String, Object> getSignDataByDepart(Long courseId,HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+        List<Department> departmentList = departmentService.selectAll();
+        map.put("size",departmentList.size());
+        for(int i=0;i<departmentList.size();i++){
+            Map<String,Object> map2 = studentSignRecordService
+                    .getSignDataByDepart(departmentList.get(i).getId());
+            map2.put("name",departmentList.get(i).getName());
+            map.put(Integer.toString(i),map2);
+        }
+        return map;
+    }
+
+    /*课程签到统计*/
+    @RequestMapping("/getSignDataByCourse")
+    @ResponseBody
+    public Map<String, Object> getSignDataByCourse(Long courseId,HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map2 = studentSignRecordService.selectSignDataByCourse(courseId);
+        map.put("sign",map2.get("sign"));
+        map.put("resign",map2.get("resign"));
+        map.put("vacate",map2.get("vacate"));
+        map.put("absenceCount",map2.get("absenceCount"));
+        map.put("allCount",map2.get("allCount"));
+        return map;
+    }
+
+    /*学生签到统计*/
+    @RequestMapping("/StudentSignData")
+    @ResponseBody
+    public Map<String, Object> StudentSignData(HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         HttpSession session = request.getSession();
         Student student = (Student) session.getAttribute("student");
@@ -180,23 +242,23 @@ public class SignController {
     }
 
     /*前往管理员考勤管理页面*/
-    @RequestMapping("/toSignDataManage")
-    public String toSignDataManage(Model model,HttpServletRequest request){
-        model.addAttribute("menuFlag", "toSignDataManage");
-        return "admin/admin-sign-data-manage";
+    @RequestMapping("/toSignRecordManage")
+    public String toSignRecordManage(Model model,HttpServletRequest request){
+        model.addAttribute("menuFlag", "toSignRecordManage");
+        return "/admin/admin-sign-record-manage";
     }
 
     /*学生签到记录管理*/
-    @RequestMapping("/AllSignData")
+    @RequestMapping("/AllSignRecord")
     @ResponseBody
-    public List<StudentSignRecordDetail> AllSignData(){
+    public List<StudentSignRecordDetail> AllSignRecord(){
         return studentSignRecordService.selectAll();
     }
 
     /*学生签到统计*/
-    @RequestMapping("/getSignDataByCourse")
+    @RequestMapping("/getSignDataByCourseAndStudent")
     @ResponseBody
-    public Map<String, Object> getSignDataByCourse(Long courseId,HttpServletRequest request){
+    public Map<String, Object> getSignDataByCourseAndStudent(Long courseId,HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
         HttpSession session = request.getSession();
         Student student = (Student) session.getAttribute("student");
