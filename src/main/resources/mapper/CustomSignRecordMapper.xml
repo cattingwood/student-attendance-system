@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.CustomSignRecordMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.CustomSignRecord">
+    <!--@mbg.generated-->
+    <!--@Table custom_sign_record-->
+    <result column="id" property="id" />
+    <result column="student_id" property="studentId" />
+    <result column="custom_sign_id" property="customSignId" />
+    <result column="sign_time" property="signTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, student_id, custom_sign_id, sign_time
+  </sql>
+  <insert id="insert" parameterType="com.example.studentattendancesystem.model.CustomSignRecord">
+    <!--@mbg.generated-->
+    insert into custom_sign_record (id, student_id, custom_sign_id, sign_time)
+    values (#{id}, #{studentId}, #{customSignId}, #{signTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.CustomSignRecord">
+    <!--@mbg.generated-->
+    insert into custom_sign_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="customSignId != null">
+        custom_sign_id,
+      </if>
+      <if test="signTime != null">
+        sign_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="studentId != null">
+        #{studentId},
+      </if>
+      <if test="customSignId != null">
+        #{customSignId},
+      </if>
+      <if test="signTime != null">
+        #{signTime},
+      </if>
+    </trim>
+  </insert>
+
+  <select  id="countBySignId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select count(0) from custom_sign_record where custom_sign_id = #{signId};
+  </select>
+
+</mapper>

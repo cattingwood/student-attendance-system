@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentattendancesystem.mapper.CustomSignMapper">
+  <resultMap id="BaseResultMap" type="com.example.studentattendancesystem.model.CustomSign">
+    <!--@mbg.generated-->
+    <!--@Table custom_sign-->
+    <result column="id" property="id" />
+    <result column="sign_name" property="signName" />
+    <result column="release_type" property="releaseType" />
+    <result column="release_id" property="releaseId" />
+    <result column="class_id" property="classId" />
+    <result column="begin_time" property="beginTime" />
+    <result column="end_time" property="endTime" />
+    <result column="create_time" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, sign_name, release_type, release_id, class_id, begin_time, end_time, create_time
+  </sql>
+  <insert id="insert" parameterType="com.example.studentattendancesystem.model.CustomSign">
+    <!--@mbg.generated-->
+    insert into custom_sign (id, sign_name, release_type, release_id, class_id, begin_time, 
+      end_time, create_time)
+    values (#{id}, #{signName}, #{releaseType}, #{releaseId}, #{classId}, #{beginTime}, 
+      #{endTime}, now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.studentattendancesystem.model.CustomSign">
+    <!--@mbg.generated-->
+    insert into custom_sign
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="signName != null">
+        sign_name,
+      </if>
+      <if test="releaseType != null">
+        release_type,
+      </if>
+      <if test="releaseId != null">
+        release_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="signName != null">
+        #{signName},
+      </if>
+      <if test="releaseType != null">
+        #{releaseType},
+      </if>
+      <if test="releaseId != null">
+        #{releaseId},
+      </if>
+      <if test="classId != null">
+        #{classId},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime},
+      </if>
+      <if test="endTime != null">
+        #{endTime},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="selectByTeacher" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from custom_sign where release_type = 1 and release_id = #{teacherId};
+  </select>
+
+</mapper>

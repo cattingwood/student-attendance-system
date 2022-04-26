@@ -24,4 +24,6 @@ public interface ClassMapper {
     Class selectClassByStudentId(Long studentId);
 
     Class selectClassById(Long classId);
+
+    List<Class> selectClassByTeacherId(Long teacherId);
 }

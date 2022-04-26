@@ -45,13 +45,7 @@
                             ,{field: 'userType', title: '用户类型', width:100}
                             ,{field: 'userId', title: '用户ID', width:100}
                             ,{field: 'userName', title: '用户名', width:100}
-                            , {field: '',width: 200, title: '操作',
-                                templet: function (res) {
-                                    var ops = "<button class=\"layui-btn layui-btn layui-btn-xs\" title=\"编辑\" onclick=\"editCourseTimeWindow('" + res.courseId + "','" + res.teacherId + "','" + res.classId + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</button> &nbsp;&nbsp;";
-                                    ops +="<button class=\"layui-btn-normal layui-btn layui-btn-xs\" title=\"删除\" onclick=\"deleteCourse('" + res.courseName + "','" + res.teacherName + "','" + res.className + "','" + res.courseId + "','" + res.teacherId + "','" + res.classId + "')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe619;</i>删除</button>";
-                                    return ops;
-                                }
-                            }
+                            ,{field: '',width: 200, title: '操作'}
                         ]]
                     });
                 });

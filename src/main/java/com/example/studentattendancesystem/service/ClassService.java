@@ -54,5 +54,9 @@ public class ClassService {
     public Class selectClassById(Long classId){
         return classMapper.selectClassById(classId);
     }
+
+    public List<Class> selectClassByTeacherId(Long teacherId){
+        return classMapper.selectClassByTeacherId(teacherId);
+    }
 }
 
