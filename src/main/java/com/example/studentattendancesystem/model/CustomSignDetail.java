@@ -57,4 +57,9 @@ public class CustomSignDetail {
     * 创建时间
     */
     private Date createTime;
+
+    /**
+     * 状态 1为已签到 0为其他
+     */
+    private Integer status;
 }

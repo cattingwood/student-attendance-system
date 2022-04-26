@@ -25,6 +25,47 @@
             </div>
         </div>
 
+        <#if (customSignList)?? &&((customSignList)?size>0)>
+            <div class="layui-card-body" id="sign2">
+                <table class="layui-table" id="vacateRecord">
+                    <colgroup>
+                        <col width="200">
+                        <col width="200">
+                        <col width="200">
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>考勤名称</th>
+                        <th>开始时间</th>
+                        <th>结束时间</th>
+                        <th>发布者</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <#list customSignList as sl>
+                            <tr>
+                                <td>${sl.signName!''}</td>
+                                <td>${sl.beginTime?string("yyyy-MM-dd HH-mm-ss")!''}</td>
+                                <td>${sl.endTime?string("yyyy-MM-dd HH-mm-ss")!''}</td>
+                                <td>${sl.releaseName!''}</td>
+                                <td>
+                                    <#if sl.status == 1>
+                                        已签到
+                                    <#else>
+                                        <button class='layui-btn layui-btn-sm layui-btn-normal'
+                                                onclick='CustomSign(${sl.id})'>签到</button>
+                                    </#if>
+                                </td>
+                            </tr>
+                        </#list>
+                    </tbody>
+                </table>
+            </div>
+        </#if>
+
         <div class="layui-card-body" id="sign2">
             <div class="layui-form">
                 <table class="layui-table">
@@ -197,6 +238,25 @@
                         if(res == 1){
                             var layer = layui.layer;
                             layer.alert("申请补签成功！");
+                        }
+                    }
+                })
+            }
+
+            function CustomSign(i) {
+                var time = new Date();
+                $.ajax({
+                    type:"post",
+                    url:"/customSign/studentSign",
+                    data:{
+                        "customSignId": i,
+                        "signTime": time
+                    },
+                    dataType:"json",
+                    success:function (res) {
+                        if(res == 1){
+                            var layer = layui.layer;
+                            layer.alert("签到成功！");
                         }
                     }
                 })

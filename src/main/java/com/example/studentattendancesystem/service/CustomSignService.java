@@ -9,6 +9,7 @@ import com.example.studentattendancesystem.model.CustomSign;
 import com.example.studentattendancesystem.mapper.CustomSignMapper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,16 +39,28 @@ public class CustomSignService {
         return customSignMapper.insertSelective(record);
     }
 
-    public List<CustomSignDetail> selectByTeacher(Long teacherId) {
-        List<CustomSign> list = customSignMapper.selectByTeacher(teacherId);
+    public List<CustomSignDetail> selectByStudent(Long studentId) {
+        List<CustomSign> list = customSignMapper.selectByStudent(studentId);
         List<CustomSignDetail> detailList = new ArrayList<>();
+        Date date = new Date();
         for (int i = 0; i < list.size(); i++) {
-            detailList.add(getCustomSignDetail(list.get(i)));
+            if(date.after(list.get(i).getBeginTime()) && date.before(list.get(i).getEndTime())){
+                detailList.add(getCustomSignDetail(list.get(i),1,studentId));
+            }
         }
         return detailList;
     }
 
-    public CustomSignDetail getCustomSignDetail(CustomSign sign){
+    public List<CustomSignDetail> selectByTeacher(Long teacherId) {
+        List<CustomSign> list = customSignMapper.selectByTeacher(teacherId);
+        List<CustomSignDetail> detailList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            detailList.add(getCustomSignDetail(list.get(i),2,teacherId));
+        }
+        return detailList;
+    }
+
+    public CustomSignDetail getCustomSignDetail(CustomSign sign,Integer type,Long id){
         CustomSignDetail detail = new CustomSignDetail();
         detail.setId(sign.getId());
         detail.setSignName(sign.getSignName());
@@ -64,6 +77,12 @@ public class CustomSignService {
         detail.setBeginTime(sign.getBeginTime());
         detail.setEndTime(sign.getEndTime());
         detail.setCreateTime(sign.getCreateTime());
+        if(type == 1){
+            Integer count =  customSignRecordMapper.countByStudentAndSign(id,sign.getId());
+            if(count > 0){
+                detail.setStatus(1);
+            }
+        }
         return detail;
     }
 

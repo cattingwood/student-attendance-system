@@ -4,6 +4,7 @@ package com.example.studentattendancesystem.controller;
 import com.example.studentattendancesystem.model.*;
 import com.example.studentattendancesystem.model.Class;
 import com.example.studentattendancesystem.service.ClassService;
+import com.example.studentattendancesystem.service.CustomSignRecordService;
 import com.example.studentattendancesystem.service.CustomSignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class CustomSignController {
 
     @Autowired
     CustomSignService customSignService;
+
+    @Autowired
+    CustomSignRecordService customSignRecordService;
 
     @Autowired
     ClassService classService;
@@ -56,6 +60,19 @@ public class CustomSignController {
             customSign.setReleaseId(counsellor.getId());
         }
         return customSignService.insert(customSign);
+    }
+
+    /*考勤*/
+    @RequestMapping("/studentSign")
+    @ResponseBody
+    public int studentSign(Long customSignId,Date signTime,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        CustomSignRecord record = new CustomSignRecord();
+        record.setStudentId(student.getId());
+        record.setCustomSignId(customSignId);
+        record.setSignTime(signTime);
+        return customSignRecordService.insert(record);
     }
 
 }

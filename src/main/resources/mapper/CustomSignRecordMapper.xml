@@ -55,4 +55,8 @@
     select count(0) from custom_sign_record where custom_sign_id = #{signId};
   </select>
 
+    <select  id="countByStudentAndSign" resultType="java.lang.Integer">
+    select count(0) from custom_sign_record where custom_sign_id = #{signId} and student_id = #{studentId};
+  </select>
+
 </mapper>

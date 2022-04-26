@@ -85,4 +85,8 @@
         select * from custom_sign where release_type = 1 and release_id = #{teacherId};
   </select>
 
+    <select id="selectByStudent" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from custom_sign where class_id in (select class_id from student where id = #{studentId});
+  </select>
+
 </mapper>

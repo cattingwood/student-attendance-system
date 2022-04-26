@@ -10,4 +10,6 @@ public interface CustomSignMapper {
     int insertSelective(CustomSign record);
 
     List<CustomSign> selectByTeacher(Long teacherId);
+
+    List<CustomSign> selectByStudent(Long studentId);
 }

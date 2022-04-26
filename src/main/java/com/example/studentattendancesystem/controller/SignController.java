@@ -1,5 +1,6 @@
 package com.example.studentattendancesystem.controller;
 
+import com.example.studentattendancesystem.mapper.CustomSignMapper;
 import com.example.studentattendancesystem.mapper.TimeTableMapper;
 import com.example.studentattendancesystem.model.*;
 import com.example.studentattendancesystem.model.Class;
@@ -49,6 +50,9 @@ public class SignController {
     @Autowired
     VacateRecordService vacateRecordService;
 
+    @Autowired
+    CustomSignService customSignService;
+
     @Resource
     private TimeTableMapper timeTableMapper;
 
@@ -87,6 +91,8 @@ public class SignController {
                 }
             }
         }
+        List<CustomSignDetail> customSignList = customSignService.selectByStudent(student.getId());
+        model.addAttribute("customSignList", customSignList);
         model.addAttribute("courseDetailList", courseDetailList);
         model.addAttribute("status", status);
         model.addAttribute("menuFlag", "toSign");
