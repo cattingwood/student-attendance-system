@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/sign")
 @Controller
@@ -259,6 +256,26 @@ public class SignController {
     @ResponseBody
     public List<StudentSignRecordDetail> AllSignRecord(){
         return studentSignRecordService.selectAll();
+    }
+
+    /*学生周签到情况查询*/
+    @RequestMapping("/getSignRecordByWeekAndStudent")
+    @ResponseBody
+    public Map<String, Object> getSignRecordByWeekAndStudent(Integer week,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Student student = (Student) session.getAttribute("student");
+        List<StudentSignRecordDetail> detailList =
+                studentSignRecordService.selectSignRecordByWeekAndStudent(week,student.getId());
+        Map<String,Object> courseDetailListTree = courseController.selectCourseByWeek(student.getId(),week);
+        Map<String, Object> signDetailListTree = new HashMap<String, Object>();
+        for(int i=0;i<detailList.size();i++){
+            signDetailListTree.put(detailList.get(i).getSignDay() + "-" + detailList.get(i).getSort()
+                    , detailList.get(i));
+        }
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("courseDetailListTree",courseDetailListTree);
+        resultMap.put("signDetailListTree",signDetailListTree);
+        return resultMap;
     }
 
     /*学生签到统计*/

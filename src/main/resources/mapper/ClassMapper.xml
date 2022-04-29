@@ -96,4 +96,8 @@
     select * from class where id in (select class_id from course_time where teacher_id = #{teacherId});
   </select>
 
+  <select id="selectClassByCounsellorId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from class where id in (select class_id from counsellor_class where counsellor_id = #{counsellorId});
+  </select>
+
 </mapper>

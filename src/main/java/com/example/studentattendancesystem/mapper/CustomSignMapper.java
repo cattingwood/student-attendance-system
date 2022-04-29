@@ -11,5 +11,7 @@ public interface CustomSignMapper {
 
     List<CustomSign> selectByTeacher(Long teacherId);
 
+    List<CustomSign> selectByCounsellor(Long counsellorId);
+
     List<CustomSign> selectByStudent(Long studentId);
 }

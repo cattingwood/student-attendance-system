@@ -42,6 +42,18 @@ public class CustomSignController {
         return "teacher/teacher-custom-sign";
     }
 
+    @RequestMapping("/toCounsellorCustomSign")
+    public String toCounsellorCustomSign(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Counsellor counsellor = (Counsellor) session.getAttribute("counsellor");
+        List<Class> classList = classService.selectClassByCounsellorId(counsellor.getId());
+        List<CustomSignDetail> customSignList = customSignService.selectByCounsellor(counsellor.getId());
+        model.addAttribute("classList", classList);
+        model.addAttribute("customSignList", customSignList);
+        model.addAttribute("menuFlag", "toCounsellorCustomSign");
+        return "counsellor/counsellor-custom-sign";
+    }
+
 
 
     /*发布考勤*/

@@ -257,4 +257,8 @@
     select * from student_sign_record;
   </select>
 
+    <select id="selectSignRecordByWeekAndStudent" resultMap="BaseResultMap">
+    select * from student_sign_record where sign_week = #{week} and student_id = #{studentId};
+  </select>
+
 </mapper>

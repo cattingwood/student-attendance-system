@@ -25,7 +25,7 @@
                            value="1" autocomplete="off" class="layui-input">
                     周考勤记录
                     <a class="layui-btn layui-btn-primary"
-                       lay-submit lay-filter="search" id="searchBtn" onclick="getSignDataByWeek()">按照周数查询</a>
+                       lay-submit lay-filter="search" id="searchBtn" onclick="getAllSignData()">按照周数查询</a>
                 </div>
                 <div class="layui-input-inline">
                     <label class="layui-form-label">选择课程：</label>
@@ -39,13 +39,12 @@
                         </select>
                     </div>
                 </div>
-                <a class="layui-btn layui-btn-primary" onclick="getSignDataByCourse()">按照课程查询</a>
+                <a class="layui-btn layui-btn-primary" onclick="getSignDataByCourse()">按照班级查询</a>
             </form>
         </div>
 
         <div class="layui-card-body signData">
             <div class="table" id="signData"></div>
-            <div class="table" id="timeTable"></div>
         </div>
 
         <script>
@@ -62,72 +61,6 @@
                     nowCourse = CourseId;/*记录当前*/
                 });
             })
-
-            function getSignDataByWeek() {
-                var week = $("#week").val();
-                $.ajax({
-                    type:"post",
-                    url:"/sign/getSignRecordByWeekAndStudent",
-                    dataType:"json",
-                    data: {
-                        "week":week
-                    },
-                    success:function (res) {
-                        console.log(res.courseDetailListTree);
-                        var courseWeekList = res.courseDetailListTree;
-                        var signDetailList = res.signDetailListTree;
-                        var timeTableHtml = "";
-                        for (var i = 1; i <= 5; i++) {
-                            timeTableHtml += "<div class=\"table layui-col-md2\">" +
-                                "            <div class=\"layui-row grid\">";
-
-                            timeTableHtml += "<div class=\"layui-col-md12\">\n" +
-                                "                    <div class=\"grid2 layui-bg-green\">\n" +
-                                "                        星期" + i + "\n" +
-                                "                    </div>\n" +
-                                "                </div>";
-                            for (var j = 1; j <= 10; j++) {
-                                var courseDetail = courseWeekList[i + "-" + j];
-                                var signDetail = signDetailList[i + "-" + j];
-                                if (courseDetail != null) {
-                                    timeTableHtml += "<div class=\"layui-col-md12 course\">" +
-                                        "                    <div class=\"grid2\" style=\"height: 2.87rem;\" >" +
-                                        courseDetail.name;
-                                    if(signDetail != null){
-                                        if(signDetail.type == 1){
-                                            timeTableHtml += "   已签到"
-                                        }else if(signDetail.type == 2 && signDetail.status == 1){
-                                            timeTableHtml += "   已补签"
-                                        }else if(signDetail.type == 2 && signDetail.status == 0){
-                                            timeTableHtml += "   补签待确认"
-                                        }else if(signDetail.type == 3){
-                                            timeTableHtml += "   请假"
-                                        }
-                                    }else {
-                                            timeTableHtml += "   旷课"
-                                    }
-                                    timeTableHtml +=  "                    </div>" +
-                                        "                </div>";
-                                } else {
-                                    timeTableHtml += "<div class=\"layui-col-md12 course\">" +
-                                        "                    <div class=\"grid2\" style=\"height: 2.87rem;\" >" +
-                                        "无" +
-                                        "                    </div>" +
-                                        "                </div>";
-                                }
-                            }
-                            timeTableHtml += "</div>" +
-                                "        </div>";
-
-                        }
-                        $("#timeTable").html(timeTableHtml);
-                        $(".course").css("border-width", "1px");
-                        $(".course").css("border-style", "solid");
-                        $(".course").css("border-color", "#e2e2e2");
-                        $(".signData").css("height", $(".table").css("height"));
-                    }
-                })
-            }
 
             function getSignDataByCourse() {
                 var courseId = parseInt(nowCourse);

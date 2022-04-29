@@ -60,7 +60,16 @@ public class CustomSignService {
         return detailList;
     }
 
-    public CustomSignDetail getCustomSignDetail(CustomSign sign,Integer type,Long id){
+    public List<CustomSignDetail> selectByCounsellor(Long counsellorId) {
+        List<CustomSign> list = customSignMapper.selectByCounsellor(counsellorId);
+        List<CustomSignDetail> detailList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            detailList.add(getCustomSignDetail(list.get(i),2,counsellorId));
+        }
+        return detailList;
+    }
+
+    public CustomSignDetail getCustomSignDetail(CustomSign sign,Integer type,Long id){/*type：1为查询学生是否已签到*/
         CustomSignDetail detail = new CustomSignDetail();
         detail.setId(sign.getId());
         detail.setSignName(sign.getSignName());
@@ -77,6 +86,7 @@ public class CustomSignService {
         detail.setBeginTime(sign.getBeginTime());
         detail.setEndTime(sign.getEndTime());
         detail.setCreateTime(sign.getCreateTime());
+        detail.setStatus(0);
         if(type == 1){
             Integer count =  customSignRecordMapper.countByStudentAndSign(id,sign.getId());
             if(count > 0){

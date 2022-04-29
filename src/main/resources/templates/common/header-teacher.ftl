@@ -4,7 +4,7 @@
 
 
 <div class="layui-header">
-    <ul class="layui-nav header" style="background-color: #1A1B20;pointer-events: none">
+    <ul class="layui-nav header" style="background-color: #1A1B20;pointer-events: none;position: fixed;width: 100%">
         <li class="layui-nav-item">
             <span style="font-size: 23px">
                 学生考勤系统

@@ -172,6 +172,15 @@ public class StudentSignRecordService{
         return map;
     }
 
+    public List<StudentSignRecordDetail> selectSignRecordByWeekAndStudent(Integer week,Long studentId) {
+        List<StudentSignRecord> records = studentSignRecordMapper.selectSignRecordByWeekAndStudent(week,studentId);
+        List<StudentSignRecordDetail> recordDetails = new ArrayList<>();
+        for (int i = 0; i < records.size(); i++) {
+            recordDetails.add(getSignRecordDetail(records.get(i)));
+        }
+        return recordDetails;
+    }
+
     public Map<String,Object> selectSignDataByCourseAndStudent(Long courseId,Long studentId) {
         Map<String,Object> map = new HashMap<>();
         int signCount = studentSignRecordMapper.selectSignCountByCourseAndStudent(courseId,studentId);
